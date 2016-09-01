@@ -1,0 +1,51 @@
+<div class="db" [class.darkbg]="showMenu" [class.noMenu]="noMenu" [class.noTopbar]="noTopbar">
+    <div class="db-main" [class.menuActive]="showMenu">
+        <div class="db-head">
+            <div class="box box-h box-h-c db-topbar">
+                <div class="mbw">
+                    <div class="menu-ico active" [class.active]="showMenu" (click)="onToggleMenu()">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+
+                <div class="flex-1">
+                    <div class="store-wrap active" [class.active]="showStoreLayer" (click)="onCloseStoreLayer($event)">
+                        <div class="box box-h box-h-c store" (click)="onToggleStoreLayer($event)">
+                            <div class="ico-map"></div>
+                            <div class="ellipsis tc flex-1">{{storeName}}</div>
+                            <div class="ico-arrow-d"></div>
+                        </div>
+                        <div class="tc store-list" >
+                            <div [class.current]="item.id==shopId" *ngFor="let item of list, let i = index"><div class="ellipsis" (click)="changeCurrentStore(item)">{{item.name}}</div></div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="search" (click)="gotoSearchPage()"></div>
+            </div>
+
+        </div>
+
+        <div class="db-c">
+
+            <router-outlet></router-outlet>
+        </div>
+        <div class="pa full menu-mask" [class.active]="showMenu" (click)="showMenu=false;"></div>
+    </div>
+    <div class="box box-v db-menu" [class.active]="showMenu">
+        <nav class="flex-1 box box-v" (click)="showMenu=false;">
+            <a class="flex-1 box box-h box-h-c" routerLink="./business/list"><i class="navico ico-person"></i><span>我的服务</span></a>
+            <a class="flex-1 box box-h box-h-c" routerLink="./report/week"><i class="navico ico-report"></i><span>我的周报</span></a>
+            <a class="flex-1 box box-h box-h-c" routerLink="./account"><i class="navico ico-account"></i><span>账户管理</span></a>
+            <a class="flex-1 box box-h box-h-c subnav" routerLink="./business/list"><span>我的账户</span></a>
+            <a class="flex-1 box box-h box-h-c subnav" routerLink="./customer/list"><span>我的顾客</span></a>
+            <a class="flex-1 box box-h box-h-c subnav" routerLink="./employee/list"><span>我的员工</span></a>
+        </nav>
+        <div class="bw">
+            <div class="box box-h box-h-c"><i class="navico ico-new"></i><span>新手引导</span></div>
+            <div class="box box-h box-h-c" routerLink="/login"><i class="navico ico-exit"></i><span>退出</span></div>
+        </div>
+    </div>
+</div>

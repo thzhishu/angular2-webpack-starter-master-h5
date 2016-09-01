@@ -1,0 +1,111 @@
+<div class="win">
+    <div class="win-block">
+        <header class="header header-default">
+            <div class="title">注册</div>
+            <a class="btn btn-default btn-right" routerLink="/login">登录</a>
+        </header>
+        <form (ngSubmit)="onRegister(rForm)" #rForm="ngForm" novalidate>
+        <div class="content">
+            <div class="input-group" [class.error]="!phone?.valid&&false">
+                <input type="text" class="input" name="phone" [(ngModel)]="user.phone" maxlength="20"  #phone="ngModel" required placeholder="请输入您的手机号码" pattern="^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[57])[0-9]{8}$">
+            </div>
+            <div class="input-group" [class.error]="!rnd?.valid&&false">
+                <input type="text" class="input input-50" name="rnd" maxlength="4" [(ngModel)]="user.rnd"  #rnd="ngModel" required placeholder="请输入右侧图形验证码">
+                <img [src]="img" alt="" class="input-img" (click)="onChangeCode()" />
+                <a (click)="onChangeCode()" class="input-btn btn btn-link">换一张</a>
+            </div>
+            <div class="input-group" [class.error]="!code?.valid&&false">
+                <input type="text" class="input input-50" name="code" maxlength="4" [(ngModel)]="user.code"  #rnd="ngModel" required placeholder="请输入短信验证码">
+                <a [class.disabled]="seekDisabeld" (click)="!seekDisabeld&&onSeekPhone(rForm)" class="input-btn-info btn btn-info">{{seekBtnTitle}}</a>
+            </div>
+            <div class="input-group" [class.error]="!pwd?.valid&&false">
+                <input type="password" class="input" name="pwd" [(ngModel)]="user.pwd" maxlength="20"  #pwd="ngModel" required placeholder="请设置您的密码">
+            </div>
+            <div class="text-group">
+                <label class="text-default"><input type="checkbox" name="protocol" [(ngModel)]="user.protocol">
+                    我已接受</label><span class="text-primary">《<a class="protocol text-primary" (click)="onOpenProtocol($event)">天会智数隐私协议</a>》</span>
+            </div>
+        </div>
+        <div class="alert-error" *ngIf="errorMsg">
+            {{errorMsg}}
+        </div>
+        <div class="btn-block">
+            <button type="submit" class="btn btn-primary" [disabled]="loading&&!user.protocol" >注&nbsp;&nbsp;册</button>
+        </div>
+    </form>
+    </div>
+</div>
+<div class="win" *ngIf="openProtocol">
+    <div class="win-block">
+        <header class="header header-default header-posa">
+            <div class="title">隐私政策</div>
+            <div  class="menu-ico active close-right" (click)="onClose()">
+                <span ></span>
+                <span ></span>
+                <span ></span>
+            </div>
+        </header>
+        <div class="win-content">
+            <h2 class="text-primary center">隐私政策</h2>
+            <h4>服务内容</h4>
+            <p>用户成为"天会智数"注册用户后，可以进行在线编辑解决方案、进行解决方案的数据采集和数据综合分析。</p>
+
+            <h4>个人帐号管理</h4>
+            <p>(1) "天会智数"注册用户有义务妥善保管使用在注册服务时获得的账号及密码，并为此账号及密码登入系统后所开始的一连串行为或活动负责。</p>
+            <p>
+
+                (2)为维护自身权益，"天会智数"注册用户不应将账号及密码泄漏或提供第三人知悉或出借或转让与他人使用，如因用户自身过错或过失而导致账号或密码泄漏而给用户自身造成损失，"天会智数"注册用户应自行承担责任。"天会智数"的员工不会在电话或邮件中询问用户的密码，所以"天会智数"注册用户不得对任何人泄漏用户的密码。如果用户遗失了密码，"天会智数"针对处理此问题之服务保留索取额外费用的权利。
+            </p>
+            <p>
+
+                (3)若"天会智数"注册用户发现账号或密码遭他人非法使用或有异常使用的情形，应立即通知"天会智数"，并提交该账号为本人所有的有关证明，以便申请该账号的暂停使用。因此而造成的损失，"天会智数"不承担赔偿责任。但在"天会智数"注册用户根据法律规定申请立案的情况下，"天会智数"有义务协助查询。
+            </p>
+            <p>(4) "天会智数"注册用户有义务严格按照个人实际情况来填写账户资料，如有发现不符合实际情况的账户，调研宝有权予以封停。
+            </p>
+            <p>(5) "天会智数"注册用户不得同时注册多个账户，"天会智数"有权主动封停小号。</p>
+
+            <h4>"天会智数"注册用户的隐私保护</h4>
+            <p>
+
+                (1) "天会智数"将不会在未得到您的同意下公开您的个人识別资料或透露您的个人资料给他人。</p>
+            <p>
+
+                (2) "天会智数"不会试图向您推销任何产品，也不会出售或透露您的个人资料给任何试图向您推销产品的人或公司。</p>
+            <p>
+
+                (3) "天会智数"会把您提供的信息储存在我们的数据库里。被访者用户的个人资料会用于确保参加者的比例具有与总人口的代表性，并使用于在个别特定的调查项目时确认出最适合的人选。
+            </p>
+            <p>(4)任何通过因特网发送的信息或电子版本的存储方式都不可能是100%安全的。因此，"天会智数"会尽力使用商业上可接受的方式来保护您的个人信息，但无法确保其绝对的安全性。
+            </p>
+            <p>(5)在未得到您的明确同意之前，"天会智数"绝对不会向客户、合伙人或者任何第三者共用或公开您的个人资料。"天会智数"只会以集体或统计的形式来共用您的数据。
+            </p>
+            <p>(6)参加"天会智数"，即表示您承认和同意您的个人资料会让我们收集和用于市场调查、市场研究分析、內部管理、內部培训或履行我们对您的义务。同时，“天会智数”有权使用您的公开信息（包括但不限于品牌logo、公司名称）进行合法的市场推广之用途。
+            </p>
+            <p>(7) "天会智数"偶然会要求您提供个人资料以确认您的身份，例如您的姓名或手机号码。当我们要求您填写这些资料的时候，我们会清楚说明我们要求这些资料的理由，并征求您的同意。
+            </p>
+            <p>(8)您有权利阅览已登记的个人资料。如果这些资料有误、不完整或不相关，您有权要求把这些资料改正或刪除。我们会尽快执行您的要求。
+            </p>
+            <p>(9)通过参与"天会智数"，表示您已同意在符合以上的私隐保护条例下(i)我们对个人资料的处理和向其他公司透露这些资料，以及(ii)您是16周岁或以上的中国公民。
+            </p>
+            <p>(10)根据法律或其他政府传票等正当理由或命令的要求，您向"天会智数"所提供的任何信息将会被透露。
+            </p>
+            <p>(11)我们谨遵由ESOMAR 和Interactive marketing Research Organisation(IMRO) 对市场研究及调查所制订的指导原则及道德标准。
+            </p>
+
+            <h4>服务的中断与停止</h4>
+
+            <p>(1)对于下述任何一种情况，本公司都无须经过会员许可随时中断或停止全部服务。 由于火灾、停电、天灾等不可抗拒的因素造成的难以提供服务的情况； 定期或紧急进行维护及更新的情况； 其他本公司认为难以提供服务的情况。
+            </p>
+            <p>(2)基于上述情况导致本服务中断、停止所产生的损害，本公司不承担任何责任。
+            </p>
+            <h4>本协议的修改</h4>
+            <p>"天会智数"保留随时修改本用户协议的权利，修改本用户协议时，"天会智数"将于相关页面公告修改的事实，而不另行对用户进行个别通知。若用户不同意修改的内容， 可停止使用全部"天会智数"所提供的服务。若用户继续使用"天会智数"所提供的任意服务，即视为用户已接受"天会智数"所修订的内容. 本协议最终解释权归本公司所有。</p>
+            <p class="sub">
+                本协议自2015年01月01日起生效。
+            </p>
+            <div class="btn-block">
+                <button type="button" (click)="onClose()" class="btn btn-warning" >关闭</button>
+            </div>
+        </div>
+    </div>
+</div>

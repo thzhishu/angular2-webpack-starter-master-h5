@@ -1,0 +1,54 @@
+<div class="win">
+    <div class="win-block">
+        <header class="header header-default">
+            <div class="title">{{next==1?'找回密码':'设置新密码'}}</div>
+        </header>
+        <form (ngSubmit)="onCheckPhone(chkForm)" #chkForm="ngForm" *ngIf="next==1" novalidate>
+        <div class="content">
+            <div class="input-group" [class.error]="!phone?.valid&&false">
+                <input type="text" class="input" name="phone" [(ngModel)]="fp.phone" maxlength="20"  #phone="ngModel" required placeholder="请输入您的手机号码" pattern="^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[57])[0-9]{8}$">
+            </div>
+            <div class="input-group" [class.error]="!rnd?.valid&&false">
+                <input type="text" class="input input-50" name="rnd" maxlength="4" [(ngModel)]="fp.rnd"  #rnd="ngModel" required placeholder="请输入右侧图形验证码">
+                <img [src]="img" alt="" class="input-img" (click)="onChangeCodeImg()" />
+                <a (click)="onChangeCodeImg()" class="input-btn btn btn-link">换一张</a>
+            </div>
+            <div class="input-group" [class.error]="!code?.valid&&false">
+                <input type="text" class="input input-50" name="code" maxlength="4" [(ngModel)]="fp.code"  #rnd="ngModel" required placeholder="请输入短信验证码">
+                <a (click)="!seekDisabeld&&onSeekPhone(fp.phone,fp.rnd)" class="input-btn-info btn btn-info">{{seekBtnTitle}}</a>
+            </div>
+        </div>
+        <div class="alert-error" *ngIf="errorMsg">
+            {{errorMsg}}
+        </div>
+        <div class="btn-block">
+            <button type="submit" class="btn btn-primary" [disabled]="loading" >下一步</button>
+        </div>
+        <a routerLink="/login" *ngIf="next!==3" class="input-btn btn btn-link find-mima">又想起来了</a>
+        </form>
+        <form (ngSubmit)="onEditPwd(pwdForm)" #pwdForm="ngForm" *ngIf="next==2" novalidate>
+        <div class="content">
+            <div class="input-group" [class.error]="!pwd?.valid&&false">
+                <input type="text" class="input" name="pwd" [(ngModel)]="fp.pwd" maxlength="20"  #pwd="ngModel" required placeholder="请设置您的新密码" >
+            </div>
+            <div class="input-group" [class.error]="!checkPwd?.valid&&false">
+                <input type="text" class="input" name="checkPwd" [(ngModel)]="fp.checkPwd" maxlength="20"  #checkPwd="ngModel" required placeholder="请确认你的新密码" >
+            </div>
+        </div>
+        <div class="alert-error" *ngIf="errorMsg">
+            {{errorMsg}}
+        </div>
+        <div class="btn-block">
+            <button type="submit" class="btn btn-primary" [disabled]="loading" >确认提交</button>
+        </div>
+        </form>
+        <div class="layout" *ngIf="next===3">
+            <div class="success-block">
+                <img src="/assets/img/forget-success.png" alt="" />
+                <div class="success-title">
+                    密码设置成功,请<a routerLink="/login" class="text-primary">重新登录</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

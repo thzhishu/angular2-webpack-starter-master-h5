@@ -1,0 +1,46 @@
+<div class="win">
+    <div class="win-block">
+        <header class="header header-default">
+            <div class="title">登录</div>
+            <a class="btn btn-default btn-right" routerLink="/register">注册</a>
+        </header>
+        <form (ngSubmit)="onLogin(loginForm)" #loginForm="ngForm" novalidate>
+        <div class="content">
+            <div class="input-group" [class.error]="!phone?.valid&&false">
+                <input type="text" class="input" name="phone" [(ngModel)]="user.phone" maxlength="20"  #phone="ngModel" required placeholder="请输入您的手机号码" pattern="^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[57])[0-9]{8}$">
+            </div>
+            <div class="input-group" [class.error]="!pwd?.valid&&false">
+                <input type="password" class="input" name="pwd" [(ngModel)]="user.pwd" maxlength="20"  #pwd="ngModel" required placeholder="请输入您的账号密码">
+            </div>
+            <div class="input-group" [class.error]="!rnd?.valid&&false">
+                <input type="text" class="input input-50" name="rnd" maxlength="4" [(ngModel)]="user.rnd"  #rnd="ngModel" required placeholder="请输入右侧图形验证码">
+                <img [src]="img" alt="" class="input-img" (click)="onChangeCodeImg()" />
+                <a (click)="onChangeCodeImg()" class="input-btn btn btn-link">换一张</a>
+            </div>
+        </div>
+        <!-- {{info(loginForm)}} -->
+        <div class="alert-error" *ngIf="errorMsg">
+            {{errorMsg}}
+        </div>
+        <!-- <div class="alert-error" *ngIf="errorMsg">
+            {{errorMsg}}
+        </div>
+        <div class="alert-error" *ngIf="!errorMsg&&phone.errors?.required&&phone.blur">
+             手机号码不能为空
+        </div>
+        <div class="alert-error" *ngIf="!errorMsg&&phone.errors?.pattern&&phone.blur">
+             请输入正确的手机号码
+        </div>
+        <div class="alert-error" *ngIf="!errorMsg&&pwd.errors?.required&&pwd.blur">
+            账户密码不能为空
+        </div>
+        <div class="alert-error" *ngIf="!errorMsg&&rnd.errors?.required&&rnd.blur">
+            验证码不能为空
+        </div> -->
+        <div class="btn-block">
+            <button type="submit" class="btn btn-primary" [disabled]="loading" >登&nbsp;&nbsp;录</button>
+        </div>
+        <a routerLink="/forget-pwd" class="input-btn btn btn-link find-mima">找回密码</a>
+    </form>
+    </div>
+</div>

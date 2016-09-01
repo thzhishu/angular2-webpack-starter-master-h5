@@ -1,0 +1,53 @@
+<div class="db-c-wrap cr">
+    <div class="box box-h box-h-c db-title">
+        <div class="bw back-ico" (click)="back()"></div>
+        <div class="ellipsis tc flex-1">{{ employee.id ? '编辑技师信息' : '新增技师信息' }}</div>
+        <div class="bw btn-ico" (click)="onSave()">保存</div>
+    </div>
+    <div class="cr-add">
+        <div class="cr-form">
+            <div class="cr-form-tip">
+                员工姓名与员工编号至少填一项
+            </div>
+            <form class="employee-form">
+                <div class="box box-h box-h-c fm-field ">
+                    <label class="fm-label" for="ename" >员工姓名:</label>
+                    <input class="flex-1 fm-ipt" id="ename" name="ename" type="text" maxlength="9" [(ngModel)]="employee.name" >
+                </div>
+                <div class="box box-h box-h-c fm-field r-store">
+                    <label class="fm-label"  >关联门店:</label>
+                    <div class="flex-1 fm-ipt"  >{{ employeeShopStr }}</div>
+                    <div class="back-ico bw"></div>
+                </div>
+                <div class="box box-h box-h-c fm-field">
+                    <label class="fm-label" for="emobile">手机号码:</label>
+                    <input class="flex-1 fm-ipt" id="emobile" name="emobile" maxlength="11" type="text" [(ngModel)]="employee.mobile" >
+                </div>
+                
+                
+            </form>
+        </div>
+        
+    </div>
+    
+</div>
+<div class="mask rs-mask" >
+    <div class="mask-win">
+        <div class="add-ico mask-close"></div>
+        <div class="box box-v mask-main">
+            <div class="rs-err-tip">请选择关联门店</div>
+            <div class="flex-1 mask-cont">
+                <div class="box box-h box-h-c">
+                    <label class="cbk-ico ellipsis"><input type="checkbox">所有门店</label>
+                </div>
+                <div class="box box-h box-h-c">
+                    <label class="cbk-ico"><input type="checkbox">南京东路</label>
+                    <input type="text" class="flex-1 ipt" maxlength="20" >
+                </div>
+            </div>
+            <div class="rs-btn">
+                <div class="tc">确定</div>
+            </div>
+        </div>
+    </div>
+</div>

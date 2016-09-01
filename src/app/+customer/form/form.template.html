@@ -1,0 +1,93 @@
+<div class="db-c-wrap cr">
+    <div class="box box-h box-h-c db-title">
+        <div class="bw back-ico" (click)="back()"></div>
+        <div class="ellipsis tc flex-1">{{ customer.id ? '编辑顾客信息' : '新增顾客信息' }}</div>
+        <div class="bw btn-ico" (click)="onSave()">保存</div>
+    </div>
+    <div class="cr-add">
+        <div class="cr-form">
+            <form >
+                <div class="box box-h box-h-c fm-field">
+                    <label class="fm-label" for="plate" >车牌号:</label>
+                    <input class="flex-1 fm-ipt" id="plate" name="plate" type="text" placeholder="必填项" maxlength="9" required [ngModel]="customer.vehicleLicence" (blur)="onPlateBlur()" (ngModelChange)="onPlateExist($event)" (focus)="onPlateFocus()" >
+                </div>
+                <div class="box box-h box-h-c fm-field">
+                    <label class="fm-label" for="mobile">手机号:</label>
+                    <input class="flex-1 fm-ipt" id="mobile" name="mobile" maxlength="11" type="text" [(ngModel)]="customer.mobile" (blur)="onMobileBlur()" (focus)="onMobileFocus()" >
+                </div>
+                <div class="box box-h box-h-c fm-field">
+                    <label class="fm-label" for="frame" >车架号:</label>
+                    <input class="flex-1 fm-ipt" id="frame" name="frame" type="text" maxlength="17" [(ngModel)]="customer.vehicleFrame" >
+                </div>
+                <div class="fm-extra">
+                    <div class="fm-tip warning" *ngIf="!customer.valid.plateNull && customer.validShowTip.plate">请填写正确的车牌号</div>
+                    <div class="fm-tip warning" *ngIf="customer.valid.plateExist && customer.validShowTip.plate">该车牌号已存在</div>
+                    <div class="fm-tip warning" *ngIf="!customer.valid.mobile && customer.validShowTip.mobile">请填写正确的手机号</div>
+                    <div class="black">其他信息 </div>
+                    <p>车主信息越完善有助于您更好管理顾客</p>
+                </div>
+                <div class="box box-h box-h-c fm-field">
+                    <label class="fm-label" for="crname">姓名:</label>
+                    <input class="flex-1 fm-ipt" id="crname" name="crname" maxlength="20" type="text" [(ngModel)]="customer.name" >
+                </div>
+                <div class="box box-h box-h-c fm-field">
+                    <label class="fm-label" for="birthyear">出生年份:</label>
+                    <div class="flex-1 fm-sel">
+                        <select name="" class="fm-ipt" id="birthyear" name="birthyear" [(ngModel)]="customer.birthYear">
+                            <option value="">请选择</option>
+                            <option value="{{year}}" *ngFor="let year of birthdayYearArr">{{year}}</option>
+                        </select>
+                    </div>
+                        
+                </div>
+                <div class="box box-h box-h-c fm-field">
+                    <label class="fm-label" for="sex">性别:</label>
+                    <div class="flex-1 fm-sel">
+                        <select name="sex" id="sex" class="fm-ipt" [(ngModel)]="customer.gender">
+                            <option value="">请选择</option>
+                            <option value="1">男</option>
+                            <option value="0">女</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="box box-h box-h-c fm-field">
+                    <label class="fm-label" for="brand">车品牌:</label>
+                    <input class="flex-1 fm-ipt" name="brand" id="brand" maxlength="10" type="text" [(ngModel)]="customer.vehicleBrand" >
+                </div>
+                <div class="box box-h box-h-c fm-field">
+                    <label class="fm-label" for="cmodel">车型号:</label>
+                    <input class="flex-1 fm-ipt" name="cmodel" id="cmodel" maxlength="20" type="text" [(ngModel)]="customer.vehicleModel" >
+                </div>
+                <div class="box box-h box-h-c fm-field">
+                    <label class="fm-label" for="buyyear">购买年份:</label>
+                    <div class="flex-1 fm-sel">
+                        <select name="buyyear" id="buyyear" class="fm-ipt" [(ngModel)]="customer.vehicleYear">
+                            <option value="">请选择</option>
+                            <option [value]="year" *ngFor="let year of vehicleYearArr">{{year}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="box box-h box-h-c fm-field">
+                    <label class="fm-label" for="cmile">行驶里程:</label>
+                    <div class="flex-1 fm-sel">
+                        <select name="cmile" id="cmile" class="fm-ipt" [(ngModel)]="customer.vehicleMiles">
+                            <option value="">请选择</option>
+                            <option [value]="mile" *ngFor="let mile of miles">{{mile}}</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+    </div>
+    
+</div>
+<div class="box box-v box-v-cc confirm" *ngIf="showTipWin">
+    <div class="box box-v confirm-c">
+        <div class="flex-1 confirm-msg">{{tipMsg}}</div>
+        <div class="box box-h box-h-c confirm-op tc">
+            <div class="flex-1 confirm-ok" (click)="onOkey(tipKey)">确定</div>
+            <div class="flex-1 confirm-cancel" *ngIf="!isAlert" (click)="onCancel(tipKey)" >取消</div>
+        </div>
+    </div>
+</div>

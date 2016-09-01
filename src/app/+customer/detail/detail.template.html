@@ -1,0 +1,175 @@
+<div class="box box-v db-c-wrap">
+    <div class="box box-h box-h-c db-title">
+        <div class="bw"></div>
+        <div class="ellipsis tc flex-1">{{ customer?.vehicleLicence }}</div>
+        <div class="bw add-ico"  ></div>
+    </div>
+    <div class="flex-1 cd">
+        <div class="box box-h box-h-c cd-name">
+            <div class="bw cd-plate tc">{{customer?.vehicleLicence}}</div>
+            <div class="flex-1 tr">满意度平均分<span>{{customerDetail?.totalAvgScore}}</span>分</div>
+        </div>
+        <div class="cd-base" [class.acitve]="isUnfold">
+            <div class="cd-slide">
+                <div class="box box-h box-h-c">
+                    <div class="bw">车主</div>
+                    <div class="flex-1">{{customer?.name}}</div>
+                </div>
+                <div class="box box-h box-h-c">
+                    <div class="bw">手机号码</div>
+                    <div class="flex-1">{{customer?.mobile}}</div>
+                </div>
+                <a class="cd-slide-eidt" [routerLink]="['/dashboard/customer/edit', customer.id]">编辑</a>
+            </div>
+
+            <div class="box box-h box-h-c">
+                <div class="bw">性别</div>
+                <div class="flex-1">{{customer?.sex }}</div>
+            </div>
+            <div class="box box-h box-h-c">
+                <div class="bw">年龄</div>
+                <div class="flex-1">{{customer?.birthYear ? customer.birthYear + '年' : '' }} &nbsp; &nbsp; {{customer?.age ? customer.age + '岁' : ''}}</div>
+            </div>
+            <div class="box box-h box-h-c">
+                <div class="bw">车品牌</div>
+                <div class="flex-1">{{customer?.vehicleBrand}}</div>
+            </div>
+            <div class="box box-h box-h-c">
+                <div class="bw">车型</div>
+                <div class="flex-1">{{customer?.vehicleModel}}</div>
+            </div>
+            <div class="box box-h box-h-c">
+                <div class="bw">车架号</div>
+                <div class="flex-1">{{customer?.vehicleFrame}}</div>
+            </div>
+            <div class="box box-h box-h-c">
+                <div class="bw">行驶公里数</div>
+                <div class="flex-1">{{customer?.vehicleMiles}}</div>
+            </div>
+            <div class="box box-h box-h-c">
+                <div class="bw">购买年份</div>
+                <div class="flex-1">{{customer?.vehicleYear}}</div>
+            </div>
+            <div class="box box-h box-h-c">
+                <div class="bw">最后入店时间</div>
+                <div class="flex-1">{{ moment(customer?.lastEnterDate, 'YYYY-MM-DD HH:mm') }}</div>
+            </div>
+
+        </div>
+        <div class="box box-v box-v-cc cd-btn-edit" [class.active]="isUnfold">
+            <a [routerLink]="['/dashboard/customer/edit', customer.id]">编辑顾客</a>
+        </div>
+        <div class="cd-base-more tc" (click)="onToggleUnfold()">
+            <span [class.active]="isUnfold" >完整信息</span>
+        </div>
+        <div class="cd-hs">
+            <div class="box box-h box-h-c cd-hs-head">
+                <div class="bw">历史服务记录</div>
+                <div class="flex-1 tr">合计：<span>{{customerDetail?.historiesTotol}}</span> 次</div>
+            </div>
+            <div class="cd-hs-list">
+                <!-- 历史服务列表 -->
+                <div class="cd-hs-item" *ngFor="let hs of histories">
+                    <div class="cd-slide">
+                        <div class="box box-h box-h-c hs-tr tc">
+                            <div>结账日期</div>
+                            <div>服务项目</div>
+                            <div>主理技师</div>
+                            <div>客户满意度</div>
+                        </div>
+                        <div class="box box-h box-h-c hs-tr tc">
+                            <div>{{ moment(hs.enterDate, 'YYYY.MM.DD') || '-' }}</div>
+                            <div>{{hs.name || '-'}}</div>
+                            <div>{{hs.employee || '-'}}</div>
+                            <div>
+                                <a href="javascript:;" *ngIf="hs.score === null" (click)="onShowCommentWin(hs)">邀请顾客做服务评价</a>
+                                <a href="javascript:;" class="score" *ngIf="hs.score !== null" >{{ hs.score }}</a>
+                            </div>
+                        </div>
+                        <a [routerLink]="['/dashboard/business/edit', hs.id]" class="cd-slide-eidt" >编辑</a>
+                    </div>
+
+                    <div class="box box-h hs-comment">
+                        <div class="bw">备注</div>
+                        <div class="flex-1">
+                            {{hs.description || '-'}}
+                        </div>
+                    </div>
+                </div>
+                <!-- 历史服务列表 end -->
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <!--<div class="box box-v box-v-cc confirm" *ngIf="showDelWin">
+        <div class="box box-v confirm-c">
+            <div class="flex-1 confirm-msg">顾客删除后，其相应的服务记录不会删除，是否继续</div>
+            <div class="box box-h box-h-c confirm-op tc">
+                <div class="flex-1 confirm-ok" (click)="onDelCustomer()">确定</div>
+                <div class="flex-1 confirm-cancel" (click)="onCloseDelWin()" >取消</div>
+            </div>
+        </div>
+    </div>-->
+    <div class="cd-navs">
+        <business-tab></business-tab>
+    </div>
+</div>
+<div class="box box-v box-v-cc mask cd-method" *ngIf="showCommentWin">
+    <div class="mask-win">
+        <div class="add-ico mask-close" (click)="onCloseCommentWin()"></div>
+        <div class="mask-main">
+            <div class="mask-title tc">邀请车主对您本次服务做出评价</div>
+            <div class="mask-cont method tc">
+                <div class="method-1">
+                    <h1>方法1</h1>
+                    <div>邀请车主手机扫码参加</div>
+                    <div class="qrcode">
+                        <img [attr.src]="commentUrl?.qrCode" >
+                    </div>
+                </div>
+                <div class="box ">
+                    <div class="flex-1 method-2">
+                        <h1>方法2</h1>
+                        <div>给该车主发送一条短信</div>
+                        <p>顾客通过短信链接自行评价</p>
+                        <div class="method-phone" *ngIf="!customer?.mobile">
+                            顾客手机
+                            <input type="tel"  [(ngModel)]="tempMobile" (focus)="onMobileFocus()">
+                            <div class="warning" *ngIf="sendErr?.mobile || sendErr?.times">
+                                <span *ngIf="sendErr?.times">今日已达发送上限</span>
+                                <span *ngIf="sendErr?.mobile">请输入正确的手机号码</span>
+                            </div>
+                        </div>
+                        <div class="method-phone" *ngIf="customer?.mobile">
+                            顾客手机
+                            <div>{{customer?.mobile}}</div>
+                            <div class="warning" *ngIf="sendErr?.times">
+                                <span *ngIf="sendErr?.times">今日已达发送上限</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-1 method-3">
+                        <h1>方法2</h1>
+                        <div>自己询问车主</div>
+                        <p>问卷将由您询问顾客后输入评价</p>
+                    </div>
+                </div>
+                <div class="box method-btns">
+                    <div class="flex-1">
+                        <div class="method-btn" [class.gray]="historyRecord?.times" (click)="onSend()">{{ sendBtnTxt }}</div>
+                    </div>
+                    <div class="flex-1 tr">
+                        <a [attr.href]="pcHost + commentUrl.url" class="method-btn">马上评价</a>
+                    </div>
+                </div>
+                <div class="later" (click)="onCloseCommentWin()">
+                    稍后评价>>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

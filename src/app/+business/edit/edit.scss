@@ -1,0 +1,52 @@
+.cr {
+    .db-title {
+        .bw {
+            width:93px;
+        }
+    }
+    .cr-add {
+        padding-top: 28px;
+        height:100%;
+        overflow:hidden;
+    }
+    .cr-form {
+        height:100%;
+        overflow:auto;
+        -webkit-overflow-scrolling:touch;
+        padding-bottom:28px;
+        form {
+            background:#fff;
+        }
+    }
+}
+.btn-block{
+    padding: 0 20px;
+    margin-top: 50px;
+}
+.btn {
+  font-size: 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  border: 1px solid transparent;
+  &.disabled,&[disabled]{
+    background: #9a9a9a;
+  }
+}
+.btn-default {
+  padding: 12px 24px;
+  color: #fff;
+  background: transparent;
+  border: 1px solid #fff;
+}
+.btn-primary {
+  padding: 26px 24px;
+  background: #3fb648;
+  color: #fff;
+  width: 100%;
+}
+.btn-warning{
+    padding: 14px 24px;
+    background: #f16557;
+    color: #fff;
+    width: 100%;
+}

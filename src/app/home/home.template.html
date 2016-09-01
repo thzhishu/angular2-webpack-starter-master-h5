@@ -1,0 +1,187 @@
+<div class="home">
+	<header class="pr">
+		<div class="pa logo"></div>
+		<div class="pa tc txt txt-1" [class.active]="!current">每次服务，顾客评分，客观公正</div>
+		<div class="pa tc txt txt-2" [class.active]="current">每周总结，红包奖励，公平公开</div>
+		<div class="pa btn tc">
+			<a routerLink="/register">免费注册</a>
+		</div>
+		<div class="pa dots tc">
+			<span [class.active]="!current"></span>
+			<span [class.active]="current"></span>
+		</div>
+		<div class="pf full menu" *ngIf="showMenu">
+			<div class="btns">
+				<a routerLink="/register" class="register">注册</a>
+				<a routerLink="/login" class="login">登录</a>
+			</div>
+			<div class="nav">
+				<a href="/" class="box box-h box-h-c">
+					<div class="flex-1">首页</div>
+					<div class="bw"></div>
+				</a>
+				<a href="http://www.thzhishu.com/gw/about-us.html" class="box box-h box-h-c">
+					<div class="flex-1">关于我们</div>
+					<div class="bw"></div>
+				</a>
+				<a href="http://www.thzhishu.com/gw/contact-us.html" class="box box-h box-h-c">
+					<div class="flex-1">联系我们</div>
+					<div class="bw"></div>
+				</a>
+			</div>
+		</div>
+		<div class="pa menu-ico" (click)="onToggleMenu()" [class.active]="showMenu">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+	</header>
+	<div class="tc b-txt">
+		<h1>天会智数车门店</h1>
+		<p>
+			基于跟踪消费者服务质量的车门店综合管理系统平台 <br>
+			门店运营尽在掌控，全面提升门店竞争力
+		</p>
+	</div>
+	<div class="img-txt">
+		<div class="box box-h box-h-c">
+			<div class="flex-1">
+				<h2>采集，分析，跟踪顾客评分</h2>
+				<p>
+					通过PC或移动设备，当客户完成一次服务后，邀请客户对本次服务进行满意度评分
+				</p>
+			</div>
+			<div class="bw">
+				<img src="/assets/img/home/home_txt_1.png">
+			</div>
+		</div>
+		<div class="box box-h box-h-c">
+			<div class="bw bw-l">
+				<img src="/assets/img/home/home_txt_2.png">
+			</div>
+			<div class="flex-1">
+				<h2>每周报表工具</h2>
+				<p>
+					系统自动生成的周数据统计报表，是门店周会的利器，通过顾客的评价数据，告诉团队哪些服务环节需要改进，哪些服务人员可以得到红包奖励！
+				</p>
+			</div>
+			
+		</div>
+		<div class="box box-h box-h-c">
+			<div class="flex-1">
+				<h2>对比行业数据指标</h2>
+				<p>
+					对比整体行业的服务指标，清晰的告述店主的门店在行业内的排名情况，在半径公里数内门店服务指标的优势和劣势
+				</p>
+			</div>
+			<div class="bw">
+				<img src="/assets/img/home/home_txt_3.png">
+			</div>
+		</div>
+	</div>
+	<div class="tc b-txt">
+		<h1>哪些汽修门店适用</h1>
+		<p>
+			通过记录一笔服务，让顾客给到真实的态度数据反馈
+		</p>
+	</div>
+	<div class="ico-txt ico-txt-bg">
+		<div class="box box-h">
+			<div class="flex-1 box box-v box-v-cc it-bg-1">
+				<div class="ico"></div>
+				<div class="tc">快修快保</div>
+			</div>
+			<div class="flex-1 box box-v box-v-cc it-bg-2">
+				<div class="ico"></div>
+				<div class="tc">综合维修</div>
+			</div>
+		</div>
+		<div class="box box-h">
+			<div class="flex-1 box box-v box-v-cc it-bg-3">
+				<div class="ico"></div>
+				<div class="tc">美容改装</div>
+			</div>
+			<div class="flex-1 box box-v box-v-cc it-bg-4">
+				<div class="ico"></div>
+				<div class="tc">专修维修（轮胎）</div>
+			</div>
+		</div>
+	</div>
+	<div class="tc b-txt">
+		<h1>帮助门店主获得</h1>
+		<p>
+			解放店主，激励员工，改进服务
+		</p>
+	</div>
+	<div class="ico-txt ">
+		<div class="box box-h">
+			<div class="flex-1 box box-v box-v-cc">
+				<div class="ico ico-home-time"></div>
+				<div class="tc">更多家庭时间</div>
+			</div>
+			<div class="flex-1 box box-v box-v-cc">
+				<div class="ico ico-person-time"></div>
+				<div class="tc">更多个人时间</div>
+			</div>
+		</div>
+		<div class="box box-h">
+			<div class="flex-1 box box-v box-v-cc">
+				<div class="ico ico-cash"></div>
+				<div class="tc">更多现金收入</div>
+			</div>
+			<div class="flex-1 box box-v box-v-cc">
+				<div class="ico ico-store"></div>
+				<div class="tc">更多连锁门店</div>
+			</div>
+		</div>
+	</div>
+	<div class="safe tc">
+		<div class="tc b-txt">
+			<h1>数据安全与保障</h1>
+			<p>
+				采用数据分析行业最高标准的技术与配套设施
+			</p>
+		</div>
+		<div class="ico-box">
+			<div class="ico-box-ali"></div>
+			<p>数据存储在安全级别高的阿里云</p>
+		</div>
+		<div class="ico-box">
+			<div class="ico-box-mi"></div>
+			<p>账户相关数据全部采用128位加密</p>
+		</div>
+		<div class="ico-box">
+			<div class="ico-box-valid"></div>
+			<p>整备全备异地的备份策略确保数据有效性</p>
+		</div>
+	</div>
+
+	<footer>
+		<div class="fmenu">
+			<div>
+				<a href="/">首页</a>
+			</div>
+			<div [class.active]="showAboutUs">
+				<a href="javascript:;" (click)="onToggleAboutUs()" >关于我们</a>
+				<div>
+					<a href="http://www.thzhishu.com/gw/about-us.html">产品介绍</a>
+					<a href="http://www.thzhishu.com/gw/company-intro.html">公司介绍</a>
+					<a href="http://www.thzhishu.com/gw/join-us.html">加入我们</a>
+				</div>
+			</div>
+			<div [class.active]="showContactUs">
+				<a href="javascript:;" (click)="onToggleContactUs()" >联系我们</a>
+				<div>
+					联系人：张小姐 <br>
+					电话：（86）021-51210418-813 <br>
+					Email：ekin.zhang@mytianhui.com
+				</div>
+			</div>
+		</div>
+		<div class="tc copyright">
+			上海皓煦数据技术有限公司 沪ICP备08012157号-5 <br>
+			2006-2016 All rights reserved
+		</div>
+	</footer>
+		
+</div>

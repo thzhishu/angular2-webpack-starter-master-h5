@@ -1,0 +1,68 @@
+<div class="box box-v db-s">
+    <div class="bh s-topbar">
+        <div class="box box-h box-h-c">
+            <div class="bw back-ico" (click)="back()"></div>
+            <div class="flex-1 s-field">
+                <div class="s-ipt">
+                    <input type="text" placeholder="输入顾客手机/车牌" name="search" [ngModel]="searchStr" (ngModelChange)="onChangeSearchStr($event)" maxlength="11" >
+                    <i class="add-ico" *ngIf="searchStr" (click)="onClearSearchStr()"></i>
+                </div>
+            </div>
+            <div class="bw s-stxt" (click)="searchCustomer()">检索</div>
+        </div>
+    </div>
+    <div class="flex-1 s-hs" *ngIf="showHistories">
+        <div *ngFor="let hs of searchHistories;" (click)="goSearch(hs)" >{{ hs }}</div>
+    </div>
+    <div class="s-clear tc" *ngIf="showHistories && searchHistories?.length" (click)="onClearHistories()">
+        清空最近搜索记录
+    </div>
+    <div class="flex-1 box box-v s-list" *ngIf="!showHistories">
+        <div class="bh">
+            检索结果
+        </div>
+        <div class="flex-1 s-list-items" *ngIf="customers?.length">
+            
+            <div class="list-table">
+                <div class="bh list-thead">
+                    <div class="box box-h box-h-c list-tr list-ths">
+                        <div>序号</div>
+                        <div>车牌号</div>
+                        <div>顾客姓名</div>
+                        <div>顾客手机</div>
+                        <div>车品牌</div>
+                        <div>车型号</div>
+                    </div>
+                </div>
+                <div class="list-tbody" >
+                    <div class="box box-h box-h-c list-tr list-tds" *ngFor="let cr of customers; let idx = index;" (click)="onViewCustomerDetail(cr, $event)">
+                        <div>{{ idx + 1 }}</div>
+                        <div>{{ cr.vehicleLicence }}</div>
+                        <div>{{ cr.name ? cr.name : '-'  }}</div>
+                        <div>{{ cr.mobile ? cr.mobile : '-' }}</div>
+                        <div>{{ cr.vehicleBrand ? cr.vehicleBrand : '-' }}</div>
+                        <div>{{ cr.vehicleModel ? cr.vehicleModel : '-' }}</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="flex-1 box box-v box-v-cc" *ngIf="!customers?.length">
+            <div class="list-null">
+                <div class="img"></div>
+                <div class="txt">未检索到此顾客相关信息</div>
+                <div class="btn tc" (click)="gotoBusinessAdd()">+ 新服务</div>        
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="box box-v box-v-cc confirm" *ngIf="showTipWin">
+    <div class="box box-v confirm-c">
+        <div class="flex-1 confirm-msg">{{tipMsg}}</div>
+        <div class="box box-h box-h-c confirm-op tc">
+            <div class="flex-1 confirm-ok" (click)="onOkey(tipKey)">确定</div>
+            <div class="flex-1 confirm-cancel" *ngIf="!isAlert" (click)="onCancel(tipKey)" >取消</div>
+        </div>
+    </div>
+</div>

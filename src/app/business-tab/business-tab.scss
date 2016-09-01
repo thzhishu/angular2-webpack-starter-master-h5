@@ -1,0 +1,64 @@
+.buniness-tab {
+    z-index: 100;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-top: 1px solid #e5e5e5;
+
+  background:#fff;
+  padding: 3px 0;
+
+  .today-business {
+    line-height: 89px;
+    font-size: 18px;
+    text-align: center;
+    width: 50%;
+    border-radius: 8px;
+    background: #fff;
+    color: #343434;
+    float: left;
+    &:before {
+        content: "";
+        background: url(/assets/img/dashboard/menu_ico.png) no-repeat;
+        background-position:  -4px -307px;
+        width: 50px;
+        height: 50px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+    &.active{
+        &:before {
+            background-position:  -4px -7px;
+        }
+        background: #e3f5ca;
+        color: #2a5026;
+    }
+  }
+  .report-week {
+    line-height: 92px;
+    font-size: 18px;
+    text-align: center;
+    width: 50%;
+    border-radius: 8px;
+    background: #fff;
+    color: #343434;
+    float: right;
+    &:before {
+        content: "";
+        background: url(/assets/img/dashboard/menu_ico.png) no-repeat;
+        background-position:  -4px -105px;
+        width: 50px;
+        height: 50px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+    &.active{
+        &:before {
+            background-position:  -4px -207px;
+        }
+        background: #e3f5ca;
+        color: #2a5026;
+    }
+  }
+}

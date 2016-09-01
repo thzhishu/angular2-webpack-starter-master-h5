@@ -1,0 +1,108 @@
+.cr {
+    .db-title {
+        .bw {  
+            width:93px;
+        }
+    }
+    .cr-add {
+        height:100%;
+        overflow:hidden;
+    }
+    .cr-form {
+        height:100%;
+        overflow:auto;
+        -webkit-overflow-scrolling:touch;
+        padding-bottom:28px;
+
+        .cr-form-tip {
+            height:48px;
+            line-height: 48px;
+            text-indent: 24px;
+            color:#9a9a9a;
+            font-size:18px;
+        }
+
+        
+
+        form {
+            background:#fff;
+        }
+        .employee-form {
+            .r-store {
+                .flex-1 {
+                    line-height: 78px;
+                }
+                .bw {
+                    width:14px;
+                    height:14px;
+                    margin:0 24px;
+                    transform: rotate(-90deg);
+                    &:before, &:after {
+                        background:#4d4d4d;
+                        width:14px;
+                        height:2px;
+                        margin-top:-1px;
+                    }
+                }
+            }
+                
+        }
+    }
+}
+
+.rs-mask {
+    .mask-win {
+        position:absolute;
+        top:24px;
+        right:24px;
+        bottom:24px;
+        left:24px;
+        padding: 60px 32px 28px 26px;
+        color:#777;
+        font-size:24px;
+    }
+    .mask-main {
+        height:100%;
+    }
+    .mask-cont {
+        > div {
+            height:54px;
+            margin:24px 0;
+        }
+            
+    }
+    .rs-err-tip {
+        line-height: 1;
+        font-size:24px;
+        color:#f16557;
+    }
+
+    label {
+        display:block;
+        width:200px;
+        margin-right:24px;
+        padding-left:38px;
+    }
+    .ipt {
+        display:block;
+        border: 1px solid #ddd;
+        height: 54px;
+        line-height: 52px;
+        color:#9a9a9a;
+        padding:0 24px;
+    }
+
+    .rs-btn {
+        height:42px;
+        div {
+            border:1px solid #38b549;
+            color:#38b549;
+            font-size: 28px;
+            line-height: 40px;
+            border-radius: 8px;
+            width:172px;
+            margin:0 auto;
+        }
+    }
+
+}
