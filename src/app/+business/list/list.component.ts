@@ -47,7 +47,7 @@ export class BusinessListComponent {
     this.getList();
   }
   ngOnDestroy() {
-      
+
   }
   onSwipeLeft(event) {
     event.preventDefault();
@@ -87,6 +87,10 @@ export class BusinessListComponent {
   onToggleDate(event) {
     event.stopPropagation();
     this.dateShow = !this.dateShow;
+  }
+
+  onDelRecord(){
+      
   }
 
   public closeDatePicker(event) {

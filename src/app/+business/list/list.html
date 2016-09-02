@@ -32,8 +32,8 @@
                     <div>{{item.services}}</div>
                     <div>{{item.employee}}</div>
                     <div>{{item.score}}</div>
-                    <div class="list-edit" [routerLink]="['../edit',item.id]">编辑</div>
-                    <div class="list-del" (click)="onDelRecord(item)">删除</div>
+                    <div class="list-edit" [routerLink]="['../../../edit',item.id]">编辑</div>
+                    <div class="list-del" [routerLink]="['../../../add']" (click)="onDelRecord(item)">删除</div>
                 </div>
                 <div class="btn-more" *ngIf="next">
                     <img  *ngIf="!end" src="/assets/img/loading-circle.gif" alt="" />

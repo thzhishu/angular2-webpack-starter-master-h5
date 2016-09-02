@@ -7,7 +7,7 @@ import { BusinessAddComponent } from './add.component';
 
 // async components must be named routes for WebpackAsyncRoute
 export const routes = [
-  { path: '', component: BusinessAddComponent, pathMatch: 'full' }
+  { path: '', component: BusinessAddComponent }
 ];
 
 @NgModule({
