@@ -15,7 +15,7 @@
             </div>
             <div class="input-group" [class.error]="!code?.valid&&false">
                 <input type="text" class="input input-50" name="code" maxlength="4" [(ngModel)]="fp.code"  #rnd="ngModel" required placeholder="请输入短信验证码">
-                <a (click)="!seekDisabeld&&onSeekPhone(fp.phone,fp.rnd)" class="input-btn-info btn btn-info">{{seekBtnTitle}}</a>
+                <a [class.disabeld]="seekDisabeld" (click)="!seekDisabeld&&onSeekPhone(fp.phone,fp.rnd)" class="input-btn-info btn btn-info">{{seekBtnTitle}}</a>
             </div>
         </div>
         <div class="alert-error" *ngIf="errorMsg">
@@ -29,10 +29,10 @@
         <form (ngSubmit)="onEditPwd(pwdForm)" #pwdForm="ngForm" *ngIf="next==2" novalidate>
         <div class="content">
             <div class="input-group" [class.error]="!pwd?.valid&&false">
-                <input type="text" class="input" name="pwd" [(ngModel)]="fp.pwd" maxlength="20"  #pwd="ngModel" required placeholder="请设置您的新密码" >
+                <input type="password" class="input" name="pwd" [(ngModel)]="fp.pwd" #pwd="ngModel" required placeholder="请设置您的新密码" >
             </div>
             <div class="input-group" [class.error]="!checkPwd?.valid&&false">
-                <input type="text" class="input" name="checkPwd" [(ngModel)]="fp.checkPwd" maxlength="20"  #checkPwd="ngModel" required placeholder="请确认你的新密码" >
+                <input type="password" class="input" name="checkPwd" [(ngModel)]="fp.checkPwd"  #checkPwd="ngModel" required placeholder="请确认你的新密码" >
             </div>
         </div>
         <div class="alert-error" *ngIf="errorMsg">

@@ -229,3 +229,13 @@ input {
 .success-title{
     margin-top: 70px;
 }
+.return-top{
+    width: 72px;
+    height: 120px;
+    background: url(/assets/img/dashboard/ico.png) no-repeat;
+    position: fixed;
+    right: 20px;
+    bottom: 194px;
+    background-position: -63px -118px;
+    z-index: 20;
+}

@@ -154,15 +154,12 @@ export class ForgetPwd {
     if (this.errorNext2Tip(f)) {
       return false;
     }
-    this.loading = 1;
-    let params = this.fp;
-    if (params.pwd !== params.checkPwd) {
-      this.diff = 1;
-      this.loading = 0;
-      return false;
-    } else {
-      this.diff = 0;
+    if(!this.sign){
+        this.errorMsg = '您的验证码已超时';
+        return false;
     }
+    this.loading = 1;
+    let params = f.value;
     // password: string, rePassword: string, sign: string
     this.uApi.userUpdatePwdPost(Md5.hashStr(params.pwd, false).toString(), Md5.hashStr(params.checkPwd, false).toString(), this.sign)
       .subscribe(data => {
@@ -179,13 +176,11 @@ export class ForgetPwd {
 
   onClose(key) {
     if (key === 'okey') {
-
       if (this.errorMsg === '短信验证码超时，导致userId不存在') {
         // this.router.navigate(['/login']);
         this.next = 1;
         this.getCodeImg();
       }
-
     }
     this.openProtocol = false;
 
@@ -223,7 +218,7 @@ export class ForgetPwd {
       this.errorMsg = '密码不能为空';
       return true;
     }
-    if (f.controls.pwd.errors && (f.controls.pwd.errors.minlength||f.controls.pwd.errors.maxlength)) {
+    if (!(/.{6,16}/.test(f.value.pwd))) {
       this.errorMsg = '请输入由6~16位的英文字母、数字或字符组成的密码';
       return true;
     }
@@ -231,9 +226,13 @@ export class ForgetPwd {
       this.errorMsg = '确认密码不能为空';
       return true;
     }
-    if (f.controls.checkPwd.errors && (f.controls.checkPwd.errors.minlength||f.controls.checkPwd.errors.maxlength)) {
+    if (!(/^.{6,16}$/.test(f.value.checkPwd))) {
       this.errorMsg = '请输入由6~16位的英文字母、数字或字符组成的密码';
       return true;
+    }
+    if(f.value.checkPwd!==f.value.pwd){
+        this.errorMsg = '两次密码不一致,请重新输入';
+        return true;
     }
     this.errorMsg = null;
     return false;

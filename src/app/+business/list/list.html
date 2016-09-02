@@ -24,7 +24,7 @@
                     <div>满意度评分</div>
                 </div>
             </div>
-            <div class="list-tbody" #listTbody scrollable (scrollEnd)="onScrollEnd($event)">
+            <div class="list-tbody" #listTbody scrollable [returnTop]="returnTop" (scrollEnd)="onScrollEnd($event)" (scrollTop)="onScrollTop($event)">
                 <div class="box box-h box-h-c list-tr list-tds" *ngFor="let item of list?.content, let i = index" >
                     <div >{{i+1}}</div>
                     <div>{{item.date}}</div>
@@ -49,5 +49,7 @@
         </div>
     </div>
 </div>
+<div class="return-top" alt="回到顶部" *ngIf="isReturnTop" (click)="onReturnTop()" >
 
+</div>
 <business-tab></business-tab>

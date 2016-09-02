@@ -7,7 +7,7 @@ import { ForgetPwd } from './forget-pwd.component';
 
 // async components must be named routes for WebpackAsyncRoute
 export const routes = [
-  { path: '', component: ForgetPwd, pathMatch: 'full' }
+  { path: '', component: ForgetPwd}
 ];
 
 @NgModule({

@@ -35,20 +35,10 @@ export class BusinessListComponent {
   next: boolean = false;
   loading: boolean = false;
   end: boolean = false;
+  isReturnTop: boolean = false;
+  returnTop: boolean = false;
 
   constructor(private router: Router, private route: ActivatedRoute, private bApi: BusinessApi) {
-    //   missionService.businessAddAnnounced$.subscribe(
-    //   astronaut => {
-    //     if (astronaut == 'business-list') {
-    //       this.getList();
-    //     }
-    //   });
-
-    //   this.shopChangeSub = this.thzsUtil.shopChanged$.subscribe( item => {
-    //       console.log('business list: ', item);
-    //       this.getList();
-    //   } );
-
 
   }
 
@@ -57,7 +47,7 @@ export class BusinessListComponent {
     this.getList();
   }
   ngOnDestroy() {
-    // this.shopChangeSub.unsubscribe();
+      
   }
   onSwipeLeft(event) {
     event.preventDefault();
@@ -84,6 +74,14 @@ export class BusinessListComponent {
     if (next&&!this.loading) {
       this.getList(true);
     }
+  }
+  onScrollTop(returnTop) {
+    this.isReturnTop = !returnTop;
+    this.returnTop = !!returnTop;
+  }
+
+  onReturnTop(){
+    this.returnTop = true;
   }
 
   onToggleDate(event) {
