@@ -13,8 +13,6 @@ import { Cookie } from 'services';
 import { BusinessTab } from '../../business-tab';
 import { ScrollableDirective } from '../../directives/scrollable';
 
-
-
 @Component({
   selector: 'business-list',
   directives: [

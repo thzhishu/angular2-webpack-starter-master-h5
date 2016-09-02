@@ -4,7 +4,7 @@ import { CustomerForm } from '../form/form.component';
 
 
 @Component({
-    selector: 'cutomer-edit',
+    selector: 'customer-edit',
     template: require('./edit.template.html'),
     styles: [require('./edit.style.scss')],
     directives: [ROUTER_DIRECTIVES, CustomerForm]
