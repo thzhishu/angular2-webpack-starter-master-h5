@@ -12,7 +12,7 @@
     <div class="title-total">
         {{scrollEnd}}合计 <span class="text-warning">{{page?.total||0}}</span> 笔服务 平均 <span class="text-warning">{{list?.score||0}}</span> 分
     </div>
-    <div class="cr-list" (panleft)="onSwipeLeft($event)" (panright)="onSwipeRight($event)">
+    <div class="cr-list" (panleft)="onSwipeLeft($event)" (panright)="onSwipeRight($event)" *ngIf="!!page?.total">
         <div class="list-table">
             <div class="bh list-thead">
                 <div class="box box-h box-h-c list-tr list-ths">
@@ -40,12 +40,12 @@
                     {{end?'没有更多内容了':'加载中...'}}
                 </div>
             </div>
-            <div class="list-empty box box-v box-v-cc thide">
-                <div class="list-null">
-                    <div class="img"></div>
-                    <div class="txt">您今天还没记录过服务</div>
-                </div>
-            </div>
+        </div>
+    </div>
+    <div class="box-list box box-v box-v-cc" *ngIf="!page?.total">
+        <div class="list-null">
+            <div class="img"></div>
+            <div class="txt">您今天还没记录过服务</div>
         </div>
     </div>
 </div>
