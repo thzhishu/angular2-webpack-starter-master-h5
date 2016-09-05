@@ -3,13 +3,11 @@ import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
 import { CustomerApi, Customer, BusinessApi } from 'client';
 import { Md5 } from 'ts-md5/dist/md5';
 import * as moment from 'moment';
-// import { BusinessTab } from '../../business-tab';
 
 @Component({
     selector: 'cutomer-detail',
     template: require('./detail.template.html'),
     styles: [require('./detail.style.scss')],
-    directives: [ROUTER_DIRECTIVES],
     providers: [CustomerApi, BusinessApi ]
 })
 export class CustomerDetail implements OnInit {

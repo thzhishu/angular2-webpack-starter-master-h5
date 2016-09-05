@@ -7,5 +7,10 @@ import { Component } from '@angular/core';
 })
 
 export class BusinessTab {
+    constructor() {
 
+    }
+    ngOnInit() {
+      console.log('hello `BusinessTab` component');
+    }
 }
