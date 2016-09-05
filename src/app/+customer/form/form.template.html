@@ -77,6 +77,11 @@
                     </div>
                 </div>
             </form>
+            <div class="cr-delete" *ngIf="customer?.id">
+                <div class="f-del-btn" (click)="onDeleteThisCustomer()">
+                    删除该顾客
+                </div>
+            </div>
         </div>
         
     </div>
@@ -86,7 +91,7 @@
     <div class="box box-v confirm-c">
         <div class="flex-1 confirm-msg">{{tipMsg}}</div>
         <div class="box box-h box-h-c confirm-op tc">
-            <div class="flex-1 confirm-ok" (click)="onOkey(tipKey)">确定</div>
+            <div class="flex-1 confirm-ok" (click)="onOkey(tipKey)">{{ tipOkeyBtnTxt }}</div>
             <div class="flex-1 confirm-cancel" *ngIf="!isAlert" (click)="onCancel(tipKey)" >取消</div>
         </div>
     </div>

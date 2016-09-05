@@ -2,7 +2,7 @@
     <div class="box box-h box-h-c db-title">
         <div class="bw"></div>
         <div class="ellipsis tc flex-1">{{ customer?.vehicleLicence }}</div>
-        <div class="bw add-ico"  ></div>
+        <div class="bw add-ico" (click)="onAddNewCustomer()" ></div>
     </div>
     <div class="flex-1 cd">
         <div class="box box-h box-h-c cd-name">
@@ -52,7 +52,7 @@
             </div>
             <div class="box box-h box-h-c">
                 <div class="bw">最后入店时间</div>
-                <div class="flex-1">{{ moment(customer?.lastEnterDate, 'YYYY-MM-DD HH:mm') }}</div>
+                <div class="flex-1">{{ customer?.lastEnterDate ? moment(customer?.lastEnterDate, 'YYYY-MM-DD HH:mm') : '' }}</div>
             </div>
 
         </div>
@@ -153,7 +153,7 @@
                         </div>
                     </div>
                     <div class="flex-1 method-3">
-                        <h1>方法2</h1>
+                        <h1>方法3</h1>
                         <div>自己询问车主</div>
                         <p>问卷将由您询问顾客后输入评价</p>
                     </div>

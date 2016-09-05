@@ -17,5 +17,17 @@
         form {
             background:#fff;
         }
+        select {
+            background:#fff;
+            appearance:none;
+            -moz-appearance:none;
+            -webkit-appearance:none;
+        }
+    }
+    .cr-delete {
+        padding: 34px 24px 40px;
+        > div {
+            margin:0 auto;
+        }
     }
 }

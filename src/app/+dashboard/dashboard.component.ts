@@ -8,6 +8,8 @@ import * as moment from 'moment';
 import * as _ from 'lodash';
 import { Md5 } from 'ts-md5/dist/md5';
 
+// import { BusinessTab } from '../business-tab';
+
 const NO_MENU_URLS = [
     '/dashboard/customer/add',
     '/dashboard/customer/edit',
@@ -37,11 +39,16 @@ export class Dashboard {
     routeSub: any;
     noMenu: boolean = false;
     noTopbar: boolean = false;
+    body:any;
 
     constructor(private router: Router, private uApi: UserApi, private sApi: ShopApi) {
         this.routeSub = this.router.events.filter( event => event instanceof NavigationEnd)
                                           .map(event => event.url)
                                           .subscribe( data => {
+                                              this.body = document.getElementsByTagName('body')[0];
+		                                          this.body.removeEventListener('touchmove', function(e) {
+                                                e.preventDefault();
+                                              });
                                               console.log('NavigationEnd URL: ', data);
                                               if (_.includes(data,'/edit/')) {
                                                 data = data.slice(0, data.indexOf('/edit/') + 5);

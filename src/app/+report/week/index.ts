@@ -3,19 +3,17 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { CustomerDetail } from './detail.component';
-import { BusinessTab } from '../../business-tab';
+import { ReportWeek } from './week.component';
 
 // async components must be named routes for WebpackAsyncRoute
 export const routes = [
-  { path: '', component: CustomerDetail }
+  { path: '', component: ReportWeek, pathMatch: 'full' }
 ];
 
 @NgModule({
   declarations: [
     // Components / Directives/ Pipes
-    CustomerDetail,
-    // BusinessTab,
+    ReportWeek
   ],
   imports: [
     BrowserModule,
@@ -23,6 +21,6 @@ export const routes = [
     RouterModule.forChild(routes),
   ]
 })
-export default class CustomerDetailModule {
+export default class ReportWeekModule {
   static routes = routes;
 }

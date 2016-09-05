@@ -10,13 +10,13 @@ import { Md5 } from 'ts-md5/dist/md5';
 
 import { BusinessApi, BusinessList, BusinessListResponse } from 'client';
 import { Cookie } from 'services';
-import { BusinessTab } from '../../business-tab';
+// import { BusinessTab } from '../../business-tab';
 import { ScrollableDirective } from '../../directives/scrollable';
 
 @Component({
   selector: 'business-list',
   directives: [
-    ...ROUTER_DIRECTIVES, BusinessTab, ScrollableDirective
+    ...ROUTER_DIRECTIVES, ScrollableDirective
   ],
   template: require('./list.html'),
   styles: [require('./list.scss')],
@@ -90,7 +90,7 @@ export class BusinessListComponent {
   }
 
   onDelRecord(){
-      
+
   }
 
   public closeDatePicker(event) {

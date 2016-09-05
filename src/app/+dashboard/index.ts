@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { Dashboard } from './dashboard.component';
+// import { BusinessTab } from '../business-tab';
 
 // async components must be named routes for WebpackAsyncRoute
 export const routes = [
@@ -46,6 +47,12 @@ export const routes = [
           { path: 'edit/:id', loadChildren: () => System.import('../+business/edit') },
         ]
       },
+      {
+        path: 'report',
+        children: [
+          { path: 'week', loadChildren: () => System.import('../+report/week') },
+        ]
+      },
     ]
   }
 ];
@@ -53,7 +60,8 @@ export const routes = [
 @NgModule({
   declarations: [
     // Components / Directives/ Pipes
-    Dashboard
+    Dashboard,
+    // BusinessTab
   ],
   imports: [
     BrowserModule,

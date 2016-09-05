@@ -1,0 +1,127 @@
+<!--<svg version="1.1" xmlns="http://www.w3.org/2000/svg" style="display:none;" >
+    <symbol id="report-reson-left-ico" viewBox="0 0 12 24">
+        <path d="M12.4,13.3C9,11.1,4.6,7,2,0C2,0-2.3,13.2,4,20.6h8.3V13.3z"/>
+    </symbol>
+    <symbol id="report-reson-right-ico" viewBox="0 0 12 24">
+        <path d="M0.5,13.3C3.9,11.1,8.3,7,10.9,0c0,0,4.3,13.2-2.1,20.6H0.5V13.3z"/>
+    </symbol>
+</svg>-->
+<div class="box box-v db-c-wrap report">
+    <div class="box box-h box-h-c db-title">
+        <div class="bw"></div>
+        <div class="ellipsis tc flex-1">我的周报</div>
+        <div class="bw"  ></div>
+    </div>
+    <div class="flex-1 rweek">
+        <div class="rw-range tc">
+            {{start}} 至 {{end}}
+        </div>
+        <div class="rw-percent tc">
+            满意度周报 <br>
+            您打败了<span>{{percent}}%</span>的同行
+        </div>
+        <div class="rw-reasons">
+            <div>
+                <div class="rwr-h">
+                    <span>做的好的请继续保持</span>
+                </div>
+                <div class="rwr-c" *ngIf="shopGoods.length">
+                    <div  *ngFor="let reson of shopGoods; let i = index; let ev = even; let od = odd;">
+                        <span [ngStyle]="{'background-color': goodColors[i]}">{{reson}}</span>
+                        <svg class="svgicon" *ngIf="ev" [ngStyle]="{'fill': goodColors[i]}">
+                            <use xlink:href="/assets/img/dashboard/ico.svg#report-reson-left-ico"></use>
+                        </svg>
+                        <svg class="svgicon" *ngIf="od" [ngStyle]="{'fill': goodColors[i]}">
+                            <use xlink:href="/assets/img/dashboard/ico.svg#report-reson-right-ico"></use>
+                        </svg>
+                    </div>
+                    
+                </div>
+                <div class="rwr-null tc" *ngIf="!shopGoods.length">
+                    暂无数据，您需要邀请车主参与服务评价
+                </div>
+            </div>
+            <div>
+                <div class="rwr-h">
+                    <span>尽快需要改进的</span>
+                </div>
+                <div class="rwr-c" *ngIf="shopBads.length">
+                    <div *ngFor="let reson of shopBads; let i = index; let ev = even; let od = odd;">
+                        <span [ngStyle]="{'background-color': badColors[i]}">{{reson}}</span>
+                        <svg class="svgicon" *ngIf="ev" [ngStyle]="{'fill': badColors[i]}">
+                            <use xlink:href="/assets/img/dashboard/ico.svg#report-reson-left-ico"></use>
+                        </svg>
+                        <svg class="svgicon" *ngIf="od" [ngStyle]="{'fill': badColors[i]}">
+                            <use xlink:href="/assets/img/dashboard/ico.svg#report-reson-right-ico"></use>
+                        </svg>
+                    </div>
+                </div>
+                <div class="rwr-null tc" *ngIf="!shopBads.length">
+                    暂无数据，您需要邀请车主参与服务评价
+                </div>
+            </div>
+        </div>
+
+        <div class="rw-employee">
+            <div class="rwe-pai">
+                <div class="tc rwe-h">技师排行榜</div>
+                <div class="box box-h box-h-c">
+                    <div class="flex-1 rwe-good">
+                        <div class="rwe-t">供了优质服务的技师</div>
+                        <div class="rwe-c">
+                            <div class="box box-h box-h-c" *ngFor="let eg of employeeGoods">
+                                <div class="flex-1 tl ellipsis">{{eg.name || '--'}}</div>
+                                <div class="flex-1 tr ellipsis">{{ eg.score ? eg.score + '分' : '-' }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-1 rwe-bad">
+                        <div class="rwe-t">供了优质服务的技师</div>
+                        <div class="rwe-c">
+                            <div class="box box-h box-h-c" *ngFor="let eg of employeeBads">
+                                <div class="flex-1 tl ellipsis">{{eg.name || '--'}}</div>
+                                <div class="flex-1 tr ellipsis">{{ eg.score ? eg.score + '分' : '-' }}</div>
+                            </div>
+                            
+                        </div>
+                    </div>   
+                </div>
+            </div>
+                
+            <div class="tc rwe-h rwe-l-h">技师服务需要改进的地方</div>
+            <div class="rwe-table tc">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>日期</th>
+                            <th>服务项目</th>
+                            <th>主理技师</th>
+                            <th>客户车型</th>
+                            <th>服务得分</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="improvements.length">
+                        <tr *ngFor="let im of improvements">
+                            <td>{{ im.date | date:'y-MM-dd' }}</td>
+                            <td>{{ im.serviceName }}</td>
+                            <td>{{ im.employeeName }}</td>
+                            <td>{{ im.model }}</td>
+                            <td>{{ im.comments[0]?.score }}分</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+                <div class="rwe-null" *ngIf="!improvements.length">
+                    暂无数据，您需要邀请车主参与服务评价
+                </div>
+            </div>
+        </div>
+
+        
+    </div>
+
+    
+    <div class="cd-navs">
+        <business-tab></business-tab>
+    </div>
+</div>

@@ -53,8 +53,10 @@ export class CustomerForm implements OnInit {
     showTipWin: boolean = false;
     tipMsg: string = '';
     tipKey: string = '';
+    tipOkeyBtnTxt: string = '确定';
     isAlert: boolean = false;
     oldFeildString: string = '';
+    
     constructor( private capi: CustomerApi, private router: Router, private route: ActivatedRoute ) {
         const currentYear = +(new Date()).getFullYear();
 		this.birthdayYearArr = this.rangeArr(currentYear - 60, currentYear - 16).reverse();
@@ -97,7 +99,7 @@ export class CustomerForm implements OnInit {
                 const val = this.customer.vehicleLicence;
                 if (this.tempPlate === val) {
                     this.customer.valid.plateExist = data.data ? true : false;
-                    this.customer.validShowTip.plate = this.customer.valid.plateExist ? true : false;
+                    // this.customer.validShowTip.plate = this.customer.valid.plateExist ? true : false;
                 } else {
                     this.onPlateExist(this.customer.vehicleLicence);
                 }
@@ -141,7 +143,7 @@ export class CustomerForm implements OnInit {
         const val = this.customer.vehicleLicence;
         if (!val || val.length < 7 || val.length > 9) {
             this.customer.valid.plateNull = false;
-            this.customer.validShowTip.plate = true;
+            //this.customer.validShowTip.plate = true;
             return false;
         }
     }
@@ -173,7 +175,7 @@ export class CustomerForm implements OnInit {
             this.customer.validShowTip.mobile = false;
         } else {
             this.customer.valid.mobile = false;
-            this.customer.validShowTip.mobile = true;
+            // this.customer.validShowTip.mobile = true;
         }
     }
 
@@ -209,8 +211,10 @@ export class CustomerForm implements OnInit {
                 console.error(err);
             });
         } else {
+            
             if (valid.plateNull !== true || valid.plateExist !== false) {
                 this.customer.validShowTip.plate = true;
+                return;
             }
             if (valid.mobile !== true) {
                 this.customer.validShowTip.mobile = true;
@@ -237,11 +241,33 @@ export class CustomerForm implements OnInit {
             window.history.back();
             return;
         }
+        if (key === 'delete-customer') {
+            this.delCustomer();
+            return;
+        }
     }
     onCancel(key) {
         this.showTipWin = false;
         this.tipMsg = '';
         this.tipKey = '';
+        this.tipOkeyBtnTxt = '确定';
+    }
+
+    onDeleteThisCustomer() {
+        this.showTipWin = true;
+        this.tipMsg = '顾客删除后，其相应的服务记录不会删除，是否继续？';
+        this.tipKey = 'delete-customer';
+        this.tipOkeyBtnTxt = '继续';
+    }
+    delCustomer() {
+        this.capi.customerCustomerIdDeleteDelete(String(this.customer.id)).subscribe(data => {
+            if (data.meta.code === 200) {
+                this.onCancel('delete-customer');
+                this.goToListPage();
+            } else {
+                this.onCancel('delete-customer');
+            }
+        }, err => console.error(err));
     }
 
     
