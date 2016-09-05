@@ -2,11 +2,11 @@
   <div class="box box-h box-h-c db-title">
     <div class="bw back-ico" (click)="back()"></div>
     <div class="ellipsis tc flex-1">编辑服务</div>
-    <div class="btn btn-default" (click)="onSave()">保存</div>
+    <div class="btn btn-default" (click)="onSubmit(f)">保存</div>
   </div>
   <div class="cr-add">
     <div class="cr-form">
-      <form >
+      <form #f="ngForm">
         <div class="box box-h box-h-c fm-field ">
           <label class="fm-label">车牌号:</label>
           <input class="flex-1 fm-ipt" name="vehicleLicence" type="text" maxlength="9" [(ngModel)]="business.vehicleLicence">
