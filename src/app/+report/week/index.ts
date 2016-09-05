@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { ReportWeek } from './week.component';
+import { BTModule } from '../../business-tab/bt.module';
 
 // async components must be named routes for WebpackAsyncRoute
 export const routes = [
@@ -19,6 +20,7 @@ export const routes = [
     BrowserModule,
     FormsModule,
     RouterModule.forChild(routes),
+    BTModule,
   ]
 })
 export default class ReportWeekModule {

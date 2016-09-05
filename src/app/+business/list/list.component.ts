@@ -8,19 +8,14 @@ import * as moment from 'moment';
 import * as _ from 'lodash';
 import { Md5 } from 'ts-md5/dist/md5';
 
-import { BusinessApi, BusinessList, BusinessListResponse } from 'client';
-import { Cookie } from 'services';
-// import { BusinessTab } from '../../business-tab';
-import { ScrollableDirective } from '../../directives/scrollable';
+import { BusinessApi,BusinessList, BusinessListResponse } from 'client';
+
+
 
 @Component({
   selector: 'business-list',
-  directives: [
-    ...ROUTER_DIRECTIVES, ScrollableDirective
-  ],
   template: require('./list.html'),
   styles: [require('./list.scss')],
-  providers: [HTTP_PROVIDERS, BusinessApi]
 })
 
 
