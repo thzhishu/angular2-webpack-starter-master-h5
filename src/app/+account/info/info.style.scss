@@ -1,0 +1,40 @@
+.account-info {
+    .info-main {
+        padding: 28px 0 0;
+        font-size:22px;
+        line-height: 78px;
+
+        a {
+            color:#343434;
+        }
+        > div {
+            background:#fff;
+            margin-bottom:28px;
+
+            .slabel {
+                min-width: 112px;
+            }
+
+            > div {
+                padding: 0 24px;
+                border-top: 1px solid #e5e5e5;
+
+                &:first-child {
+                    border-top: 0;
+
+                    span {
+                        color:#38b549;
+                    }
+                }
+            }
+
+            > a {
+                padding: 0 24px;
+                border-top: 1px solid #e5e5e5;
+            }
+        }
+        
+        
+        
+    }
+}
