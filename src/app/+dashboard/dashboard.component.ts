@@ -46,10 +46,7 @@ export class Dashboard {
         this.routeSub = this.router.events.filter( event => event instanceof NavigationEnd)
                                           .map(event => event.url)
                                           .subscribe( data => {
-                                              this.body = document.getElementsByTagName('body')[0];
-		                                          this.body.removeEventListener('touchmove', function(e) {
-                                                e.preventDefault();
-                                              });
+                                              
                                               console.log('NavigationEnd URL: ', data);
                                               if (_.includes(data,'/edit/')) {
                                                 data = data.slice(0, data.indexOf('/edit/') + 5);
