@@ -26,11 +26,12 @@ export class AccountPwd {
     oldFeildString: string = '';
 
     constructor(private router: Router, private uApi: UserApi) {
-        
+
     }
 
     back() {}
-    onSave() {}
+    onSave() {
+    }
 
     onFieldFocus() {
         this.fieldErrMsg = '';
