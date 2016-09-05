@@ -9,15 +9,15 @@
             <form class="pwd-form">
                 <div class="box box-h box-h-c fm-field ">
                     <label class="fm-label" for="opwd" >当前密码:</label>
-                    <input class="flex-1 fm-ipt" id="opwd" name="opwd" type="text" maxlength="16" [(ngModel)]="oldPwd" (focus)="onFieldFocus()" >
+                    <input class="flex-1 fm-ipt" id="opwd" name="opwd" type="password" maxlength="16" [(ngModel)]="oldPwd" (focus)="onFieldFocus()" >
                 </div>
                 <div class="box box-h box-h-c fm-field ">
                     <label class="fm-label" for="npwd" >新密码:</label>
-                    <input class="flex-1 fm-ipt" id="npwd" name="npwd" type="text" [(ngModel)]="newPwd" (focus)="onFieldFocus()" >
+                    <input class="flex-1 fm-ipt" id="npwd" name="npwd" type="password" [(ngModel)]="newPwd" (focus)="onFieldFocus()" >
                 </div>
                 <div class="box box-h box-h-c fm-field">
                     <label class="fm-label" for="rnpwd">确认新密码:</label>
-                    <input class="flex-1 fm-ipt" id="rnpwd" name="rnpwd"  type="text" [(ngModel)]="reNewPwd" (focus)="onFieldFocus()" >
+                    <input class="flex-1 fm-ipt" id="rnpwd" name="rnpwd"  type="password" [(ngModel)]="reNewPwd" (focus)="onFieldFocus()" >
                 </div>
             </form>
             <div class="fm-field-err">
