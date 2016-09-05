@@ -1,9 +1,11 @@
 import { Component, NgZone } from '@angular/core';
+import { ROUTER_DIRECTIVES, Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 
 @Component({
 	selector: 'home',
 	styles: [ require('./home.style.scss') ],
-	template: require('./home.template.html')
+	template: require('./home.template.html'),
+	directives: [ROUTER_DIRECTIVES]
 })
 export class Home {
 	showMenu: boolean = false;
@@ -12,7 +14,7 @@ export class Home {
 	current: boolean = false;
 	zone: any;
 	body: any;
-	constructor() {
+	constructor( private router: Router ) {
 		this.zone = new NgZone({ enableLongStackTrace: false });
 	}
 
@@ -41,6 +43,14 @@ export class Home {
 
 	preventScroll(e) {
 		e.preventDefault();
+	}
+	gotoRegister() {
+		this.body.removeEventListener('touchmove', this.preventScroll)
+		this.router.navigate(['/register']);
+	}
+	gotoLogin() {
+		this.body.removeEventListener('touchmove', this.preventScroll)
+		this.router.navigate(['/login']);
 	}
 
 }
