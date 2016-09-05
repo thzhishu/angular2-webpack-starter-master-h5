@@ -508,6 +508,22 @@ td, th {
   opacity: 1;
 }
 
+.arr-r-ico {
+  width:20px;height:2px;
+  position:relative;
+  overflow:visible;
+}
+.arr-r-ico:before, .arr-r-ico:after {
+  content: '';display:block; position: absolute; width:100%; height:100%; top: 50%; right:50%; margin: -1px -10px 0 0; background:#9a9a9a; border-radius: 0 1px 1px 0; -webkit-transform-origin: right center; transform-origin: right center;
+}
+.arr-r-ico:before {
+  -webkit-transform: rotate(33deg); transform: rotate(33deg);
+}
+.arr-r-ico:after {
+  -webkit-transform: rotate(-33deg); transform: rotate(-33deg);
+}
+
+
 
 /** 列表 **/
 

@@ -1,0 +1,34 @@
+.account-pwd {
+    .btn-ico {
+        width:93px;
+    }
+    .pwd-main {
+        padding-top:28px;
+    }
+    .pwd-form {
+        font-size:22px;
+        background:#fff;
+
+        > .fm-field {
+            &:first-child {
+                border:none;
+            }
+        }
+    }
+    .fm-field {
+        padding:0 24px;
+        border-top:1px solid #e5e5e5;
+    }
+    .fm-ipt {
+        height:78px;
+    }
+    .fm-field-err {
+        color:#f16557;
+        padding:28px 24px;
+        line-height: 1px;
+        font-size:22px;
+    }
+    .fm-label {
+        width:130px;
+    }
+}

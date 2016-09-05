@@ -3,7 +3,7 @@ import { ROUTER_DIRECTIVES, Router, ActivatedRoute, NavigationEnd } from '@angul
 
 @Component({
 	selector: 'home',
-	styles: [ require('./home.style.scss') ],
+	styleUrls: [ './home.style.scss' ],
 	template: require('./home.template.html'),
 	directives: [ROUTER_DIRECTIVES]
 })
