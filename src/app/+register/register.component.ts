@@ -99,7 +99,7 @@ export class Register {
     let uuid = this.uApi.defaultHeaders.get('uuid');
     this.cApi.commonCaptchaValidateGet(uuid, rnd).subscribe(data => {
       this.zone.run(() => {
-        this.isCode = data.meta.code == 200 ? false : true;
+        this.isCode = data.meta&&data.meta.code == 200 ? false : true;
       });
     });
   }
@@ -134,7 +134,7 @@ export class Register {
       });
     }, 1000);
     this.getPhoneCode(this.user.phone, this.user.rnd).subscribe(data => {
-      if (data.meta.code !== 200) {
+      if (data.meta&&data.meta.code !== 200) {
         clearInterval(this.timeout);
         this.errorMsg = data.error.message;
         this.seekBtnTitle = '重新发送';
@@ -181,19 +181,21 @@ export class Register {
     this.uApi.userRegisterPost(params.phone, Md5.hashStr(params.pwd, false).toString(), params.code, params.rnd)
       .subscribe((data) => {
         this.loading = 0;
-        if (data.meta.code == 200) {
+        if (data.meta&&data.meta.code == 200) {
           Cookie.save('token', data.data.token, 7);
-          this.sApi.shopMyshopGet(data.data.token).subscribe(data => {
-            if (data.meta.code === 200) {
-              if (data.data.length > 0) {
-                this.router.navigate(['/dashboard/business/list']);
-              } else {
-                this.router.navigate(['/init-store']);
-              }
-            } else {
-              this.errorMsg = data.error.message;
-            }
-          });
+          this.router.navigate(['/init-store']);
+          //查询门店列表
+        //   this.sApi.shopMyshopGet(data.data.token).subscribe(data => {
+        //     if (data.meta&&data.meta.code === 200) {
+        //       if (data.data.length > 0) {
+        //         this.router.navigate(['/dashboard/business/list']);
+        //       } else {
+        //         this.router.navigate(['/init-store']);
+        //       }
+        //     } else {
+        //       this.errorMsg = data.error.message;
+        //     }
+        //   });
         } else {
           this.errorMsg = data.error.message;
         }

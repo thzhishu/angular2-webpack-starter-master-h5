@@ -22,7 +22,7 @@ import { BusinessApi,BusinessList, BusinessListResponse } from 'client';
 export class BusinessListComponent {
   list: BusinessList;
   today: string = moment().format('YYYY-MM-DD');
-  date: string = '2016-07-27' || moment().format('YYYY-MM-DD');
+  date: string =  moment().format('YYYY-MM-DD');
   page: any = { current: 1 };
   dateShow: boolean = false;
   timeout: any;
@@ -32,6 +32,12 @@ export class BusinessListComponent {
   end: boolean = false;
   isReturnTop: boolean = false;
   returnTop: boolean = false;
+  showTipWin: boolean = false;
+  tipMsg: string = '';
+  tipKey: string = 'back';
+  tipOkeyBtnTxt: string = '确定';
+  oldFeildString: string = '';
+  business: string = '';
 
   constructor(private router: Router, private route: ActivatedRoute, private bApi: BusinessApi) {
 
@@ -44,6 +50,7 @@ export class BusinessListComponent {
   ngOnDestroy() {
 
   }
+
   onSwipeLeft(event) {
     event.preventDefault();
     event.target.parentNode.classList.add('swipeleft');
@@ -82,10 +89,6 @@ export class BusinessListComponent {
   onToggleDate(event) {
     event.stopPropagation();
     this.dateShow = !this.dateShow;
-  }
-
-  onDelRecord(){
-
   }
 
   public closeDatePicker(event) {
@@ -139,7 +142,7 @@ export class BusinessListComponent {
           this.page.current += 1;
         }
       this.bApi.businessListGet(this.moment(this.date), this.page.current).subscribe(data => {
-        if (data.meta.code === 200 && data.data) {
+        if (data.meta&&data.meta.code === 200 && data.data) {
           if (scroll) {
             this.list.content = this.list.content.concat(data.data.content);
           } else {
@@ -155,5 +158,37 @@ export class BusinessListComponent {
 
   onOpenBusinessAdd() {
     // this.missionService.confirmBusinessAdd({ selector: 'business-list' });
+  }
+
+  delete(data) {
+    this.loading = true;
+    //payload: models.BusinessDetail
+    this.bApi.businessDeleteDelete(data.id).subscribe(res => {
+      this.loading = false;
+      if (res.meta.code === 200) {
+        this.router.navigate(['/dashboard/business/list']);
+        this.onCancel();
+      } else {
+        alert(res.error.message);
+      }
+    }, err => {
+      this.loading = false;
+      console.error(err);
+    });
+  }
+  onDelRecord(item){
+      this.showTipWin = true;
+      this.tipMsg = '是否删除该服务记录?';
+      this.business = item;
+  }
+  onOkey(){
+    this.delete(this.business);
+  }
+  onCancel(){
+      this.showTipWin = false;
+      this.getList();
+  }
+  onGoto(item){
+      this.router.navigate(['/dashboard/customer/detail/'+item.customerId]);
   }
 }

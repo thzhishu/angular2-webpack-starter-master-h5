@@ -272,7 +272,11 @@ td, th {
   display: -webkit-flex;
   display: flex;
 }
-
+.box-block{
+    width: 100%;
+    display: block;
+    margin-left: 175px;
+}
 .box-h {
   -webkit-box-orient: horizontal;
   -moz-box-orient: horizontal;
@@ -652,7 +656,17 @@ td, th {
   appearance: none;
   outline: none;
 }
-
+.cr-form .fm-ipt-block {
+    width: 50%;
+    display: inline-block;
+    border: none;
+    height: 78px;
+    font-size: 22px;
+    color: #343434;
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+}
 .cr-form .fm-ta {
   min-height: 160px;
   display: block;
@@ -887,3 +901,10 @@ td, th {
   margin: -6px 0 0 -1px;
 }
 .f-del-btn { height:60px;line-height: 60px; text-align: center; color:#fff; font-size: 22px; background:#f16557; border-radius:8px; }
+
+.inner-tip{
+    color: #b5b5b5;
+}
+.inner-tip b{
+    color: #f16557;
+}

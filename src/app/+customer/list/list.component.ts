@@ -26,7 +26,7 @@ export class CustomerList implements OnInit {
 
     getCustomerList(curPage, pageSize) {
         this.capi.customerListGet(curPage, pageSize).subscribe( data => {
-            if (data.meta.code === 200 && data.data) {
+            if (data.meta&&data.meta.code === 200 && data.data) {
                 this.customers = data.data.length ? data.data : [];
             } else {
                 if (data.error && data.error.message) {
@@ -47,7 +47,7 @@ export class CustomerList implements OnInit {
     }
     onDelCustomer() {
         this.capi.customerCustomerIdDeleteDelete(String(this.delCustomer.id)).subscribe( data => {
-            if (data.meta.code === 200) {
+            if (data.meta&&data.meta.code === 200) {
                 this.onCloseDelWin();
                 this.getCustomerList(this.page.current, this.page.limit);
             } else {

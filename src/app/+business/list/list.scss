@@ -218,8 +218,12 @@ input[type=date]{
                 margin-top: -100px;
                 transition: all .5s ease-in-out;
             }
-        }
 
+        }
+        .list-disabled{
+            background: #d2d2d2;
+            color: #777;
+        }
         .list-tr {
             padding:0 24px;
             border-bottom:1px solid #e5e5e5;

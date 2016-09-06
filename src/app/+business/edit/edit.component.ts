@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter,NgZone } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, NgZone } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
 import { HTTP_PROVIDERS } from '@angular/http';
 import {  ControlGroup, FormBuilder, Control, NgControlGroup } from '@angular/common';
@@ -26,11 +26,11 @@ export class BusinessEditComponent implements OnInit {
   businessShow: boolean = false;
   loading: number = 0;
   employeeList: Array<EmployeeListItem>;
-  customer: any = {id:null};
+  customer: any = { id: null };
   employeeChecked: boolean = true;
-  business: BusinessDetail = {employeeId:null};
+  business: BusinessDetail = { employeeId: null };
   subscription: Subscription;
-  anchor:string;
+  anchor: string;
   zone: any;
   showPlateImg: boolean = false;
   isNewPlate: boolean = false;
@@ -48,11 +48,13 @@ export class BusinessEditComponent implements OnInit {
   confirmWinShow: boolean = false;
   businessStr: string = '';
   showTipWin: boolean = false;
-  sub:any;
-  id:number = null;
+  sub: any;
+  id: number = null;
   tipMsg: string = '';
-  tipKey: string = '';
+  tipKey: string = 'back';
   tipOkeyBtnTxt: string = '确定';
+  oldFeildString: string = '';
+  errorMsg: string = '';
 
   private searchVehicleCode = new Subject<CustomerSearchResponse>();
 
@@ -60,8 +62,8 @@ export class BusinessEditComponent implements OnInit {
     .debounceTime(300)
     .distinctUntilChanged()
     .switchMap((term: string) => term.length > 0
-               ? this.cApi.customerVehicleVehicleLicenceGet(term)
-               : Observable.of({}));
+      ? this.cApi.customerVehicleVehicleLicenceGet(term)
+      : Observable.of({}));
 
 
   constructor(private router: Router, private route: ActivatedRoute, private bApi: BusinessApi, private eApi: EmployeeApi, private cApi: CustomerApi) {
@@ -70,16 +72,21 @@ export class BusinessEditComponent implements OnInit {
 
   // 初始化
   ngOnInit() {
-      this.sub = this.route.params.subscribe( params => {
-          this.id = +params['id'];
-          this.getList(this.id);
-      });
+    this.sub = this.route.params.subscribe(params => {
+      this.id = +params['id'];
+      this.getList(this.id);
+    });
     this.getEmployeeList();
     this.VehicleCode.subscribe(data => {
-      if (data.meta.code === 200) {
+      if (data.meta && data.meta.code === 200) {
         this.customer = data.data;
         this.showPlateImg = true;
         this.isNewPlate = data.data === null ? true : false;
+        setTimeout(() => {
+          this.zone.run(() => {
+            this.showPlateImg = false;
+          })
+        }, 3000);
       } else {
         alert(data.error.message);
       }
@@ -92,25 +99,25 @@ export class BusinessEditComponent implements OnInit {
     // this.subscription.unsubscribe();
   }
 
-  getList(id){
-      this.loading = 1;
-      //payload: models.BusinessDetail
-      this.bApi.businessBusinessIdGet(id).subscribe(res => {
-        this.loading = 0;
-        if (res.meta.code === 200) {
-          this.business = res.data;
-        } else {
-          alert(res.error.message);
-        }
-      }, err => {
-        this.loading = 0;
-        console.error(err);
-      });
+  getList(id) {
+    this.loading = 1;
+    //payload: models.BusinessDetail
+    this.bApi.businessBusinessIdGet(id).subscribe(res => {
+      this.loading = 0;
+      if (res.meta.code === 200) {
+        this.business = res.data;
+      } else {
+        alert(res.error.message);
+      }
+    }, err => {
+      this.loading = 0;
+      console.error(err);
+    });
   }
 
   getEmployeeList() {
     this.eApi.employeeListGet(String(1), String(10000)).subscribe(data => {
-      if (data.meta.code === 200) {
+      if (data.meta && data.meta.code === 200) {
         this.employeeList = data.data;
       }
     });
@@ -124,26 +131,23 @@ export class BusinessEditComponent implements OnInit {
   }
 
   onChangeVL(val) {
-    if ( this.oldPlate === val.target.value) {
+    if (this.oldPlate === val) {
       return;
     }
-    this.oldPlate = val.target.value;
-    if (!val.target.value || val.target.value.length < 7) {
+    this.oldPlate = val;
+    if (!this.oldPlate || this.oldPlate.length < 7) {
       return false;
     }
-    this.searchVehicleCode.next(val.target.value);
+    this.searchVehicleCode.next(this.oldPlate);
     this.showLoading = true;
     this.showPlateImg = false;
-    // this.cApi.customerVehicleVehicleLicenceGet(val.target.value).subscribe(data => {
-    //   if (data.meta.code === 200) {
-    //     this.customer = data.data;
-    //   } else {
-    //     alert(data.error.message);
-    //   }
-    // })
   }
 
-  onSubmit() {
+  onSubmit(f) {
+    console.log(f);
+    if (this.errorTip(f)) {
+      return false;
+    }
     // 正式员 or 临时工
     let type = this.employeeChecked ? '1' : '2';
     let data = Object.assign({}, this.business);
@@ -151,13 +155,13 @@ export class BusinessEditComponent implements OnInit {
     if (!this.onVehicleLicenceBlur() || !this.onBuinessItemBulr()) {
       return false;
     }
-    if ( !this.business.employeeId || this.businessEmployeeErr ) {
+    if (!this.business.employeeId || this.businessEmployeeErr) {
       this.businessEmployeeErr = true;
       return false;
     } else {
       this.businessEmployeeErr = false;
     }
-    if (data.employeeId === -1 && !data.employeeName && !data.employeeCode ) {
+    if (data.employeeId === -1 && !data.employeeName && !data.employeeCode) {
       this.addEmployeeErr = true;
       return false;
     } else {
@@ -170,17 +174,13 @@ export class BusinessEditComponent implements OnInit {
     this.loading = 1;
 
     data.shopId = Cookie.load('shopId');
-    if (data.employeeId === -1) {
-
-      this.eApi.employeeSavePost(this.business.employeeName || '', this.business.employeeCode || '', '', type).subscribe(res => {
+    if (data.employeeId == -1) {
+      this.eApi.employeeSavePost(data.employeeName, data.employeeCode, '', type).subscribe(res => {
         if (res.meta.code === 200) {
           data.employeeId = res.data.id;
           this.save(data);
         } else {
-          // alert(res.error.message);
-          if (res.error.message === '该技师编号已存在') {
-            this.addEmployeeCodeErr = true;
-          }
+          this.errorMsg = res.error.message;
           this.loading = 0;
         }
       }, err => {
@@ -198,7 +198,7 @@ export class BusinessEditComponent implements OnInit {
     this.bApi.businessSaveOrUpdatePost(data).subscribe(res => {
       this.loading = 0;
       if (res.meta.code === 200) {
-        this.router.navigate(['/dashboard/business/list']);
+        this.router.navigate(['/dashboard/customer/detail/' + res.data.customerId]);
         this.onClose();
       } else {
         alert(res.error.message);
@@ -209,7 +209,7 @@ export class BusinessEditComponent implements OnInit {
     });
   }
 
-  onOpen(){
+  onOpen() {
     this.businessShow = true;
     this.businessStr = Md5.hashStr(JSON.stringify(this.business)).toString();
   }
@@ -233,8 +233,8 @@ export class BusinessEditComponent implements OnInit {
       len: false
     };
   }
-  onVehicleLicenceBlur() {
-    let plate = this.business.vehicleLicence;
+  onVehicleLicenceBlur(val = null) {
+    let plate = val || this.business.vehicleLicence;
     if (!plate) {
       this.plateErr.empty = true;
       this.showPlateImg = false;
@@ -245,6 +245,8 @@ export class BusinessEditComponent implements OnInit {
       this.showPlateImg = false;
       return false;
     }
+    console.log(plate, 'plate');
+    this.searchVehicleCode.next(plate);
     return true;
   }
   onBuinessItemBulr() {
@@ -270,7 +272,7 @@ export class BusinessEditComponent implements OnInit {
   }
   onUnsubmitClose() {
     let bs = Md5.hashStr(JSON.stringify(this.business)).toString();
-    if ( this.businessStr === bs ) {
+    if (this.businessStr === bs) {
       this.onClose();
     } else {
       this.confirmWinShow = true;
@@ -300,28 +302,49 @@ export class BusinessEditComponent implements OnInit {
       console.error(err);
     });
   }
-  onDel(){
-      this.showTipWin = true;
-      this.tipMsg = '是否删除该服务记录?';
+  onDel() {
+    this.showTipWin = true;
+    this.tipMsg = '是否删除该服务记录?';
   }
-  onOkey(){
+  onOkey(flag) {
+    if (flag != 'back') {
       this.delete(this.business);
+    } else {
+      window.history.back();
+    }
   }
-  onCancel(){
-      this.showTipWin = false;
+  onCancel() {
+    this.showTipWin = false;
   }
   checkFormChange() {
-      const current = Md5.hashStr(JSON.stringify(this.customer), false).toString();
-      return this.oldFeildString === current ? true : false;
+    const current = Md5.hashStr(JSON.stringify(this.customer), false).toString();
+    return this.oldFeildString === current ? true : false;
   }
   back() {
-      if (this.checkFormChange()) {
-          window.history.back();
-      } else {
-          this.showTipWin = true;
-          this.tipMsg = '当前页面尚有信息未保存，是否离开？';
-          this.tipKey = 'back';
-      }
+    if (this.checkFormChange()) {
+      window.history.back();
+    } else {
+      this.showTipWin = true;
+      this.tipMsg = '当前页面尚有信息未保存，是否离开？';
+      this.tipKey = 'back';
+    }
 
+  }
+
+  errorTip(f) {
+    if (f.controls.vehicleLicence.errors && f.controls.vehicleLicence.errors.required) {
+      this.errorMsg = '车牌号不能为空';
+      return true;
+    }
+    if (f.controls.name.errors && f.controls.name.errors.required) {
+      this.errorMsg = '服务项目不能为空';
+      return true;
+    }
+    if (f.controls.employeeId.errors && f.controls.employeeId.errors.required) {
+      this.errorMsg = '主理技师不能为空';
+      return true;
+    }
+    this.errorMsg = null;
+    return false;
   }
 }

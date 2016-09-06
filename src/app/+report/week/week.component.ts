@@ -37,7 +37,7 @@ export class ReportWeek {
     getWeekReport() {
 		this.page.current = this.page.current ? this.page.current : 1;
 		this.rApi.reportAttitudeGet(this.start, this.end, this.page.current, 10).subscribe(data => {
-			if (data.meta.code === 200 && data.data ) {
+			if (data.meta&&data.meta.code === 200 && data.data ) {
 				this.formatReportData(data);
 			}
 		}, err => console.error(err) );

@@ -101,7 +101,7 @@ export class Login {
     this.uApi.userLoginPost(params.phone, Md5.hashStr(params.pwd, false).toString(), params.rnd)
       .subscribe((data) => {
         this.loading = 0;
-        if (data.meta.code === 200) {
+        if (data.meta&&data.meta.code === 200) {
           Cookie.save('token', data.data.User.token, 7);
           Cookie.save('shopId', data.data.User.lastShopId);
           this.sApi.defaultHeaders.set('token', data.data.User.token);
