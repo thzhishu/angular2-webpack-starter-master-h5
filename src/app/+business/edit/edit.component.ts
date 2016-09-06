@@ -47,6 +47,12 @@ export class BusinessEditComponent implements OnInit {
   hadPlate: boolean = false;
   confirmWinShow: boolean = false;
   businessStr: string = '';
+  showTipWin: boolean = false;
+  sub:any;
+  id:number = null;
+  tipMsg: string = '';
+  tipKey: string = '';
+  tipOkeyBtnTxt: string = '确定';
 
   private searchVehicleCode = new Subject<CustomerSearchResponse>();
 
@@ -64,6 +70,10 @@ export class BusinessEditComponent implements OnInit {
 
   // 初始化
   ngOnInit() {
+      this.sub = this.route.params.subscribe( params => {
+          this.id = +params['id'];
+          this.getList(this.id);
+      });
     this.getEmployeeList();
     this.VehicleCode.subscribe(data => {
       if (data.meta.code === 200) {
@@ -79,7 +89,23 @@ export class BusinessEditComponent implements OnInit {
 
   ngOnDestroy() {
     // prevent memory leak when component destroyed
-    this.subscription.unsubscribe();
+    // this.subscription.unsubscribe();
+  }
+
+  getList(id){
+      this.loading = 1;
+      //payload: models.BusinessDetail
+      this.bApi.businessBusinessIdGet(id).subscribe(res => {
+        this.loading = 0;
+        if (res.meta.code === 200) {
+          this.business = res.data;
+        } else {
+          alert(res.error.message);
+        }
+      }, err => {
+        this.loading = 0;
+        console.error(err);
+      });
   }
 
   getEmployeeList() {
@@ -117,7 +143,7 @@ export class BusinessEditComponent implements OnInit {
     // })
   }
 
-  onSubmit(f) {
+  onSubmit() {
     // 正式员 or 临时工
     let type = this.employeeChecked ? '1' : '2';
     let data = Object.assign({}, this.business);
@@ -172,7 +198,7 @@ export class BusinessEditComponent implements OnInit {
     this.bApi.businessSaveOrUpdatePost(data).subscribe(res => {
       this.loading = 0;
       if (res.meta.code === 200) {
-        this.router.navigate(['/dashbroad/customer-detail',{id:res.data.customerId}]);
+        this.router.navigate(['/dashboard/business/list']);
         this.onClose();
       } else {
         alert(res.error.message);
@@ -186,7 +212,6 @@ export class BusinessEditComponent implements OnInit {
   onOpen(){
     this.businessShow = true;
     this.businessStr = Md5.hashStr(JSON.stringify(this.business)).toString();
-    console.log(this.businessStr);
   }
 
   onClose() {
@@ -236,7 +261,6 @@ export class BusinessEditComponent implements OnInit {
   selectEmployee(evt) {
     console.log(evt === 'null');
     this.businessEmployeeErr = !evt || evt === 'null' ? true : false;
-    console.log(this.businessEmployeeErr);
     this.business.employeeId = evt;
     this.employeeChecked = evt === 'other' ? true : false;
   }
@@ -258,5 +282,46 @@ export class BusinessEditComponent implements OnInit {
   }
   onConfirmCancel() {
     this.confirmWinShow = false;
+  }
+
+  delete(data) {
+    this.loading = 1;
+    //payload: models.BusinessDetail
+    this.bApi.businessDeleteDelete(data.id).subscribe(res => {
+      this.loading = 0;
+      if (res.meta.code === 200) {
+        this.router.navigate(['/dashboard/business/list']);
+        this.onCancel();
+      } else {
+        alert(res.error.message);
+      }
+    }, err => {
+      this.loading = 0;
+      console.error(err);
+    });
+  }
+  onDel(){
+      this.showTipWin = true;
+      this.tipMsg = '是否删除该服务记录?';
+  }
+  onOkey(){
+      this.delete(this.business);
+  }
+  onCancel(){
+      this.showTipWin = false;
+  }
+  checkFormChange() {
+      const current = Md5.hashStr(JSON.stringify(this.customer), false).toString();
+      return this.oldFeildString === current ? true : false;
+  }
+  back() {
+      if (this.checkFormChange()) {
+          window.history.back();
+      } else {
+          this.showTipWin = true;
+          this.tipMsg = '当前页面尚有信息未保存，是否离开？';
+          this.tipKey = 'back';
+      }
+
   }
 }
