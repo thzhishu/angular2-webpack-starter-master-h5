@@ -101,7 +101,7 @@ export class CustomerDetail implements OnInit {
             this.commentUrl.url = this.historyRecord.url;
         } else {
             this.bApi.businessBusinessIdUrlGet(record.id).subscribe(data => {
-                if (data.meta.code === 200) {
+                if (data.meta&&data.meta.code === 200) {
                     this.commentUrl.qrCode = this.historyRecord.qrCode = data.data.qrCode;
                     this.commentUrl.url = this.historyRecord.url = data.data.url;
 
@@ -140,7 +140,7 @@ export class CustomerDetail implements OnInit {
         const salt = 'thzs0708';
         let sign = Md5.hashStr(mobile + rnd + salt).toString();
         this.bApi.businessBusinessIdCommentPost(this.historyRecord.id, mobile, rnd + '', sign).subscribe(data => {
-            if (data.meta && data.meta.code === 200) {
+            if (data.meta && data.meta&&data.meta.code === 200) {
                 this.hasSend = true;
                 this.sendBtnTxt = '重新发送';
                 this.historyRecord.hasSend = true;

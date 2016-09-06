@@ -95,7 +95,7 @@ export class CustomerForm implements OnInit {
             }
         });
         this.plateObservable.subscribe( data => {
-            if (data.meta.code === 200 ) {
+            if (data.meta&&data.meta.code === 200 ) {
                 const val = this.customer.vehicleLicence;
                 if (this.tempPlate === val) {
                     this.customer.valid.plateExist = data.data ? true : false;
@@ -116,7 +116,7 @@ export class CustomerForm implements OnInit {
 
     getCustomerById(id) {
 		this.capi.customerCustomerIdGet(id).subscribe(data => {
-			if (data.meta.code === 200 && data.data) {
+			if (data.meta&&data.meta.code === 200 && data.data) {
                 if (data.data.vehicleYear === '2005') {
 					data.data.vehicleYear = '2005年及以前';
 				}
@@ -202,7 +202,7 @@ export class CustomerForm implements OnInit {
                 vals.vehicleYear || '',
                 vals.vehicleMiles || ''
             ).subscribe( data => {
-                if (data.meta.code === 200) {
+                if (data.meta&&data.meta.code === 200) {
                     this.goToListPage();
                 }
                 this.submiting = false;
@@ -261,7 +261,7 @@ export class CustomerForm implements OnInit {
     }
     delCustomer() {
         this.capi.customerCustomerIdDeleteDelete(String(this.customer.id)).subscribe(data => {
-            if (data.meta.code === 200) {
+            if (data.meta&&data.meta.code === 200) {
                 this.onCancel('delete-customer');
                 this.goToListPage();
             } else {

@@ -113,7 +113,7 @@ export class SearchPage implements OnInit {
     getSearchCustomers(str) {
 		console.log('customer search list....');
 		this.capi.customerSearchPhoneOrVehicleLicenceGet(str).subscribe( data => {
-			if (data.meta.code === 200 && data.data) {
+			if (data.meta&&data.meta.code === 200 && data.data) {
 				let dd = data.data;
 				if ( dd.length === 1 ) {
 					this.router.navigate(['/dashbroad/customer/detail', dd[0].id]);

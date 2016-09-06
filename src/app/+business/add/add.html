@@ -1,35 +1,60 @@
 <div class="db-c-wrap cr">
   <div class="box box-h box-h-c db-title">
     <div class="bw back-ico" (click)="back()"></div>
-    <div class="ellipsis tc flex-1">编辑服务</div>
-    <div class="btn btn-default" (click)="onSave()">保存</div>
+    <div class="ellipsis tc flex-1">新增服务</div>
+    <div class="btn btn-default" (click)="onSubmit(f)">保存</div>
   </div>
   <div class="cr-add">
     <div class="cr-form">
-      <form >
+      <form #f="ngForm">
         <div class="box box-h box-h-c fm-field ">
-          <label class="fm-label" for="vehicleLicence">车牌号:</label>
-          <input class="flex-1 fm-ipt" id="vehicleLicence" name="vehicleLicence" type="text" maxlength="9" [(ngModel)]="bs.vehicleLicence">
+          <label class="fm-label">车牌号:</label>
+          <input
+            class="flex-1 fm-ipt"
+            name="vehicleLicence"
+            placeholder="必填项"
+            type="text"
+            required
+            maxlength="9"
+            [(ngModel)]="business.vehicleLicence"
+            (change)="onChangeVL($event.target.value)"
+            (keyup)="onChangeVL($event.target.value)"
+            (blur)="onVehicleLicenceBlur($event.target.value)"
+            (focus)="onVehicleLicenceFocus()">
+          <div class="customer-tip" *ngIf="showPlateImg">
+            <div class="old-customer" *ngIf="!isNewPlate"></div>
+            <div class="new-customer" *ngIf="isNewPlate"></div>
+          </div>
         </div>
         <div class="box box-h box-h-c fm-field ">
           <label class="fm-label" for="name">服务项目:</label>
-          <input class="flex-1 fm-ipt" id="name" name="name" type="text" maxlength="17" [(ngModel)]="bs.name">
+          <input class="flex-1 fm-ipt" id="name" name="name" type="text" placeholder="必填项" required maxlength="17" [(ngModel)]="business.name">
         </div>
         <div class="box box-h box-h-c fm-sel">
           <label class="fm-label" for="employeeId">主理技师:</label>
-          <select id="employeeId" required name="employeeId" [ngModel]="bs.employeeId" (ngModelChange)="selectEmployee($event)"  #employeeId="ngModel">
+          <select id="employeeId" required name="employeeId" [ngModel]="business.employeeId" (ngModelChange)="selectEmployee($event)" #employeeId="ngModel">
             <option value="null">请选择主理技师</option>
             <option [value]="e.id" *ngFor="let e of employeeList">{{e.name||e.code}}</option>
-            <option value="other">其他</option>
+            <option value="-1">其他</option>
           </select>
+        </div>
+        <div class="fm-field" *ngIf="business.employeeId==-1">
+          <div class="box-block">
+            <input class="flex-1 fm-ipt-block" placeholder="请输入员工姓名" name="employeeName" type="text" maxlength="17" [(ngModel)]="business.employeeName">
+            <span class="inner-tip"><b>*</b>至少填一项</span>
+          </div>
+          <div class="box-block">
+              <input class="flex-1 fm-ipt-block" placeholder="请输入员工编号" name="employeeCode" type="text" maxlength="17" [(ngModel)]="business.employeeCode">
+          </div>
         </div>
         <div class="box box-h fm-field">
           <label class="fm-label" for="description">备注:</label>
-          <textarea class="flex-1 fm-ta" name="description" id="description" [(ngModel)]="bs.description"></textarea>
+          <textarea class="flex-1 fm-ta" name="description" id="description" [(ngModel)]="business.description"></textarea>
         </div>
+
       </form>
-      <div class="btn-block mt50">
-          <button type="button" (click)="onDel()" class="btn btn-warning" >删除该服务记录</button>
+      <div class="alert-error" *ngIf="errorMsg">
+          {{errorMsg}}
       </div>
     </div>
   </div>

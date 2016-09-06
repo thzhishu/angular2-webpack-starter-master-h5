@@ -63,7 +63,7 @@ export class EmployeeForm implements OnInit, OnDestroy {
 
     getEmployeeById(id) {
         this.eApi.employeeEmployeeIdGet('', id).subscribe(data => {
-            if (data.meta.code === 200 && data.data) {
+            if (data.meta&&data.meta.code === 200 && data.data) {
                 console.log('edit', data);
                 this.employee = data.data;
                 
@@ -86,7 +86,7 @@ export class EmployeeForm implements OnInit, OnDestroy {
 
     getAllStores() {
         this.sApi.shopMyshopGet().subscribe((data) => {
-            if (data.meta.code === 200 && data.data) {
+            if (data.meta&&data.meta.code === 200 && data.data) {
                 this.stores = data.data.length ? data.data : [];
                 this.stores.forEach( store => {
                     store.code = '';
@@ -149,7 +149,7 @@ export class EmployeeForm implements OnInit, OnDestroy {
     }
 
     employeeRequestedHandler(data) {
-        if (data.meta.code === 200) {
+        if (data.meta&&data.meta.code === 200) {
             this.router.navigate(['/dashboard/employee/list']);
         } else {
             if (data.error && data.error.msg) {

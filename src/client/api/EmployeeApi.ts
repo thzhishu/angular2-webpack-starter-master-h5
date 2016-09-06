@@ -89,7 +89,7 @@ export class EmployeeApi {
      * @param token 凭证
      * @param employeeId 员工id
      */
-    
+
 
     public employeeEmployeeIdGet (token: string, employeeId: string, extraHttpRequestParams?: any ) : Observable<models.EmployeeResponse> {
         const path = this.basePath + '/employee/{employeeId}'
@@ -171,8 +171,8 @@ export class EmployeeApi {
     }
 
     /**
-     * 新建员工    
-     * 
+     * 新建员工
+     *
      * @param name 姓名
      * @param code 技师编号
      * @param mobile 手机号
@@ -180,7 +180,7 @@ export class EmployeeApi {
      * @param codes H5新加技师编号，多个逗号分隔，服务端需要兼容pc和h5
      * @param type 1正式，2临时工
      */
-    
+
 
     public employeeSavePost (name?: string, code?: string, mobile?: string, shopIds?: string, codes?: string, type?: string, extraHttpRequestParams?: any ) : Observable<models.EmployeeResponse> {
         const path = this.basePath + '/employee/save';
@@ -194,17 +194,41 @@ export class EmployeeApi {
 
         headerParams.set('Content-Type', 'application/x-www-form-urlencoded');
 
-        formParams['name'] = name;
+        if (name === null || name === undefined) {
 
-        formParams['code'] = code;
+        }else{
+            formParams.append('name',name);
+        }
 
-        formParams['mobile'] = mobile;
+        if (code === null || code === undefined) {
 
-        formParams['shopIds'] = shopIds;
+        }else{
+            formParams.append('code',code);
+        }
 
-        formParams['codes'] = codes;
+        if (mobile === null || mobile === undefined) {
 
-        formParams['type'] = type;
+        }else{
+            formParams.append('mobile',mobile);
+        }
+
+        if (shopIds === null || shopIds === undefined) {
+
+        }else{
+            formParams.append('shopIds',shopIds);
+        }
+
+        if (codes === null || codes === undefined) {
+
+        }else{
+            formParams.append('codes',codes);
+        }
+
+        if (type === null || type === undefined) {
+
+        }else{
+            formParams.append('type',type);
+        }
 
         let requestOptions: RequestOptionsArgs = {
             method: 'POST',
@@ -231,7 +255,7 @@ export class EmployeeApi {
      * @param code 技师编号
      * @param mobile 手机号
      */
-    
+
 
     public employeeUpdatePost (id?: string, name?: string, shopIds?: string, codes?: string, code?: string, mobile?: string, extraHttpRequestParams?: any ) : Observable<models.EmployeeResponse> {
         const path = this.basePath + '/employee/update';
@@ -245,17 +269,13 @@ export class EmployeeApi {
 
         headerParams.set('Content-Type', 'application/x-www-form-urlencoded');
 
-        formParams['id'] = id;
+        formParams.append('id',id);
+        formParams.append('name',name);
+        formParams.append('shopIds',shopIds);
 
-        formParams['name'] = name;
-
-        formParams['shopIds'] = shopIds;
-
-        formParams['codes'] = codes;
-
-        formParams['code'] = code;
-
-        formParams['mobile'] = mobile;
+        formParams.append('codes',codes);
+        formParams.append('code',code);
+        formParams.append('mobile',mobile);
 
         let requestOptions: RequestOptionsArgs = {
             method: 'POST',

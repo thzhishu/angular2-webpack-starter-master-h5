@@ -26,7 +26,7 @@ export class EmployeeList implements OnInit {
 
     getEmployeeList(curPage, pageSize) {
         this.eApi.employeeListGet(curPage, pageSize ).subscribe(data => {
-            if (data.meta.code === 200 && data.data) {
+            if (data.meta&&data.meta.code === 200 && data.data) {
                 this.employees = data.data.length ? data.data : [];
             } else {
                 if (data.error && data.error.message) {
@@ -49,7 +49,7 @@ export class EmployeeList implements OnInit {
     }
     // onDelEmployee() {
     //     this.capi.customerCustomerIdDeleteDelete(String(this.delCustomer.id)).subscribe( data => {
-    //         if (data.meta.code === 200) {
+    //         if (data.meta&&data.meta.code === 200) {
     //             this.onCloseDelWin();
     //             this.getCustomerList(this.page.current, this.page.limit);
     //         } else {

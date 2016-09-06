@@ -44,7 +44,7 @@ export class AccountPwd {
         this.submitting = true;
         this.uApi.userChangePwdPost(op, np, rnp).subscribe(data => {
             this.submitting = false;
-            if (data.meta.code === 200) {
+            if (data.meta&&data.meta.code === 200) {
                 if (data.data && data.data.User) {
                     this.isLeaveSave ? window.history.back() : this.router.navigate(['/dashbroad/account/info']);
                 }

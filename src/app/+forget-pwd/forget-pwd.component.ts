@@ -31,6 +31,7 @@ export class ForgetPwd {
   openProtocol: boolean = false;
   fp: any = {};
   isCode: boolean = true;
+  uuid: string;
 
   constructor(private router: Router, private route: ActivatedRoute, private uApi: UserApi, private cApi: CommonApi) {
     this.zone = new NgZone({ enableLongStackTrace: true }); // 事务控制器
@@ -51,8 +52,8 @@ export class ForgetPwd {
    */
   getCodeImg() {
     this.cApi.commonCaptchaBase64Post().subscribe((data: Response) => {
-      this.img = 'data:image/jpeg;base64,' + data.text();
-      this.uApi.defaultHeaders.set('uuid', data.headers.get('uuid'));
+     this.img = 'data:image/jpeg;base64,' + data.text();
+     this.uuid =  data.headers.get('uuid');
       this.isCode = true;
     });
   }
@@ -84,7 +85,7 @@ export class ForgetPwd {
     this.seekDisabeld = 1;
     this.seekTime = 60;
     this.getPhoneCode(phone, rnd).subscribe(data => {
-      if (data.meta.code !== 200) {
+      if (data.meta&&data.meta.code !== 200) {
         this.errorMsg = data.error.message;
         this.seekBtnTitle = '重新发送';
         this.seekDisabeld = 0;
@@ -120,14 +121,14 @@ export class ForgetPwd {
   //验证手机号
   onCheckPhone(f) {
     if (this.errorNext1Tip(f)) {
+        this.getCodeImg();
       return false;
     }
     this.loading = 1;
     let params = this.fp;
-    params.uuid = this.uApi.defaultHeaders.get('uuid');
     // code: string, phone: string, uuid: string,
-    this.cApi.commonCodeVerifyGet(params.code, params.phone, params.uuid).subscribe(data => {
-      if (data.meta.code === 200) {
+    this.cApi.commonCodeVerifyGet(params.code, params.phone, this.uuid).subscribe(data => {
+      if (data.meta&&data.meta.code === 200) {
         this.next = 2;
         this.sign = data.data.sign;
       } else {
@@ -139,10 +140,9 @@ export class ForgetPwd {
 
   chkRnd(rnd) {
     if (rnd && rnd.length > 3) {
-      let uuid = this.uApi.defaultHeaders.get('uuid');
-      this.cApi.commonCaptchaValidateGet(uuid, rnd).subscribe(data => {
-        this.isCode = data.meta.code == 200 ? false : true;
-        if (data.meta.code !== 200) {
+      this.cApi.commonCaptchaValidateGet(this.uuid, rnd).subscribe(data => {
+        this.isCode = data.meta&&data.meta.code == 200 ? false : true;
+        if (data.meta&&data.meta.code !== 200) {
           this.errorMsg = data.error.message === '短信验证码超时，导致userId不存在' ? '您离开的时间太长，请重新操作' : data.error.message;
         }
       });
@@ -152,6 +152,7 @@ export class ForgetPwd {
   // 重置密码
   onEditPwd(f) {
     if (this.errorNext2Tip(f)) {
+
       return false;
     }
     if(!this.sign){
@@ -164,7 +165,7 @@ export class ForgetPwd {
     this.uApi.userUpdatePwdPost(Md5.hashStr(params.pwd, false).toString(), Md5.hashStr(params.checkPwd, false).toString(), this.sign)
       .subscribe(data => {
         this.loading = 0;
-        if (data.meta.code === 200) {
+        if (data.meta&&data.meta.code === 200) {
             this.next = 3;
         //   alert('密码修改成功');
         //   this.router.navigate(['/login']);
