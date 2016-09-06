@@ -1,11 +1,10 @@
 <div class="box box-v store-init">
     <div class="bh"></div>
     <div class="flex-1">
-        {{ store|json }}
-        <store-form [store]="store"></store-form>
+        <store-form [store]="store" [storePage]="'init'"></store-form>
         <div class="si-btn">
-            <div class="err-tip">请输入详细地址</div>
-            <div class="f-save-btn">提交</div>
+            
+            <div class="f-save-btn" (click)="onSaveStore()">提交</div>
         </div>
     </div>
 </div>

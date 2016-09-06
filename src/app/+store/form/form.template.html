@@ -11,7 +11,7 @@
         <div class="sf-fields">
             <div class="box box-h box-h-c fm-field">
                 <label class="fm-label" for="sname" >门店名称:</label>
-                <input class="flex-1 fm-ipt" id="sname" name="sname" type="text" placeholder="必填项" maxlength="20" required [(ngModel)]="store.name" >
+                <input class="flex-1 fm-ipt" id="sname" name="sname" type="text" placeholder="必填项" maxlength="20" required [(ngModel)]="store.name" (focus)="onFieldFocus()" >
             </div>
             <div class="box box-h box-h-c fm-field">
                 <label class="fm-label" for="sprovince">门店地址:</label>
@@ -26,7 +26,7 @@
             <div class="box box-h box-h-c fm-field">
                 <label class="fm-label" ></label>
                 <div class="flex-1 fm-sel">
-                    <select name="" class="fm-ipt" id="scity" name="scity" [(ngModel)]="store.cityId" >
+                    <select name="" class="fm-ipt" id="scity" name="scity" [ngModel]="store.cityId" (ngModelChange)="onChangeCity(store, $event)" >
                         <option value="">请选择城市</option>
                         <option *ngFor="let city of cityList;" [value]="city.id">{{city.name}}</option>
                     </select>
@@ -35,7 +35,7 @@
             </div>
             <div class="box box-h box-h-c fm-field">
                 <label class="fm-label" for="saddr" >详细地址:</label>
-                <input class="flex-1 fm-ipt" id="saddr" name="saddr" type="text" placeholder="必填项" maxlength="50" required [(ngModel)]="store.address" >
+                <input class="flex-1 fm-ipt" id="saddr" name="saddr" type="text" placeholder="必填项" maxlength="50" required [(ngModel)]="store.address" (focus)="onFieldFocus()">
             </div>
             <div class="box box-h s-type">
                 <label class="fm-label" for="stype" >服务类型:</label>
@@ -68,13 +68,14 @@
                 <div class="flex-1 fm-sel">
                     <select name="" class="fm-ipt" id="syear" name="syear" [(ngModel)]="store.openingDate" >
                         <option value="">请选择</option>
+                        <option *ngFor="let year of openYears;" [value]="year">{{ year }}</option>
                     </select>
                 </div>
                     
             </div>
             <div class="box box-h box-h-c fm-field fm-area">
                 <label class="fm-label" for="sarea" >门店面积:</label>
-                <input class="flex-1 fm-ipt" id="sarea" name="sarea" type="number"  maxlength="10" [(ngModel)]="store.area" >
+                <input class="flex-1 fm-ipt" id="sarea" name="sarea" type="number"  maxlength="10" [(ngModel)]="store.area" (focus)="onFieldFocus()">
                 <div>平米</div>
             </div>
             <div class="box box-h box-h-c fm-field">
@@ -82,6 +83,7 @@
                 <div class="flex-1 fm-sel">
                     <select name="" class="fm-ipt" id="sposition" name="sposition" [(ngModel)]="store.station">
                         <option value="">请选择</option>
+                        <option *ngFor="let station of stations;" [value]="station">{{ station }}</option>
                     </select>
                 </div>
                     
@@ -92,3 +94,4 @@
 
     </form>
 </div>
+<div class="err-tip" *ngIf="storePage === 'init'">{{ errMsg }}</div>

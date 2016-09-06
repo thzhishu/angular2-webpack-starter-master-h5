@@ -21,9 +21,13 @@ const SERVICE_LIST = [
 
 export class StoreFormComponent implements OnInit {
     @Input() store;
+    @Input() storePage;
     serviceLists = [];
     provinceList = [];
     cityList = [];
+    openYears = [];
+    stations = [];
+    errMsg: string = '';
 
     constructor(
         private router: Router,
@@ -34,6 +38,8 @@ export class StoreFormComponent implements OnInit {
     ) {}
 
     ngOnInit() {
+        this.initOpenYears();
+        this.stations = this.rangeArr(1, 30);
         this.initServiceLists();
         this.getProvinces();
     }
@@ -44,6 +50,16 @@ export class StoreFormComponent implements OnInit {
     initServiceLists() {
         this.serviceLists = SERVICE_LIST;
         this.serviceLists.forEach( item => item.checked = false );
+    }
+    
+    /**
+     * 初始化开店年份 
+     */
+    initOpenYears() {
+        const currentYear = +(new Date()).getFullYear();
+        this.openYears = this.rangeArr(currentYear - 16, currentYear);
+        this.openYears.reverse();
+        this.openYears.push('1999年以前');
     }
 
     /**
@@ -76,6 +92,37 @@ export class StoreFormComponent implements OnInit {
         }, err => console.error(err));
     }
 
+    /**
+     * 计算数字区间
+     */
+    rangeArr (start, end) {
+        return Array(end - start + 1).fill(0).map((v, i) => i + start);
+    }
+
+    /**
+     * 验证表单项
+     */
+    formFieldValidate() {
+        let s = this.store;
+        if (s.name.trim() === '') {
+            this.errMsg = '请填写门店名称';
+            return false;
+        }
+        if (s.provinceId === '' || s.cityId === '' || s.address.trim() === '') {
+            this.errMsg = '请完善门店地址';
+            return false;
+        }
+        if (s.serviceIds.trim() === '') {
+            this.errMsg = '服务类型不能为空';
+            return false;
+        }
+        if (/^\d+(\.\d+)?$/.test(s.area) && s.area >= 1 && s.area < 1000000000) {
+            this.errMsg = '请输入大于0的数字';
+            return false;
+        }
+        return true;
+    }
+
 
 
     /**
@@ -83,6 +130,7 @@ export class StoreFormComponent implements OnInit {
      */
     onChangeService(service, evt) {
         service.checked = evt;
+        this.errMsg = '';
         this.store.serviceIds = this.serviceLists.filter(item => item.checked)
                                                  .map(item => item.id)
                                                  .join(',');
@@ -93,12 +141,28 @@ export class StoreFormComponent implements OnInit {
      */
     onChangeProvince(store, evt) {
         store.provinceId = evt;
+        this.errMsg = '';
         if (store.provinceId === '') {
             store.cityId = '';
             this.cityList = [];
         } else {
             this.getCities();
         }
+    }
+
+    /**
+     * 城市切换
+     */
+    onChangeCity(store, evt) {
+        store.cityId = evt;
+        this.errMsg = '';
+    }
+
+    /**
+     * 输入型字段获取焦点
+     */
+    onFieldFocus() {
+        this.errMsg = '';
     }
 
 }

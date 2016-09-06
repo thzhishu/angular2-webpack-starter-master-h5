@@ -10,6 +10,8 @@
         appearance: none;
         -moz-appearance:none;
         -webkit-appearance:none;
+        height:78px;
+        padding:0;
     }
 
     input[type="tel"], input[type="number"] {
@@ -19,7 +21,7 @@
     }
 
     .legend {
-        padding:17px 24px 4px;
+        padding:17px 24px 8px;
 
         .legtit {
             color:#39b549;
@@ -28,7 +30,7 @@
         }
         .legdes {
             color:#9a9a9a;
-            line-height: 32px;
+            line-height: 34px;
             margin:0;
             font-size:22px;
         }
@@ -42,6 +44,9 @@
     .fm-label {
         width:156px;
         padding:0;
+    }
+    .fm-sel {
+        border:none;
     }
     .s-type {
         padding: 10px 0 28px;
@@ -75,11 +80,15 @@
                     display:none;
                 }
                 &.active {
-                    min-width:145px;
+                    position:relative;
+                    padding-left:41px;
                     border-color:#38b549;
                     color:#38b549;
                     span {
-                        display:inline;
+                        position:absolute;
+                        left: 16px;
+                        display:inline-block;
+                        
                     }
                 }
                 
@@ -92,4 +101,25 @@
             padding:0 24px 0 12px;
         }
     }
+
+    
+    .cr-form {
+        .fm-sel {
+            &:before, &:after {
+                top:38px;
+            }
+        }
+    }
+
+    
+
+}
+
+.err-tip {
+    color:#f16557;
+    line-height: 1;
+    font-size:22px;
+    height:62px;
+    padding:20px 24px;
+
 }
