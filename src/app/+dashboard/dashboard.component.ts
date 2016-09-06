@@ -18,7 +18,9 @@ const NO_MENU_URLS = [
     '/dashboard/business/add',
     '/dashboard/business/edit',
     '/dashboard/account/pwd',
-    '/dashboard/store/list'
+    '/dashboard/store/list',
+    '/dashboard/store/add',
+    '/dashboard/store/edit'
 ];
 const NO_TOPBAR_URLS = [
     '/dashboard/search/page'

@@ -5,14 +5,14 @@ import { Cookie } from '../../services';
 import { StoreFormComponent } from '../form/form.component';
 
 @Component({
-    selector: 'store-init',
-    styles: [ require('./init.style.scss') ],
-    template: require('./init.template.html'),
+    selector: 'store-edit',
+    styles: [ require('./edit.style.scss') ],
+    template: require('./edit.template.html'),
     directives: [ROUTER_DIRECTIVES],
     providers: [ShopApi]
 })
 
-export class StoreInitComponent implements OnInit {
+export class StoreEditComponent implements OnInit {
     store: any;
     errMsg: string = '';
     submitting: boolean = false;

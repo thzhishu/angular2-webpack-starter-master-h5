@@ -3,15 +3,15 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { StoreInitComponent } from './init.component';
+import { StoreEditComponent } from './edit.component';
 import { SFMModule } from '../form/sfm.module';
 
 export const routes = [
-    { path: '', component: StoreInitComponent, pathMatch: 'full' }
+    { path: '', component: StoreEditComponent, pathMatch: 'full' }
 ];
 
 @NgModule({
-    declarations: [ StoreInitComponent ],
+    declarations: [ StoreEditComponent ],
     imports: [
         BrowserModule,
         FormsModule,
@@ -20,6 +20,6 @@ export const routes = [
     ]
 })
 
-export default class StoreInitModule {
+export default class StoreEditModule {
     static routes = routes;
 }

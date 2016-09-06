@@ -5,14 +5,14 @@ import { Cookie } from '../../services';
 import { StoreFormComponent } from '../form/form.component';
 
 @Component({
-    selector: 'store-init',
-    styles: [ require('./init.style.scss') ],
-    template: require('./init.template.html'),
+    selector: 'store-add',
+    styles: [ require('./add.style.scss') ],
+    template: require('./add.template.html'),
     directives: [ROUTER_DIRECTIVES],
     providers: [ShopApi]
 })
 
-export class StoreInitComponent implements OnInit {
+export class StoreAddComponent implements OnInit {
     store: any;
     errMsg: string = '';
     submitting: boolean = false;
@@ -50,8 +50,7 @@ export class StoreInitComponent implements OnInit {
         this.sApi.shopBatchSavePost(shops).subscribe(data => {
             this.submitting = false;
             if (data.meta.code === 200) {
-                Cookie.save('shopId', data.data && data.data[0].id);
-                this.router.navigate(['/dashboard/business/list']);
+                this.router.navigate(['/dashboard/store/list']);
             } else {
                 alert(data.error.message);
             }

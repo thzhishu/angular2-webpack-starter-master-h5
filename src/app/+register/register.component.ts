@@ -183,7 +183,7 @@ export class Register {
         this.loading = 0;
         if (data.meta&&data.meta.code == 200) {
           Cookie.save('token', data.data.token, 7);
-          this.router.navigate(['/init-store']);
+          this.router.navigate(['/init']);
           //查询门店列表
         //   this.sApi.shopMyshopGet(data.data.token).subscribe(data => {
         //     if (data.meta&&data.meta.code === 200) {
