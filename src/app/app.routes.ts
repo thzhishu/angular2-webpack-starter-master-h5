@@ -21,5 +21,8 @@ export const ROUTES: Routes = [
     path: 'dashboard',
     loadChildren: () => System.import('./+dashboard')
   },
+  {
+    path: 'init', loadChildren: () => System.import('./+store/init')
+  },
   { path: '**',    component: NoContent },
 ];

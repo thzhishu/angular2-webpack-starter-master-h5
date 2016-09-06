@@ -1,0 +1,94 @@
+<div class="cr-form store-form">
+    <form >
+        <div class="legend">
+            <div class="legtit">基础信息</div>
+            <div class="legdes">
+                门店地址--用于与周边门店的服务数据进行对比 <br>
+                服务类型--用于与相同类型门店的服务数据进行对比
+            </div>
+        </div>
+
+        <div class="sf-fields">
+            <div class="box box-h box-h-c fm-field">
+                <label class="fm-label" for="sname" >门店名称:</label>
+                <input class="flex-1 fm-ipt" id="sname" name="sname" type="text" placeholder="必填项" maxlength="20" required [(ngModel)]="store.name" >
+            </div>
+            <div class="box box-h box-h-c fm-field">
+                <label class="fm-label" for="sprovince">门店地址:</label>
+                <div class="flex-1 fm-sel">
+                    <select name="" class="fm-ipt" id="sprovince" name="sprovince" [ngModel]="store.provinceId" (ngModelChange)="onChangeProvince(store, $event)">
+                        <option value="">请选择省市</option>
+                        <option *ngFor="let province of provinceList;" [value]="province.id">{{province.name}}</option>
+                    </select>
+                </div>
+                    
+            </div>
+            <div class="box box-h box-h-c fm-field">
+                <label class="fm-label" ></label>
+                <div class="flex-1 fm-sel">
+                    <select name="" class="fm-ipt" id="scity" name="scity" [(ngModel)]="store.cityId" >
+                        <option value="">请选择城市</option>
+                        <option *ngFor="let city of cityList;" [value]="city.id">{{city.name}}</option>
+                    </select>
+                </div>
+                    
+            </div>
+            <div class="box box-h box-h-c fm-field">
+                <label class="fm-label" for="saddr" >详细地址:</label>
+                <input class="flex-1 fm-ipt" id="saddr" name="saddr" type="text" placeholder="必填项" maxlength="50" required [(ngModel)]="store.address" >
+            </div>
+            <div class="box box-h s-type">
+                <label class="fm-label" for="stype" >服务类型:</label>
+                <div class="flex-1">
+                    <div *ngFor="let item of serviceLists;">
+                        <label [class.active]="item.checked" ><input type="checkbox" name="stype" [ngModel]="item.checked" (ngModelChange)="onChangeService(item, $event)" ><span>&radic;</span>{{ item.name }}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legtit">其他信息</div>
+            <div class="legdes">
+                您提供的门店信息越完整，平台将更精确的匹配与您相同规模的门店，进行服务数据进行对比
+            </div>
+        </div>
+
+        <div class="sf-fields">
+            <div class="box box-h box-h-c fm-field">
+                <label class="fm-label" for="sperson" >负责人:</label>
+                <input class="flex-1 fm-ipt" id="sperson" name="sperson" type="text" maxlength="20" [(ngModel)]="store.ownerName" >
+            </div>
+            <div class="box box-h box-h-c fm-field">
+                <label class="fm-label" for="smobile" >联系方式:</label>
+                <input class="flex-1 fm-ipt" id="smobile" name="smobile" type="text"  maxlength="20" [(ngModel)]="store.phone" >
+            </div>
+            <div class="box box-h box-h-c fm-field">
+                <label class="fm-label" for="syear">开店年份:</label>
+                <div class="flex-1 fm-sel">
+                    <select name="" class="fm-ipt" id="syear" name="syear" [(ngModel)]="store.openingDate" >
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                    
+            </div>
+            <div class="box box-h box-h-c fm-field fm-area">
+                <label class="fm-label" for="sarea" >门店面积:</label>
+                <input class="flex-1 fm-ipt" id="sarea" name="sarea" type="number"  maxlength="10" [(ngModel)]="store.area" >
+                <div>平米</div>
+            </div>
+            <div class="box box-h box-h-c fm-field">
+                <label class="fm-label" for="sposition" >汽修工位:</label>
+                <div class="flex-1 fm-sel">
+                    <select name="" class="fm-ipt" id="sposition" name="sposition" [(ngModel)]="store.station">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                    
+            </div>
+            
+            
+        </div>
+
+    </form>
+</div>

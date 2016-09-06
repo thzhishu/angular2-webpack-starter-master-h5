@@ -1,0 +1,95 @@
+.store-form {
+    font-size:22px;
+
+    select {
+        background:#fff;
+        border:none;
+        outline:none;
+        display:block;
+        width:100%;
+        appearance: none;
+        -moz-appearance:none;
+        -webkit-appearance:none;
+    }
+
+    input[type="tel"], input[type="number"] {
+        appearance: none;
+        -moz-appearance:none;
+        -webkit-appearance:none;
+    }
+
+    .legend {
+        padding:17px 24px 4px;
+
+        .legtit {
+            color:#39b549;
+            padding:8px 0;
+            line-height: 1;
+        }
+        .legdes {
+            color:#9a9a9a;
+            line-height: 32px;
+            margin:0;
+            font-size:22px;
+        }
+    }
+
+    .sf-fields {
+        background:#fff;
+    }
+
+    
+    .fm-label {
+        width:156px;
+        padding:0;
+    }
+    .s-type {
+        padding: 10px 0 28px;
+
+        > label {
+            padding-top: 30px;
+        }
+        .flex-1 {
+            font-size:0;
+            div {
+                display:inline-block;
+                width:50%;
+                padding-top:22px;
+            }
+            label {
+                position:relative;
+                font-size:22px;
+                display:inline-block;
+                min-width:126px;
+                text-align: center;
+                line-height: 40px;
+                border:1px solid #808080;
+                border-radius:4px;
+                padding: 0 14px;
+                transition:all .4s ease;
+                input {
+                    display:none;
+                }
+                span { 
+                    margin-right:13px; 
+                    display:none;
+                }
+                &.active {
+                    min-width:145px;
+                    border-color:#38b549;
+                    color:#38b549;
+                    span {
+                        display:inline;
+                    }
+                }
+                
+            }
+        }
+    }
+
+    .fm-area {
+        div {
+            padding:0 24px 0 12px;
+        }
+    }
+}

@@ -1,0 +1,25 @@
+.store-init {
+    height:100vh;
+    width:100%;
+    background:#e5e5e5;
+
+    .bh {
+        background: url(/assets/img/init_top.png) no-repeat top center;
+        height:92px;
+    }
+    > .flex-1 {
+        overflow:auto;
+        -webkit-overflow-scrolling:touch;
+    }
+
+    .si-btn {
+        padding: 20px 24px 34px;
+        .err-tip {
+            color:#f16557;
+            line-height: 1;
+            height:42px;
+            padding-bottom:20px;
+        }
+        
+    }
+}
