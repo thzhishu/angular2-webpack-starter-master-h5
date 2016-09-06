@@ -17,7 +17,8 @@ const NO_MENU_URLS = [
     '/dashboard/employee/edit',
     '/dashboard/business/add',
     '/dashboard/business/edit',
-    '/dashboard/account/pwd'
+    '/dashboard/account/pwd',
+    '/dashboard/store/list'
 ];
 const NO_TOPBAR_URLS = [
     '/dashboard/search/page'
@@ -40,7 +41,6 @@ export class Dashboard {
     routeSub: any;
     noMenu: boolean = false;
     noTopbar: boolean = false;
-    body:any;
 
     constructor(private router: Router, private uApi: UserApi, private sApi: ShopApi) {
         this.routeSub = this.router.events.filter( event => event instanceof NavigationEnd)

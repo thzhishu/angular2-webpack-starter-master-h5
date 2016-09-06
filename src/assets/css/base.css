@@ -900,6 +900,7 @@ td, th {
   left: 50%;
   margin: -6px 0 0 -1px;
 }
+
 .f-del-btn { height:60px;line-height: 60px; text-align: center; color:#fff; font-size: 22px; background:#f16557; border-radius:8px; }
 
 .inner-tip{
@@ -908,3 +909,6 @@ td, th {
 .inner-tip b{
     color: #f16557;
 }
+
+.f-del-btn, .f-save-btn { height:60px;line-height: 60px; text-align: center; color:#fff; font-size: 22px; background:#f16557; border-radius:8px; }
+.f-save-btn { background:#38b549; }

@@ -60,6 +60,13 @@ export const routes = [
           { path: 'pwd', loadChildren: () => System.import('../+account/pwd') },
         ]
       },
+      {
+        path: 'store',
+        children: [
+          { path: 'list', loadChildren: () => System.import('../+store/list') },
+          { path: 'init', loadChildren: () => System.import('../+store/init') },
+        ]
+      },
     ]
   }
 ];
