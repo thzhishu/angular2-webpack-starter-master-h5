@@ -18,7 +18,6 @@ export const routes = [
   declarations: [
     // Components / Directives/ Pipes
     BusinessListComponent,
-    ScrollableDirective,
   ],
   imports: [
     BrowserModule,
