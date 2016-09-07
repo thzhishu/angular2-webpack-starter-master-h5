@@ -17,7 +17,7 @@
             required
             maxlength="9"
             [ngModel]="business.vehicleLicence"
-            (ngModelChange)="onChangeVL($event.target.value)"
+            (ngModelChange)="onChangeVL($event)"
             (blur)="onVehicleLicenceBlur($event.target.value)"
             (focus)="onVehicleLicenceFocus()">
           <div class="customer-tip" *ngIf="showPlateImg">

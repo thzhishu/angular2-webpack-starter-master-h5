@@ -144,11 +144,11 @@ export class EmployeeApi {
 
 
         if (pageNumber !== undefined) {
-            queryParameters.set('pageNumber', pageNumber);
+            queryParameters.set('pageNumber', String(pageNumber));
         }
 
         if (pageSize !== undefined) {
-            queryParameters.set('pageSize', pageSize);
+            queryParameters.set('pageSize', String(pageSize));
         }
 
         let requestOptions: RequestOptionsArgs = {

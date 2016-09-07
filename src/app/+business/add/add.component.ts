@@ -148,8 +148,8 @@ export class BusinessAddComponent implements OnInit {
     if (this.errorTip(f)) {
       return false;
     }
-    // 正式员 or 临时工
-    let type = this.employeeChecked ? '1' : '2';
+    // 正式员 =1 or 临时工 =2
+    let type = '1';
     let data = Object.assign({}, this.business);
     // data.employeeChecked = this.employeeChecked;
     if (!this.onVehicleLicenceBlur() || !this.onBuinessItemBulr()) {

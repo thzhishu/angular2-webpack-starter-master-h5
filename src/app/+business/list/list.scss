@@ -155,11 +155,11 @@ input{
         line-height: 30px;
     }
 }
-// input[type=date]::-webkit-clear-button,
-// input[type=date]::-webkit-inner-spin-button,
-// input[type=date]::-webkit-calendar-picker-indicator {
-//     display:none;
-// }
+input[type=date]::-webkit-clear-button,
+input[type=date]::-webkit-inner-spin-button,
+input[type=date]::-webkit-calendar-picker-indicator {
+    visibility: hidden;
+}
 .title-total{
     text-align: center;
     color: #777;
