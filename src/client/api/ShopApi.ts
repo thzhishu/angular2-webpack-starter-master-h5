@@ -92,9 +92,11 @@ export class ShopApi {
 
         let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
+        let formParams = new URLSearchParams();
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+        headerParams.set('Content-Type', 'application/x-www-form-urlencoded');
 
         // verify required parameter 'id' is not null or undefined
         if (id === null || id === undefined) {
@@ -108,11 +110,15 @@ export class ShopApi {
             queryParameters.set('code', code);
         }
 
+        formParams.append('id', id);
+        formParams.append('code', code);
+
         let requestOptions: RequestOptionsArgs = {
             method: 'DELETE',
             headers: headerParams,
             search: queryParameters
         };
+        requestOptions.body = formParams.toString();
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
@@ -251,13 +257,12 @@ export class ShopApi {
     public shopShopIdGet (token: string, shopId: string, extraHttpRequestParams?: any ) : Observable<models.MyShopResponse> {
         const path = this.basePath + '/shop/{shopId}'
             .replace('{' + 'shopId' + '}', String(shopId));
-
+        
         let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-        headerParams.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = {
             method: 'GET',
@@ -267,10 +272,18 @@ export class ShopApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 401||response.status === 403) {
+                    window.location.href = '/#/login';
+                    return undefined;
+                } else if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    if (response.json().meta&&response.json().meta.code === 401) {
+                        alert('您离开时间过长,需要重新登录');
+                        window.location.href = '/#/login';
+                        return undefined;
+                    }
+                    return response.json();
                 }
             });
     }

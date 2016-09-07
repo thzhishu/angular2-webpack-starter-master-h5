@@ -1,10 +1,45 @@
-<div class="box box-v store-init">
-    <div class="bh"></div>
-    <div class="flex-1">
-        <store-form [store]="store" [storePage]="'init'"></store-form>
-        <div class="si-btn">
-            
-            <div class="f-save-btn" (click)="onSaveStore()">提交</div>
+<div class="db-c-wrap store">
+    <div class="box box-h box-h-c db-title">
+        <div class="bw back-ico" (click)="onBack()"></div>
+        <div class="ellipsis tc flex-1">新增门店</div>
+        <div class="bw btn-ico" (click)="onSaveStore()" >保存</div>
+    </div>
+    <div class="store-add">
+        <store-form [store]="store" [storePage]="'edit'"></store-form>
+        <div class="si-btn" *ngIf="!isCurrentStore">
+            <div class="f-del-btn" (click)="onShowDelWin()">删除该门店</div>
+        </div>
+    </div>
+    
+    
+</div>
+<div class="box box-v box-v-cc confirm" *ngIf="showTipWin">
+    <div class="box box-v confirm-c">
+        <div class="flex-1 confirm-msg tc">{{tipMsg}}</div>
+        <div class="box box-h box-h-c confirm-op tc">
+            <div class="flex-1 confirm-ok" (click)="onOkey(tipKey)">{{ tipOkeyBtnTxt }}</div>
+            <div class="flex-1 confirm-cancel" *ngIf="!isAlert" (click)="onLeave()" >取消</div>
+        </div>
+    </div>
+</div>
+<div class="box box-v box-v-cc confirm store-del-win" *ngIf="showDelWin" >
+    <div class="box box-v confirm-c">
+        <div class="flex-1 sd-c">
+            <div class="confirm-msg">
+                删除后，该门店所有服务、顾客、技师等信息都会清除！
+            </div>
+            <div class="box box-h box-h-c">
+                <div class="flex-1">{{defaultPhone}}</div>
+                <div class="bw btn-code tc" [class.disabled]="seekDisabeld" (click)="onSeekPhone()" >{{seekBtnTitle}}</div>
+            </div>
+            <div class="v-code">
+                <input type="text" name="delcode" placeholder="请输入收到的手机验证码" [(ngModel)]="phoneCode" (focus)="onPhoneCodeFocus()">
+            </div>
+            <div class="tip-msg" [class.active]="phoneErrMsg">{{phoneErrMsg}}</div>
+        </div>
+        <div class="box box-h box-h-c confirm-op tc">
+            <div class="flex-1 confirm-ok" (click)="onDelStore()">删除</div>
+            <div class="flex-1 confirm-cancel" (click)="onCloseDelWin()" >取消</div>
         </div>
     </div>
 </div>

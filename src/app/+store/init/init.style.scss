@@ -16,3 +16,60 @@
         padding: 0 24px 34px;
     }
 }
+
+.wmask {
+    position:fixed;
+    top:0;
+    bottom:0;
+    right:0;
+    left:0;
+
+    .wmt-main {
+        width:300px;
+        height:auto;
+        background:rgba(0, 0, 0, .7);
+        padding:49px 28px;
+        border-radius:20px;
+        color:#fff;
+    }
+    .wmt-img {
+        position:relative;
+        width:100px;
+        height:100px;
+        margin: 0 auto;
+        &:before, &:after {
+            position: absolute;
+            content: '';
+            display: block;
+
+        }
+        &:before {
+            width:100%;
+            height:100%;
+            border:8px solid #fff;
+            top:0;
+            left:0;
+            border-radius:50%;
+        }
+        &:after {
+            width:48px;
+            height:32px;
+            border-left:8px solid #fff;
+            border-bottom:8px solid #fff;
+            top:50%;
+            left:50%;
+            margin: -24px 0 0 -24px;
+            transform: rotate(-45deg);
+        }
+    }
+    .wmt-tip {
+        font-size:28px;
+        line-height: 1;
+        margin: 32px 0 46px;
+    }
+    .wmt-msg {
+        font-size:20px;
+        line-height: 24px;
+        
+    }
+}

@@ -42,6 +42,7 @@ export class StoreFormComponent implements OnInit {
         this.stations = this.rangeArr(1, 30);
         this.initServiceLists();
         this.getProvinces();
+        console.log('form init');
     }
 
     /**
@@ -80,8 +81,9 @@ export class StoreFormComponent implements OnInit {
     /**
      * 获取城市
      */
-    getCities() {
-        this.rApi.regionProvinceIdCityGet(String(this.store.provinceId)).subscribe(data => {
+    getCities(id) {
+        console.log(this.store.provinceId);
+        this.rApi.regionProvinceIdCityGet(String(id)).subscribe(data => {
             if (data.meta.code === 200) {
                 this.cityList = data.data;
             } else {
@@ -116,10 +118,14 @@ export class StoreFormComponent implements OnInit {
             this.errMsg = '服务类型不能为空';
             return false;
         }
-        if (/^\d+(\.\d+)?$/.test(s.area) && s.area >= 1 && s.area < 1000000000) {
-            this.errMsg = '请输入大于0的数字';
-            return false;
+        console.log('area: ', s.area, typeof(s.area));
+        if (s.area !== '') {
+            if ( !(/^\d+(\.\d+)?$/.test(s.area) && s.area >= 1 && s.area < 1000000000) ) {
+                this.errMsg = '请输入大于0的数字';
+                return false;
+            }
         }
+            
         return true;
     }
 
@@ -142,11 +148,11 @@ export class StoreFormComponent implements OnInit {
     onChangeProvince(store, evt) {
         store.provinceId = evt;
         this.errMsg = '';
+        store.cityId = '';
         if (store.provinceId === '') {
-            store.cityId = '';
             this.cityList = [];
         } else {
-            this.getCities();
+            this.getCities(store.provinceId);
         }
     }
 

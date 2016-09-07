@@ -66,7 +66,7 @@ export const routes = [
           { path: 'list', loadChildren: () => System.import('../+store/list') },
           { path: 'init', loadChildren: () => System.import('../+store/init') },
           { path: 'add', loadChildren: () => System.import('../+store/add') },
-          { path: 'edit', loadChildren: () => System.import('../+store/edit') },
+          { path: 'edit/:id', loadChildren: () => System.import('../+store/edit') },
         ]
       },
     ]

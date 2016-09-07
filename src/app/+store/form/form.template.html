@@ -1,6 +1,7 @@
 <div class="cr-form store-form">
     <form >
         <div class="legend">
+            <div class="err-tip f-err-tip" [class.active]="errMsg" *ngIf="storePage !== 'init'">{{ errMsg }}</div>
             <div class="legtit">基础信息</div>
             <div class="legdes">
                 门店地址--用于与周边门店的服务数据进行对比 <br>

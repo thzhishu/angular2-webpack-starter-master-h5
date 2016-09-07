@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
 import { CommonApi, ShopApi, RegionApi, RegionItem, Shop,MyAcountResponse,UserApi } from 'client';
 import { Cookie } from '../../services';
@@ -16,9 +16,12 @@ export class StoreInitComponent implements OnInit {
     store: any;
     errMsg: string = '';
     submitting: boolean = false;
+    zone: any;
+    isBindSuc: boolean = false;
+    timeout: any;
     @ViewChild(StoreFormComponent) sf: StoreFormComponent;
     constructor(private router: Router, private sApi: ShopApi) {
-
+        this.zone = new NgZone({ enableLongStackTrace: false });
     }
     ngOnInit() {
         this.store = {
@@ -51,7 +54,7 @@ export class StoreInitComponent implements OnInit {
             this.submitting = false;
             if (data.meta.code === 200) {
                 Cookie.save('shopId', data.data && data.data[0].id);
-                this.router.navigate(['/dashboard/business/list']);
+                this.bindStoreTip();
             } else {
                 alert(data.error.message);
             }
@@ -59,6 +62,20 @@ export class StoreInitComponent implements OnInit {
             console.error(err);
             this.submitting = false;
         });
+    }
+
+    /**
+     * 绑定门店成功后的提示
+     */
+    bindStoreTip() {
+        this.isBindSuc = true;
+        this.timeout = window.setTimeout(() => {
+            this.zone.run(() => {
+                this.isBindSuc = false;
+                this.router.navigate(['/dashboard/business/list']);
+                clearInterval(this.timeout);
+            });
+        }, 2000);
     }
 
     

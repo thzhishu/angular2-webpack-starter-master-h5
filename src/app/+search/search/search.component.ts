@@ -116,7 +116,7 @@ export class SearchPage implements OnInit {
 			if (data.meta&&data.meta.code === 200 && data.data) {
 				let dd = data.data;
 				if ( dd.length === 1 ) {
-					this.router.navigate(['/dashbroad/customer/detail', dd[0].id]);
+					this.router.navigate(['/dashboard/customer/detail', dd[0].id]);
 				} else {
 					this.customers = dd;
                     this.showHistories = false;

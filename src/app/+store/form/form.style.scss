@@ -20,6 +20,10 @@
         -webkit-appearance:none;
     }
 
+    .fm-ipt {
+        padding:0;
+    }
+
     .legend {
         padding:17px 24px 8px;
 
@@ -103,11 +107,9 @@
     }
 
     
-    .cr-form {
-        .fm-sel {
-            &:before, &:after {
-                top:38px;
-            }
+    .fm-sel {
+        &:before, &:after {
+            top:38px;
         }
     }
 
@@ -122,4 +124,12 @@
     height:62px;
     padding:20px 24px;
 
+}
+.f-err-tip {
+    padding: 4px 0 13px;
+    height: 0;
+    transition: all .4s linear;
+    &.active {
+        height: 39px;
+    }
 }

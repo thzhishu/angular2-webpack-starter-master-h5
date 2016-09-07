@@ -5,6 +5,11 @@
         <div class="bw add-ico" (click)="onAddStore()" ></div>
     </div>
     <div class="store-list">
+        <div class="pr sl-item" *ngFor="let store of stores">
+            <div class="pa sl-edit" (click)="onEditStore(store.id)">编辑</div>
+            <div class="pr sl-txt ellipsis">{{store.name}}</div>
+        </div>
+        
         
         
     </div>
