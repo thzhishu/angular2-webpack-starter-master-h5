@@ -116,7 +116,7 @@ export class BusinessAddComponent implements OnInit {
   }
 
   getEmployeeList() {
-    this.eApi.employeeListGet(String(1), String(10000)).subscribe(data => {
+    this.eApi.employeeListGet(1,10000).subscribe(data => {
       if (data.meta && data.meta.code === 200) {
         this.employeeList = data.data;
       }
@@ -131,11 +131,12 @@ export class BusinessAddComponent implements OnInit {
   }
 
   onChangeVL(val) {
+     this.business.vehicleLicence = val;
     if (this.oldPlate === val) {
       return;
     }
     this.oldPlate = val;
-    if (!this.oldPlate || this.oldPlate.length < 7) {
+    if (!this.oldPlate || val.length < 7) {
       return false;
     }
     this.searchVehicleCode.next(this.oldPlate);
@@ -144,9 +145,8 @@ export class BusinessAddComponent implements OnInit {
   }
 
   onSubmit(f) {
-      console.log(f);
-    if(this.errorTip(f)){
-        return false;
+    if (this.errorTip(f)) {
+      return false;
     }
     // 正式员 or 临时工
     let type = this.employeeChecked ? '1' : '2';
@@ -170,12 +170,11 @@ export class BusinessAddComponent implements OnInit {
     if (this.addEmployeeCodeErr) {
       return false;
     }
-
     this.loading = 1;
 
     data.shopId = Cookie.load('shopId');
     if (data.employeeId == -1) {
-      this.eApi.employeeSavePost(data.employeeName, data.employeeCode, '', type).subscribe(res => {
+      this.eApi.employeeSavePost(data.employeeName, data.employeeCode, '', '', '', type).subscribe(res => {
         if (res.meta.code === 200) {
           data.employeeId = res.data.id;
           this.save(data);
@@ -198,7 +197,7 @@ export class BusinessAddComponent implements OnInit {
     this.bApi.businessSaveOrUpdatePost(data).subscribe(res => {
       this.loading = 0;
       if (res.meta.code === 200) {
-        this.router.navigate(['/dashboard/customer/detail/'+res.data.customerId]);
+        this.router.navigate(['/dashboard/customer/detail/' + res.data.customerId]);
         this.onClose();
       } else {
         alert(res.error.message);
@@ -233,19 +232,32 @@ export class BusinessAddComponent implements OnInit {
       len: false
     };
   }
+  zhlength(str: string) {
+    let len = 0;
+    for (let i = 0; i < str.length; i++) {
+      if (str.charCodeAt(i) > 127 || str.charCodeAt(i) == 94) {
+        len += 2;
+      } else {
+        len++;
+      }
+    }
+    return len;
+  }
+
   onVehicleLicenceBlur(val = null) {
-    let plate = val||this.business.vehicleLicence;
+    let plate = val || this.business.vehicleLicence;
     if (!plate) {
       this.plateErr.empty = true;
       this.showPlateImg = false;
       return false;
     }
     if (plate.length < 7 || plate.length > 9) {
-      this.plateErr.len = true;
+      this.errorMsg = '车牌号格式不正确';
       this.showPlateImg = false;
       return false;
+    } else {
+      this.errorMsg = this.errorMsg=='车牌号格式不正确'?'':this.errorMsg;
     }
-    console.log(plate,'plate');
     this.searchVehicleCode.next(plate);
     return true;
   }
@@ -331,18 +343,18 @@ export class BusinessAddComponent implements OnInit {
 
   }
 
-  errorTip(f){
-    if(f.controls.vehicleLicence.errors&&f.controls.vehicleLicence.errors.required){
-        this.errorMsg = '车牌号不能为空';
-        return true;
+  errorTip(f) {
+    if (f.controls.vehicleLicence.errors && f.controls.vehicleLicence.errors.required) {
+      this.errorMsg = '车牌号不能为空';
+      return true;
     }
-    if(f.controls.name.errors&&f.controls.name.errors.required){
-        this.errorMsg = '服务项目不能为空';
-        return true;
+    if (f.controls.name.errors && f.controls.name.errors.required) {
+      this.errorMsg = '服务项目不能为空';
+      return true;
     }
-    if(f.controls.employeeId.errors&&f.controls.employeeId.errors.required){
-        this.errorMsg = '主理技师不能为空';
-        return true;
+    if (f.controls.employeeId.errors && f.controls.employeeId.errors.required) {
+      this.errorMsg = '主理技师不能为空';
+      return true;
     }
     this.errorMsg = null;
     return false;

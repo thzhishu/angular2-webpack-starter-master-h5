@@ -4,6 +4,9 @@
             <div class="title">登录</div>
             <a class="btn btn-default btn-right" routerLink="/register">注册</a>
         </header>
+        <!-- <div class="base-tip">
+            您还未绑定微信账号,绑定后就可以随时通过微信查询门店信息啦!注册或登录之后即可成功绑定.
+        </div> -->
         <form (ngSubmit)="onLogin(loginForm)" #loginForm="ngForm" novalidate>
         <div class="content">
             <div class="input-group" [class.error]="!phone?.valid&&false">
