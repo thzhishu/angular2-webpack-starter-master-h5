@@ -37,7 +37,7 @@ import { Cookie } from 'services';  //tobeplus 缓存注入 header
 @Injectable()
 export class EmployeeApi {
     protected basePath = '/api/v1';
-    public defaultHeaders: Headers = new Headers();
+    public defaultHeaders : Headers = new Headers();
 
     constructor(protected http: Http, @Optional() basePath: string) {
         if (basePath) {
@@ -50,7 +50,7 @@ export class EmployeeApi {
      *
      * @param id 员工id
      */
-    public employeeDeleteDelete(id: string, extraHttpRequestParams?: any): Observable<models.CommonResponse> {
+    public employeeDeleteDelete (id: string, extraHttpRequestParams?: any ) : Observable<models.CommonResponse> {
         const path = this.basePath + '/employee/delete';
 
         let queryParameters = new URLSearchParams();
@@ -58,6 +58,7 @@ export class EmployeeApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
 
         // verify required parameter 'id' is not null or undefined
         if (id === null || id === undefined) {
@@ -75,28 +76,31 @@ export class EmployeeApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401 || response.status === 403) { window.location.href = '/#/login'; return undefined; } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }
 
     /**
-     * 查询某个门店，用户凭证从http header读取
+     * H5修改， 返回员工信息以及员工关联的门店ids
      *
      * @param token 凭证
      * @param employeeId 员工id
      */
-
-
     public employeeEmployeeIdGet (token: string, employeeId: string, extraHttpRequestParams?: any ) : Observable<models.EmployeeResponse> {
         const path = this.basePath + '/employee/{employeeId}'
             .replace('{' + 'employeeId' + '}', String(employeeId));
 
         let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
+
+        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
+        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
+
         // verify required parameter 'token' is not null or undefined
         if (token === null || token === undefined) {
             throw new Error('Required parameter token was null or undefined when calling employeeEmployeeIdGet.');
@@ -105,8 +109,7 @@ export class EmployeeApi {
         if (employeeId === null || employeeId === undefined) {
             throw new Error('Required parameter employeeId was null or undefined when calling employeeEmployeeIdGet.');
         }
-        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+            headerParams.set('token', token);
 
         let requestOptions: RequestOptionsArgs = {
             method: 'GET',
@@ -116,10 +119,10 @@ export class EmployeeApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401 || response.status === 403) { window.location.href = '/#/login'; return undefined; } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }
@@ -130,7 +133,7 @@ export class EmployeeApi {
      * @param pageNumber 当前页
      * @param pageSize 分页大小
      */
-    public employeeListGet(pageNumber?: string, pageSize?: string, extraHttpRequestParams?: any): Observable<models.EmployeeListResponse> {
+    public employeeListGet (pageNumber?: number, pageSize?: number, extraHttpRequestParams?: any ) : Observable<models.EmployeeListResponse> {
         const path = this.basePath + '/employee/list';
 
         let queryParameters = new URLSearchParams();
@@ -139,12 +142,13 @@ export class EmployeeApi {
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
 
+
         if (pageNumber !== undefined) {
-            queryParameters.set('pageNumber', pageNumber);
+            queryParameters.set('pageNumber', String(pageNumber));
         }
 
         if (pageSize !== undefined) {
-            queryParameters.set('pageSize', pageSize);
+            queryParameters.set('pageSize', String(pageSize));
         }
 
         let requestOptions: RequestOptionsArgs = {
@@ -155,16 +159,9 @@ export class EmployeeApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401 || response.status === 403) {
-                    window.location.href = '/#/login';
-                    return undefined;
-                } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');
-                        window.location.href = '/#/login';
-                        return undefined;
-                    }
                     return response.json();
                 }
             });
@@ -180,56 +177,26 @@ export class EmployeeApi {
      * @param codes H5新加技师编号，多个逗号分隔，服务端需要兼容pc和h5
      * @param type 1正式，2临时工
      */
-
-
     public employeeSavePost (name?: string, code?: string, mobile?: string, shopIds?: string, codes?: string, type?: string, extraHttpRequestParams?: any ) : Observable<models.EmployeeResponse> {
         const path = this.basePath + '/employee/save';
 
         let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
-        let formParams = new URLSearchParams();
 
-        headerParams.set('token', Cookie.load('token')); // tobeplus 缓存注入 header
-        headerParams.set('shopId', Cookie.load('shopId')); // tobeplus 缓存注入 header
+        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
+        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
+
+        let formParams = new URLSearchParams();
 
         headerParams.set('Content-Type', 'application/x-www-form-urlencoded');
 
-        if (name === null || name === undefined) {
-
-        }else{
-            formParams.append('name',name);
-        }
-
-        if (code === null || code === undefined) {
-
-        }else{
-            formParams.append('code',code);
-        }
-
-        if (mobile === null || mobile === undefined) {
-
-        }else{
-            formParams.append('mobile',mobile);
-        }
-
-        if (shopIds === null || shopIds === undefined) {
-
-        }else{
-            formParams.append('shopIds',shopIds);
-        }
-
-        if (codes === null || codes === undefined) {
-
-        }else{
-            formParams.append('codes',codes);
-        }
-
-        if (type === null || type === undefined) {
-
-        }else{
-            formParams.append('type',type);
-        }
-
+        formParams.append('name',name);
+        formParams.append('code',code);
+        formParams.append('mobile',mobile);
+        formParams.append('shopIds',shopIds);
+        formParams.append('codes',codes);
+        formParams.append('type',type);
         let requestOptions: RequestOptionsArgs = {
             method: 'POST',
             headers: headerParams,
@@ -239,10 +206,10 @@ export class EmployeeApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401 || response.status === 403) { window.location.href = '/#/login'; return undefined; } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }
@@ -252,31 +219,31 @@ export class EmployeeApi {
      *
      * @param id 员工id
      * @param name 姓名
+     * @param shopIds H5新加关联门店id，多个逗号分隔，服务端需要兼容pc和h5
+     * @param codes H5新加技师编号，多个逗号分隔，服务端需要兼容pc和h5
      * @param code 技师编号
      * @param mobile 手机号
      */
-
-
     public employeeUpdatePost (id?: string, name?: string, shopIds?: string, codes?: string, code?: string, mobile?: string, extraHttpRequestParams?: any ) : Observable<models.EmployeeResponse> {
         const path = this.basePath + '/employee/update';
 
         let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
-        let formParams = new URLSearchParams();
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
+
+        let formParams = new URLSearchParams();
 
         headerParams.set('Content-Type', 'application/x-www-form-urlencoded');
 
         formParams.append('id',id);
         formParams.append('name',name);
         formParams.append('shopIds',shopIds);
-
         formParams.append('codes',codes);
         formParams.append('code',code);
         formParams.append('mobile',mobile);
-
         let requestOptions: RequestOptionsArgs = {
             method: 'POST',
             headers: headerParams,
@@ -286,10 +253,10 @@ export class EmployeeApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401 || response.status === 403) { window.location.href = '/#/login'; return undefined; } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }

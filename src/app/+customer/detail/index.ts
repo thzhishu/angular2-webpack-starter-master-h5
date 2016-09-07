@@ -7,6 +7,7 @@ import { CustomerDetail } from './detail.component';
 import { BusinessTab } from '../../business-tab/business-tab';
 import { BTModule } from '../../business-tab/bt.module';
 
+
 // async components must be named routes for WebpackAsyncRoute
 export const routes = [
   { path: '', component: CustomerDetail }

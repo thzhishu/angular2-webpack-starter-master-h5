@@ -51,40 +51,8 @@ export class BusinessListComponent {
 
   }
 
-  onSwipeLeft(event) {
-    event.preventDefault();
-    event.target.parentNode.classList.add('swipeleft');
-  }
-  onSwipeRight(event) {
-    event.preventDefault();
-    event.target.parentNode.classList.remove('swipeleft');
-  }
-  // onPanUp(event, listTbody) {
-  //   event.preventDefault();
-  //   if (listTbody.scrollHeight == listTbody.scrollTop + listTbody.clientHeight) {
-  //
-  //     event.target.parentNode.parentNode.classList.add('panup');
-  //     window.setTimeout(() => {
-  //       event.target.parentNode.parentNode.classList.remove('panup');
-  //     }, 1800);
-  //   } else {
-  //     event.target.parentNode.parentNode.classList.remove('panup');
-  //   }
-  // }
-  onScrollEnd(next) {
-    this.next = next;
-    if (next&&!this.loading) {
-      this.getList(true);
-    }
-  }
-  onScrollTop(returnTop) {
-    this.isReturnTop = !returnTop;
-    this.returnTop = !!returnTop;
-  }
 
-  onReturnTop(){
-    this.returnTop = true;
-  }
+
 
   onToggleDate(event) {
     event.stopPropagation();
@@ -121,7 +89,7 @@ export class BusinessListComponent {
   }
 
   onOpen() {
-    console.log('onOpen');
+
   }
 
   onClose() {
@@ -153,11 +121,7 @@ export class BusinessListComponent {
         }
         this.loading = false;
       })
-    }, 500)
-  }
-
-  onOpenBusinessAdd() {
-    // this.missionService.confirmBusinessAdd({ selector: 'business-list' });
+  }, 500);
   }
 
   delete(data) {
@@ -191,4 +155,45 @@ export class BusinessListComponent {
   onGoto(item){
       this.router.navigate(['/dashboard/customer/detail/'+item.customerId]);
   }
+
+  //无限滚动
+  onScrollEnd(next) {
+    this.next = next;
+    if (next&&!this.loading) {
+      this.getList(true);
+    }
+  }
+  onScrollTop(returnTop) {
+    this.isReturnTop = !returnTop;
+    this.returnTop = !!returnTop;
+  }
+  //返回头部
+  onReturnTop(){
+    this.returnTop = true;
+  }
+
+  //滑动按钮
+  onSwipeLeft(event,listTbody) {
+    event.preventDefault();
+    _.forEach(listTbody.children,(val,i)=>{
+        val.classList.remove('swipeleft');
+    })
+    event.target.parentNode.classList.add('swipeleft');
+  }
+  onSwipeRight(event,listTbody) {
+    event.preventDefault();
+    event.target.parentNode.classList.remove('swipeleft');
+  }
+  // onPanUp(event, listTbody) {
+  //   event.preventDefault();
+  //   if (listTbody.scrollHeight == listTbody.scrollTop + listTbody.clientHeight) {
+  //
+  //     event.target.parentNode.parentNode.classList.add('panup');
+  //     window.setTimeout(() => {
+  //       event.target.parentNode.parentNode.classList.remove('panup');
+  //     }, 1800);
+  //   } else {
+  //     event.target.parentNode.parentNode.classList.remove('panup');
+  //   }
+  // }
 }

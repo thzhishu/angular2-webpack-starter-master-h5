@@ -273,7 +273,6 @@ td, th {
   display: flex;
 }
 .box-block{
-    width: 100%;
     display: block;
     margin-left: 175px;
 }
