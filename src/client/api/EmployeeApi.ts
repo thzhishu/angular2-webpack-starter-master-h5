@@ -109,7 +109,7 @@ export class EmployeeApi {
         if (employeeId === null || employeeId === undefined) {
             throw new Error('Required parameter employeeId was null or undefined when calling employeeEmployeeIdGet.');
         }
-            headerParams.set('token', token);
+            // headerParams.set('token', token);
 
         let requestOptions: RequestOptionsArgs = {
             method: 'GET',

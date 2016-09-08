@@ -63,19 +63,22 @@ export class EmployeeForm implements OnInit, OnDestroy {
 
     getEmployeeById(id) {
         this.eApi.employeeEmployeeIdGet('', id).subscribe(data => {
-            if (data.meta&&data.meta.code === 200 && data.data) {
+            if (data.meta && data.meta.code === 200 && data.data) {
                 console.log('edit', data);
                 this.employee = data.data;
-                
+                let sp = [];
                 this.employee.shops.forEach(shop => {
                     this.stores.forEach(store => {
-                        if (shop.id === store.id) {
+                        if (shop.shopId === store.id) {
                             store.checked = true;
                             store.code = shop.code;
-                            shop = _.cloneDeep(store);
+                            sp.push(_.cloneDeep(store));
                         }
                     });
                 });
+                this.employee.shops = sp;
+                console.log('shops: ', this.employee.shops);
+                this.employeeShopStr = sp.length === 0 ? '请选择' : (sp.length > 1) ? `${sp[0].name}等${sp.length}家门店` : `${sp[0].name}`;
                 this.oldEmployee = Md5.hashStr(JSON.stringify(this.employee), false).toString();
                 this.initLayerStores();
             }
@@ -137,11 +140,11 @@ export class EmployeeForm implements OnInit, OnDestroy {
         console.log('shopIds', shopIds, codes);
         this.submiting = true;
         if (!this.employee.id) {
-            this.eApi.employeeSavePost( this.employee.name, this.employee.code, this.employee.mobile, shopIds, codes ).subscribe(data => {
+            this.eApi.employeeSavePost( this.employee.name, this.employee.code, this.employee.mobile, shopIds, codes, '1' ).subscribe(data => {
                 this.employeeRequestedHandler(data);
             }, err => console.error(err));
         } else {
-            this.eApi.employeeUpdatePost( this.employee.id, this.employee.name.trim(), shopIds, codes, this.employee.code.trim(), this.employee.mobile ).subscribe(data => {
+            this.eApi.employeeUpdatePost( this.employee.id, this.employee.name, shopIds, codes, this.employee.code, this.employee.mobile ).subscribe(data => {
                 this.employeeRequestedHandler(data);
             }, err => console.error(err));
         }
