@@ -62,5 +62,10 @@ export class StoreListComponent implements OnInit {
     onSwipeRight(event,listTbody) {
       event.preventDefault();
       event.target.classList.remove('swipeleft');
+    /**
+     * 返回上一页
+     */
+    back() {
+        window.history.back();
     }
 }
