@@ -419,12 +419,12 @@ export class UserApi {
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
 
-
         // verify required parameter 'token' is not null or undefined
         if (token === null || token === undefined) {
-            throw new Error('Required parameter token was null or undefined when calling userMeGet.');
-        }
+            // throw new Error('Required parameter token was null or undefined when calling userMeGet.');
+        }else{
             headerParams.set('token', token);
+        }
 
         let requestOptions: RequestOptionsArgs = {
             method: 'GET',
