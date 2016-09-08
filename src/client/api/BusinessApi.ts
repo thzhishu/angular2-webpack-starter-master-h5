@@ -36,273 +36,279 @@ import { Cookie } from 'services';  //tobeplus 缓存注入 header
 
 @Injectable()
 export class BusinessApi {
-    protected basePath = '/api/v1';
-    public defaultHeaders: Headers = new Headers();
+  protected basePath = '/api/v1';
+  public defaultHeaders: Headers = new Headers();
 
-    constructor(protected http: Http, @Optional() basePath: string) {
-        if (basePath) {
-            this.basePath = basePath;
+  constructor(protected http: Http, @Optional() basePath: string) {
+    if (basePath) {
+      this.basePath = basePath;
+    }
+  }
+
+  /**
+   * 发送某个服务问卷url到客户手机,2016-07-15
+   *
+   * @param businessId 服务id
+   * @param mobile 手机号
+   * @param rnd 4位随机数， 客户端生成
+   * @param sign 签名, md5(phone+rnd+salt)， 其中salt&#x3D;thzs0708, 不符合签名的请求一律返回错误
+   */
+  public businessBusinessIdCommentPost(businessId: string, mobile: string, rnd: string, sign: string, extraHttpRequestParams?: any): Observable<models.CommonResponse> {
+    const path = this.basePath + '/business/{businessId}/comment'
+      .replace('{' + 'businessId' + '}', String(businessId));
+
+    let queryParameters = new URLSearchParams();
+    let headerParams = this.defaultHeaders;
+
+    headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
+    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+
+    let formParams = new URLSearchParams();
+
+    // verify required parameter 'businessId' is not null or undefined
+    if (businessId === null || businessId === undefined) {
+      throw new Error('Required parameter businessId was null or undefined when calling businessBusinessIdCommentPost.');
+    }
+    // verify required parameter 'mobile' is not null or undefined
+    if (mobile === null || mobile === undefined) {
+      throw new Error('Required parameter mobile was null or undefined when calling businessBusinessIdCommentPost.');
+    }
+    // verify required parameter 'rnd' is not null or undefined
+    if (rnd === null || rnd === undefined) {
+      throw new Error('Required parameter rnd was null or undefined when calling businessBusinessIdCommentPost.');
+    }
+    // verify required parameter 'sign' is not null or undefined
+    if (sign === null || sign === undefined) {
+      throw new Error('Required parameter sign was null or undefined when calling businessBusinessIdCommentPost.');
+    }
+    headerParams.set('Content-Type', 'application/x-www-form-urlencoded');
+
+    formParams.append('mobile', mobile);
+    formParams.append('rnd', rnd);
+    formParams.append('sign', sign);
+    let requestOptions: RequestOptionsArgs = {
+      method: 'POST',
+      headers: headerParams,
+      search: queryParameters
+    };
+    requestOptions.body = formParams.toString();
+
+    return this.http.request(path, requestOptions)
+      .map((response: Response) => {
+        if (response.status === 401 || response.status === 403) { window.location.href = '/#/login'; return undefined; } else if (response.status === 204) {
+          return undefined;
+        } else {
+          if (response.json().meta && response.json().meta.code === 401) { alert('您离开时间过长,需要重新登录'); window.location.href = '/#/login'; return undefined; } return response.json();
         }
+      });
+  }
+
+  /**
+   * 获取服务信息，新加2016-07-12
+   *
+   * @param businessId
+   */
+  public businessBusinessIdGet(businessId: string, extraHttpRequestParams?: any): Observable<models.BusinessDetailResponse> {
+    const path = this.basePath + '/business/{businessId}'
+      .replace('{' + 'businessId' + '}', String(businessId));
+
+    let queryParameters = new URLSearchParams();
+    let headerParams = this.defaultHeaders;
+
+    headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
+    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+
+    // verify required parameter 'businessId' is not null or undefined
+    if (businessId === null || businessId === undefined) {
+      throw new Error('Required parameter businessId was null or undefined when calling businessBusinessIdGet.');
+    }
+    let requestOptions: RequestOptionsArgs = {
+      method: 'GET',
+      headers: headerParams,
+      search: queryParameters
+    };
+
+    return this.http.request(path, requestOptions)
+      .map((response: Response) => {
+        if (response.status === 401 || response.status === 403) { window.location.href = '/#/login'; return undefined; } else if (response.status === 204) {
+          return undefined;
+        } else {
+          if (response.json().meta && response.json().meta.code === 401) { alert('您离开时间过长,需要重新登录'); window.location.href = '/#/login'; return undefined; } return response.json();
+        }
+      });
+  }
+
+  /**
+   * 返回服务评价需要的二维码url和问卷url,2016-07-15
+   *
+   * @param businessId 服务id
+   */
+  public businessBusinessIdUrlGet(businessId: string, extraHttpRequestParams?: any): Observable<models.BusinessCommentURLResponse> {
+    const path = this.basePath + '/business/{businessId}/url'
+      .replace('{' + 'businessId' + '}', String(businessId));
+
+    let queryParameters = new URLSearchParams();
+    let headerParams = this.defaultHeaders;
+
+    headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
+    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    headerParams.set('Content-Type', null);
+
+    // verify required parameter 'businessId' is not null or undefined
+    if (businessId === null || businessId === undefined) {
+      throw new Error('Required parameter businessId was null or undefined when calling businessBusinessIdUrlGet.');
+    }
+    let requestOptions: RequestOptionsArgs = {
+      method: 'GET',
+      headers: headerParams,
+      search: queryParameters
+    };
+
+
+    return this.http.request(path, requestOptions)
+      .map((response: Response) => {
+        if (response.status === 401 || response.status === 403) { window.location.href = '/#/login'; return undefined; } else if (response.status === 204) {
+
+          return undefined;
+        } else {
+          if (response.json().meta && response.json().meta.code === 401) {
+            alert('您离开时间过长,需要重新登录');
+            window.location.href = '/#/login';
+            return undefined;
+          }
+          return response.json();
+        }
+      });
+  }
+
+  /**
+   * 删除服务，后端需要验证是否属于自己的服务
+   *
+   * @param id 服务id
+   */
+  public businessDeleteDelete(id: string, extraHttpRequestParams?: any): Observable<models.CommonResponse> {
+    const path = this.basePath + '/business/delete/{id}'
+      .replace('{' + 'id' + '}', String(id));
+
+    let queryParameters = new URLSearchParams();
+    let headerParams = this.defaultHeaders;
+
+    headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
+    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+
+    // verify required parameter 'id' is not null or undefined
+    if (id === null || id === undefined) {
+      throw new Error('Required parameter id was null or undefined when calling businessDeleteDelete.');
+    }
+    if (id !== undefined) {
+      queryParameters.set('id', id);
     }
 
-    /**
-     * 发送某个服务问卷url到客户手机,2016-07-15
-     *
-     * @param businessId 服务id
-     * @param mobile 手机号
-     * @param rnd 4位随机数， 客户端生成
-     * @param sign 签名, md5(phone+rnd+salt)， 其中salt&#x3D;thzs0708, 不符合签名的请求一律返回错误
-     */
-    public businessBusinessIdCommentPost(businessId: string, mobile: string, rnd: string, sign: string, extraHttpRequestParams?: any): Observable<models.CommonResponse> {
-        const path = this.basePath + '/business/{businessId}/comment'
-            .replace('{' + 'businessId' + '}', String(businessId));
+    let requestOptions: RequestOptionsArgs = {
+      method: 'DELETE',
+      headers: headerParams,
+      search: queryParameters
+    };
 
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-
-        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-
-        let formParams = new URLSearchParams();
-
-        // verify required parameter 'businessId' is not null or undefined
-        if (businessId === null || businessId === undefined) {
-            throw new Error('Required parameter businessId was null or undefined when calling businessBusinessIdCommentPost.');
+    return this.http.request(path, requestOptions)
+      .map((response: Response) => {
+        if (response.status === 401 || response.status === 403) { window.location.href = '/#/login'; return undefined; } else if (response.status === 204) {
+          return undefined;
+        } else {
+          if (response.json().meta && response.json().meta.code === 401) { alert('您离开时间过长,需要重新登录'); window.location.href = '/#/login'; return undefined; } return response.json();
         }
-        // verify required parameter 'mobile' is not null or undefined
-        if (mobile === null || mobile === undefined) {
-            throw new Error('Required parameter mobile was null or undefined when calling businessBusinessIdCommentPost.');
-        }
-        // verify required parameter 'rnd' is not null or undefined
-        if (rnd === null || rnd === undefined) {
-            throw new Error('Required parameter rnd was null or undefined when calling businessBusinessIdCommentPost.');
-        }
-        // verify required parameter 'sign' is not null or undefined
-        if (sign === null || sign === undefined) {
-            throw new Error('Required parameter sign was null or undefined when calling businessBusinessIdCommentPost.');
-        }
-        headerParams.set('Content-Type', 'application/x-www-form-urlencoded');
+      });
+  }
 
-        formParams.append('mobile', mobile);
-        formParams.append('rnd', rnd);
-        formParams.append('sign', sign);
-        let requestOptions: RequestOptionsArgs = {
-            method: 'POST',
-            headers: headerParams,
-            search: queryParameters
-        };
-        requestOptions.body = formParams.toString();
+  /**
+   * 今日服务
+   *
+   * @param date 时间
+   * @param pageNumber 当前页
+   * @param pageSize 分页大小
+   */
+  public businessListGet(date: string, pageNumber?: string, pageSize?: string, extraHttpRequestParams?: any): Observable<models.BusinessListResponse> {
+    const path = this.basePath + '/business/list';
 
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 401 || response.status === 403) { window.location.href = '/#/login'; return undefined; } else if (response.status === 204) {
-                    return undefined;
-                } else {
-                    if (response.json().meta && response.json().meta.code === 401) { alert('您离开时间过长,需要重新登录'); window.location.href = '/#/login'; return undefined; } return response.json();
-                }
-            });
+    let queryParameters = new URLSearchParams();
+    let headerParams = this.defaultHeaders;
+
+    headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
+    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    headerParams.set('Content-Type', null);
+
+    // verify required parameter 'date' is not null or undefined
+    if (date === null || date === undefined) {
+      throw new Error('Required parameter date was null or undefined when calling businessListGet.');
+    }
+    if (date !== undefined) {
+      queryParameters.set('date', date);
     }
 
-    /**
-     * 获取服务信息，新加2016-07-12
-     *
-     * @param businessId
-     */
-    public businessBusinessIdGet(businessId: string, extraHttpRequestParams?: any): Observable<models.BusinessDetailResponse> {
-        const path = this.basePath + '/business/{businessId}'
-            .replace('{' + 'businessId' + '}', String(businessId));
-
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-
-        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-
-        // verify required parameter 'businessId' is not null or undefined
-        if (businessId === null || businessId === undefined) {
-            throw new Error('Required parameter businessId was null or undefined when calling businessBusinessIdGet.');
-        }
-        let requestOptions: RequestOptionsArgs = {
-            method: 'GET',
-            headers: headerParams,
-            search: queryParameters
-        };
-
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 401 || response.status === 403) { window.location.href = '/#/login'; return undefined; } else if (response.status === 204) {
-                    return undefined;
-                } else {
-                    if (response.json().meta && response.json().meta.code === 401) { alert('您离开时间过长,需要重新登录'); window.location.href = '/#/login'; return undefined; } return response.json();
-                }
-            });
+    if (pageNumber !== undefined) {
+      queryParameters.set('pageNumber', pageNumber);
     }
 
-    /**
-     * 返回服务评价需要的二维码url和问卷url,2016-07-15
-     *
-     * @param businessId 服务id
-     */
-    public businessBusinessIdUrlGet(businessId: string, extraHttpRequestParams?: any): Observable<models.BusinessCommentURLResponse> {
-        const path = this.basePath + '/business/{businessId}/url'
-            .replace('{' + 'businessId' + '}', String(businessId));
-
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-
-        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-        headerParams.set('Content-Type', null);
-
-        // verify required parameter 'businessId' is not null or undefined
-        if (businessId === null || businessId === undefined) {
-            throw new Error('Required parameter businessId was null or undefined when calling businessBusinessIdUrlGet.');
-        }
-        let requestOptions: RequestOptionsArgs = {
-            method: 'GET',
-            headers: headerParams,
-            search: queryParameters
-        };
-
-
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
-
-                    return undefined;
-                } else {
-                    if (response.json().meta && response.json().meta.code === 401) {
-                        alert('您离开时间过长,需要重新登录');
-                        window.location.href = '/#/login';
-                        return undefined;
-                    }
-                    return response.json();
-                }
-            });
+    if (pageSize !== undefined) {
+      queryParameters.set('pageSize', pageSize);
     }
 
-    /**
-     * 删除服务，后端需要验证是否属于自己的服务
-     *
-     * @param id 服务id
-     */
-    public businessDeleteDelete(id: string, extraHttpRequestParams?: any): Observable<models.CommonResponse> {
-        const path = this.basePath + '/business/delete/{id}'
-            .replace('{' + 'id' + '}', String(id));
+    let requestOptions: RequestOptionsArgs = {
+      method: 'GET',
+      headers: headerParams,
+      search: queryParameters
+    };
 
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-
-        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-
-        // verify required parameter 'id' is not null or undefined
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling businessDeleteDelete.');
+    return this.http.request(path, requestOptions)
+      .map((response: Response) => {
+        if (response.status === 401 || response.status === 403) { window.location.href = '/#/login'; return undefined; } else if (response.status === 204) {
+          return undefined;
+        } else {
+          if (response.json().meta && response.json().meta.code === 401) { alert('您离开时间过长,需要重新登录'); window.location.href = '/#/login'; return undefined; } return response.json();
         }
-        if (id !== undefined) {
-            queryParameters.set('id', id);
-        }
+      });
+  }
 
-        let requestOptions: RequestOptionsArgs = {
-            method: 'DELETE',
-            headers: headerParams,
-            search: queryParameters
-        };
+  /**
+   * 保存或新建服务项目
+   *
+   * @param payload 服务项目(服务或者交易)
+   */
+  public businessSaveOrUpdatePost(payload: models.BusinessDetail, extraHttpRequestParams?: any): Observable<models.BusinessDetailResponse> {
+    const path = this.basePath + '/business/saveOrUpdate';
 
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 401 || response.status === 403) { window.location.href = '/#/login'; return undefined; } else if (response.status === 204) {
-                    return undefined;
-                } else {
-                    if (response.json().meta && response.json().meta.code === 401) { alert('您离开时间过长,需要重新登录'); window.location.href = '/#/login'; return undefined; } return response.json();
-                }
-            });
+    let queryParameters = new URLSearchParams();
+    let headerParams = this.defaultHeaders;
+
+    headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
+    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    headerParams.set('Content-Type', 'application/json');
+
+    // verify required parameter 'payload' is not null or undefined
+    if (payload === null || payload === undefined) {
+      throw new Error('Required parameter payload was null or undefined when calling businessSaveOrUpdatePost.');
     }
+    let requestOptions: RequestOptionsArgs = {
+      method: 'POST',
+      headers: headerParams,
+      search: queryParameters
+    };
+    requestOptions.body = JSON.stringify(payload);
 
-    /**
-     * 今日服务
-     *
-     * @param date 时间
-     * @param pageNumber 当前页
-     * @param pageSize 分页大小
-     */
-    public businessListGet(date: string, pageNumber?: string, pageSize?: string, extraHttpRequestParams?: any): Observable<models.BusinessListResponse> {
-        const path = this.basePath + '/business/list';
-
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-
-        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-        headerParams.set('Content-Type', null);
-
-        // verify required parameter 'date' is not null or undefined
-        if (date === null || date === undefined) {
-            throw new Error('Required parameter date was null or undefined when calling businessListGet.');
+    return this.http.request(path, requestOptions)
+      .map((response: Response) => {
+        if (response.status === 401 || response.status === 403) { window.location.href = '/#/login'; return undefined; } else if (response.status === 204) {
+          return undefined;
+        } else {
+          if (response.json().meta && response.json().meta.code === 401) { alert('您离开时间过长,需要重新登录'); window.location.href = '/#/login'; return undefined; } return response.json();
         }
-        if (date !== undefined) {
-            queryParameters.set('date', date);
-        }
-
-        if (pageNumber !== undefined) {
-            queryParameters.set('pageNumber', pageNumber);
-        }
-
-        if (pageSize !== undefined) {
-            queryParameters.set('pageSize', pageSize);
-        }
-
-        let requestOptions: RequestOptionsArgs = {
-            method: 'GET',
-            headers: headerParams,
-            search: queryParameters
-        };
-
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 401 || response.status === 403) { window.location.href = '/#/login'; return undefined; } else if (response.status === 204) {
-                    return undefined;
-                } else {
-                    if (response.json().meta && response.json().meta.code === 401) { alert('您离开时间过长,需要重新登录'); window.location.href = '/#/login'; return undefined; } return response.json();
-                }
-            });
-    }
-
-    /**
-     * 保存或新建服务项目
-     *
-     * @param payload 服务项目(服务或者交易)
-     */
-    public businessSaveOrUpdatePost(payload: models.BusinessDetail, extraHttpRequestParams?: any): Observable<models.BusinessDetailResponse> {
-        const path = this.basePath + '/business/saveOrUpdate';
-
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-
-        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-        headerParams.set('Content-Type', 'application/json');
-
-        // verify required parameter 'payload' is not null or undefined
-        if (payload === null || payload === undefined) {
-            throw new Error('Required parameter payload was null or undefined when calling businessSaveOrUpdatePost.');
-        }
-        let requestOptions: RequestOptionsArgs = {
-            method: 'POST',
-            headers: headerParams,
-            search: queryParameters
-        };
-        requestOptions.body = JSON.stringify(payload);
-
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 401 || response.status === 403) { window.location.href = '/#/login'; return undefined; } else if (response.status === 204) {
-                    return undefined;
-                } else {
-                    if (response.json().meta && response.json().meta.code === 401) { alert('您离开时间过长,需要重新登录'); window.location.href = '/#/login'; return undefined; } return response.json();
-                }
-            });
-    }
+      });
+  }
 
 }

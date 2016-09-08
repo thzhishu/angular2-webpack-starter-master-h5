@@ -137,6 +137,7 @@ export class Register {
       if (data.meta&&data.meta.code !== 200) {
         clearInterval(this.timeout);
         this.errorMsg = data.error.message;
+        this.getCodeImg();
         this.seekBtnTitle = '重新发送';
         this.seekDisabeld = 0;
       } else {
@@ -183,6 +184,7 @@ export class Register {
         this.loading = 0;
         if (data.meta&&data.meta.code == 200) {
           Cookie.save('token', data.data.token, 7);
+          Cookie.save('clientType', 'h5', 7);
           this.router.navigate(['/init']);
           //查询门店列表
         //   this.sApi.shopMyshopGet(data.data.token).subscribe(data => {
@@ -198,6 +200,7 @@ export class Register {
         //   });
         } else {
           this.errorMsg = data.error.message;
+          this.getCodeImg();
         }
       })
   }
@@ -236,7 +239,8 @@ export class Register {
       return true;
     }
     if (f.controls.rnd.errors && f.controls.rnd.errors.required) {
-      this.errorMsg = '验证码不能为空';
+    //   this.errorMsg = '验证码不能为空';
+      this.errorMsg = '检验码不能为空';
       return true;
     }
     if (f.controls.code.errors && f.controls.code.errors.required) {
@@ -246,6 +250,14 @@ export class Register {
     if (f.controls.pwd.errors && f.controls.pwd.errors.required) {
       this.errorMsg = '密码不能为空';
       return true;
+    }
+    if(f.value.pwd.length<6||f.value.pwd.length>16){
+        this.errorMsg = '请输入由6~16位的英文字母,数字和符号组成的密码';
+        return true;
+    }
+    if (/^(?![a-zA-z]+$)(?!\d+$)(?![!@#$%^&*]+$)(?![a-zA-z\d]+$)(?![a-zA-z!@#$%^&*]+$)(?![\d!@#$%^&*]+$)[a-zA-Z\d!@#$%^&*]+$/.test(f.value.pwd)) {
+        this.errorMsg = '请输入由6~16位的英文字母,数字和符号组成的密码';
+        return true;
     }
     this.errorMsg = null;
     return false;
