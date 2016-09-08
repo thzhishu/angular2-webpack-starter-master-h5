@@ -46,6 +46,230 @@ export class UserApi {
     }
 
     /**
+     * 创建子账号, H5新增
+     *
+     * @param mobile 手机号
+     * @param password 密码
+     * @param name 员工姓名，后端注意变更之后的同步
+     * @param employeeId 员工id
+     * @param roleIds 角色id，多角色用逗号分隔
+     * @param shopIds 关联门店id, 用逗号分隔
+     */
+    public userAccountCreatePost (mobile: string, password: string, name?: string, employeeId?: number, roleIds?: string, shopIds?: string, extraHttpRequestParams?: any ) : Observable<models.CommonResponse> {
+        const path = this.basePath + '/user/account/create';
+
+        let queryParameters = new URLSearchParams();
+        let headerParams = this.defaultHeaders;
+
+        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
+        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
+
+        let formParams = new URLSearchParams();
+
+        // verify required parameter 'mobile' is not null or undefined
+        if (mobile === null || mobile === undefined) {
+            throw new Error('Required parameter mobile was null or undefined when calling userAccountCreatePost.');
+        }
+        // verify required parameter 'password' is not null or undefined
+        if (password === null || password === undefined) {
+            throw new Error('Required parameter password was null or undefined when calling userAccountCreatePost.');
+        }
+        headerParams.set('Content-Type', 'application/x-www-form-urlencoded');
+
+        formParams.append('name',name);
+        formParams.append('employeeId',String(employeeId));
+        formParams.append('mobile',mobile);
+        formParams.append('password',password);
+        formParams.append('roleIds',roleIds);
+        formParams.append('shopIds',shopIds);
+        let requestOptions: RequestOptionsArgs = {
+            method: 'POST',
+            headers: headerParams,
+            search: queryParameters
+        };
+        requestOptions.body = formParams.toString();
+
+        return this.http.request(path, requestOptions)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * 删除子账号, H5新增， 后端控制只有父账号能操作
+     *
+     * @param id 账号id
+     */
+    public userAccountIdDeleteDelete (id: number, extraHttpRequestParams?: any ) : Observable<models.CommonResponse> {
+        const path = this.basePath + '/user/account/{id}/delete'
+            .replace('{' + 'id' + '}', String(id));
+
+        let queryParameters = new URLSearchParams();
+        let headerParams = this.defaultHeaders;
+
+        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
+        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
+
+        // verify required parameter 'id' is not null or undefined
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling userAccountIdDeleteDelete.');
+        }
+        let requestOptions: RequestOptionsArgs = {
+            method: 'DELETE',
+            headers: headerParams,
+            search: queryParameters
+        };
+
+        return this.http.request(path, requestOptions)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * 获取子账号信息, H5新增， 后端控制只有父账号能操作
+     *
+     * @param id 账号id
+     */
+    public userAccountIdGet (id: number, extraHttpRequestParams?: any ) : Observable<models.UserAccountResponse> {
+        const path = this.basePath + '/user/account/{id}'
+            .replace('{' + 'id' + '}', String(id));
+
+        let queryParameters = new URLSearchParams();
+        let headerParams = this.defaultHeaders;
+
+        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
+        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
+
+        // verify required parameter 'id' is not null or undefined
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling userAccountIdGet.');
+        }
+        let requestOptions: RequestOptionsArgs = {
+            method: 'GET',
+            headers: headerParams,
+            search: queryParameters
+        };
+
+        return this.http.request(path, requestOptions)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * 修改子账号, H5新增
+     *
+     * @param mobile 手机号
+     * @param password 密码
+     * @param id 子账号id
+     * @param name 员工姓名，后端注意变更之后的同步, 后端控制只有父账号能操作
+     * @param employeeId 员工id
+     * @param roleIds 角色id，多角色用逗号分隔
+     * @param shopIds 关联门店id, 用逗号分隔
+     */
+    public userAccountUpdatePost (mobile: string, password: string, id?: number, name?: string, employeeId?: number, roleIds?: string, shopIds?: string, extraHttpRequestParams?: any ) : Observable<models.CommonResponse> {
+        const path = this.basePath + '/user/account/update';
+
+        let queryParameters = new URLSearchParams();
+        let headerParams = this.defaultHeaders;
+
+        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
+        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
+
+        let formParams = new URLSearchParams();
+
+        // verify required parameter 'mobile' is not null or undefined
+        if (mobile === null || mobile === undefined) {
+            throw new Error('Required parameter mobile was null or undefined when calling userAccountUpdatePost.');
+        }
+        // verify required parameter 'password' is not null or undefined
+        if (password === null || password === undefined) {
+            throw new Error('Required parameter password was null or undefined when calling userAccountUpdatePost.');
+        }
+        headerParams.set('Content-Type', 'application/x-www-form-urlencoded');
+
+        formParams.append('id',String(id));
+        formParams.append('name',name);
+        formParams.append('employeeId',String(employeeId));
+        formParams.append('mobile',mobile);
+        formParams.append('password',password);
+        formParams.append('roleIds',roleIds);
+        formParams.append('shopIds',shopIds);
+        let requestOptions: RequestOptionsArgs = {
+            method: 'POST',
+            headers: headerParams,
+            search: queryParameters
+        };
+        requestOptions.body = formParams.toString();
+
+        return this.http.request(path, requestOptions)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * 用户子账号列表, H5新增
+     *
+     * @param pageNumber 当前页
+     * @param pageSize 分页大小
+     */
+    public userAccountsGet (pageNumber?: number, pageSize?: number, extraHttpRequestParams?: any ) : Observable<models.UserAccountListResponse> {
+        const path = this.basePath + '/user/accounts';
+
+        let queryParameters = new URLSearchParams();
+        let headerParams = this.defaultHeaders;
+
+        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
+        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
+
+        if (pageNumber !== undefined) {
+            queryParameters.set('pageNumber', String(pageNumber));
+        }
+
+        if (pageSize !== undefined) {
+            queryParameters.set('pageSize', String(pageSize));
+        }
+
+        let requestOptions: RequestOptionsArgs = {
+            method: 'GET',
+            headers: headerParams,
+            search: queryParameters
+        };
+
+        return this.http.request(path, requestOptions)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
      * 登录之后修改密码， 通过原密码修改
      *
      * @param oldPassword 旧密码
@@ -60,6 +284,7 @@ export class UserApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
 
         let formParams = new URLSearchParams();
 
@@ -89,22 +314,22 @@ export class UserApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }
 
     /**
      * 用户登录
-     * 用户通过手机号，密码，验证码登录车门店系统。返回结构的lastShopId是最近选中门店id, 登录之后要选中该门店
+     * 用户通过手机号，密码，验证码登录车门店系统。返回结构的lastShopId是最近选中门店id,  登录之后要选中该门店, 2016-08 H5修改，添加返回角色和权限信息
      * @param mobile 登录手机号
      * @param password 登录密码
      * @param code 验证码
      */
-    public userLoginPost (mobile: string, password: string, code: string, extraHttpRequestParams?: any ) : Observable<models.UserResponse> {
+    public userLoginPost (mobile: string, password: string, code: string, extraHttpRequestParams?: any ) : Observable<models.UserLoginResponse> {
         const path = this.basePath + '/user/login';
 
         let queryParameters = new URLSearchParams();
@@ -112,6 +337,7 @@ export class UserApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
 
         let formParams = new URLSearchParams();
 
@@ -141,10 +367,10 @@ export class UserApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }
@@ -162,6 +388,7 @@ export class UserApi {
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
 
+
         let requestOptions: RequestOptionsArgs = {
             method: 'POST',
             headers: headerParams,
@@ -170,20 +397,20 @@ export class UserApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }
 
     /**
-     * 我的账户
+     * 我的账户, H5修改，添加权限之后， 额外返回角色列表
      *
      * @param token 用户的登录凭证
      */
-    public userMeGet (extraHttpRequestParams?: any ) : Observable<models.MyAcountResponse> {
+    public userMeGet (token?: string, extraHttpRequestParams?: any ) : Observable<models.MyAcountResponse> {
         const path = this.basePath + '/user/me';
 
         let queryParameters = new URLSearchParams();
@@ -191,6 +418,13 @@ export class UserApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
+
+        // verify required parameter 'token' is not null or undefined
+        if (token === null || token === undefined) {
+            throw new Error('Required parameter token was null or undefined when calling userMeGet.');
+        }
+            headerParams.set('token', token);
 
         let requestOptions: RequestOptionsArgs = {
             method: 'GET',
@@ -200,13 +434,10 @@ export class UserApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {
-                    window.location.href = '/#/login';
-                    return undefined;
-                } else if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }
@@ -226,6 +457,7 @@ export class UserApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
 
         let formParams = new URLSearchParams();
 
@@ -255,10 +487,10 @@ export class UserApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }
@@ -279,6 +511,7 @@ export class UserApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
 
         let formParams = new URLSearchParams();
 
@@ -313,10 +546,10 @@ export class UserApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }
@@ -336,6 +569,7 @@ export class UserApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
 
         let formParams = new URLSearchParams();
 
@@ -365,10 +599,10 @@ export class UserApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }
@@ -386,6 +620,7 @@ export class UserApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
 
         let formParams = new URLSearchParams();
 
@@ -405,16 +640,16 @@ export class UserApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }
 
     /**
-     * 不用登录系统, 通过手机验证码验明身份后修改密码。 通过凭证去修改密码， 服务端要验证凭证可靠性，和手机号关联, 5分钟timeout
+     * 不用登录系统, 通过手机验证码验明身份后修改密码。 通过凭证去修改密码， 服务端要验证凭证可靠性，和手机号关联, 10分钟timeout
      *
      * @param password 密码
      * @param rePassword 确认密码
@@ -428,6 +663,7 @@ export class UserApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
 
         let formParams = new URLSearchParams();
 
@@ -457,10 +693,10 @@ export class UserApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }

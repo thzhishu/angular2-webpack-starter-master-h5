@@ -28,7 +28,7 @@ import * as models from './models';
 export interface SurveyBody {
     
 
-    survey?: string;
+    survey?: models.Survey;
 
     profile?: models.Customer;
 }

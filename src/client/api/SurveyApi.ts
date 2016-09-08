@@ -57,7 +57,9 @@ export class SurveyApi {
         let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
 
-        
+        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
+        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
 
         // verify required parameter 'url' is not null or undefined
         if (url === null || url === undefined) {
@@ -71,10 +73,10 @@ export class SurveyApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }
@@ -92,7 +94,10 @@ export class SurveyApi {
         let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
 
-        
+        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
+        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
+          headerParams.set('Content-Type', 'application/json');
 
         // verify required parameter 'url' is not null or undefined
         if (url === null || url === undefined) {
@@ -107,14 +112,14 @@ export class SurveyApi {
             headers: headerParams,
             search: queryParameters
         };
-        requestOptions.body = payload;
+        requestOptions.body = JSON.stringify(payload);
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }

@@ -39,7 +39,7 @@ export interface BehaviorSalesTimeSeries {
     sales?: number;
 
     /**
-     * 服务条数
+     * 生意条数
      */
     num?: number;
 }

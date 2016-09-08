@@ -164,7 +164,7 @@ export class BusinessApi {
             search: queryParameters
         };
 
-        
+
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
                 if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
@@ -235,6 +235,7 @@ export class BusinessApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+        headerParams.set('Content-Type', null);
 
         // verify required parameter 'date' is not null or undefined
         if (date === null || date === undefined) {

@@ -7,7 +7,7 @@ import {  ControlGroup, FormBuilder, Control } from '@angular/common';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 import { Md5 } from 'ts-md5/dist/md5';
-import { UserApi, CommonApi, ShopApi, UserResponse, LoginReq } from 'client';
+import { UserApi, CommonApi, ShopApi, UserLoginResponse } from 'client';
 import { Cookie } from 'services';
 
 @Component({
@@ -22,7 +22,7 @@ import { Cookie } from 'services';
 export class Login {
   loginForm: ControlGroup;
   zone: any;
-  user: LoginReq = { phone: '', rnd: '', pwd: '' };
+  user: any = { phone: '', rnd: '', pwd: '' };
   seekDisabeld: number = 0;
   seekBtnTitle: number = 0;
   img: any;
@@ -99,16 +99,16 @@ export class Login {
     let params = this.user;
     // mobile: string, password: string, code: string,
     this.uApi.userLoginPost(params.phone, Md5.hashStr(params.pwd, false).toString(), params.rnd)
-      .subscribe((data) => {
+      .subscribe((data:UserLoginResponse) => {
         this.loading = 0;
         if (data.meta&&data.meta.code === 200) {
-          Cookie.save('token', data.data.User.token, 7);
-          Cookie.save('shopId', data.data.User.lastShopId);
-          this.sApi.defaultHeaders.set('token', data.data.User.token);
-          if (data.data.User.lastShopId === null) {
+          Cookie.save('token', data.data.token, 7);
+          Cookie.save('shopId', data.data.lastShopId);
+          this.sApi.defaultHeaders.set('token', data.data.token);
+          if (data.data.lastShopId === null) {
             this.router.navigate(['/init-store']);
           } else {
-            this.sApi.defaultHeaders.set('shopId', data.data.User.lastShopId);
+            this.sApi.defaultHeaders.set('shopId', String(data.data.lastShopId));
             this.router.navigate(['/dashboard/business/list']);
           }
         } else {

@@ -55,6 +55,8 @@ export class BusinessAddComponent implements OnInit {
   tipOkeyBtnTxt: string = '确定';
   oldFeildString: string = '';
   errorMsg: string = '';
+  employeeName: string = '';
+  employeeCode: string = '';
 
   private searchVehicleCode = new Subject<CustomerSearchResponse>();
 
@@ -161,7 +163,7 @@ export class BusinessAddComponent implements OnInit {
     } else {
       this.businessEmployeeErr = false;
     }
-    if (data.employeeId === -1 && !data.employeeName && !data.employeeCode) {
+    if (data.employeeId === -1 && !this.employeeName && !this.employeeCode) {
       this.addEmployeeErr = true;
       return false;
     } else {
@@ -174,7 +176,7 @@ export class BusinessAddComponent implements OnInit {
 
     data.shopId = Cookie.load('shopId');
     if (data.employeeId == -1) {
-      this.eApi.employeeSavePost(data.employeeName, data.employeeCode, '', '', '', type).subscribe(res => {
+      this.eApi.employeeSavePost(this.employeeName||'', this.employeeCode||'', '', '', '', type).subscribe(res => {
         if (res.meta.code === 200) {
           data.employeeId = res.data.id;
           this.save(data);

@@ -38,9 +38,10 @@ export class BusinessListComponent {
   tipOkeyBtnTxt: string = '确定';
   oldFeildString: string = '';
   business: string = '';
+  zone:any;
 
   constructor(private router: Router, private route: ActivatedRoute, private bApi: BusinessApi) {
-
+      this.zone = new NgZone({ enableLongStackTrace: false }); //事务控制器
   }
 
   // 初始化
@@ -70,7 +71,7 @@ export class BusinessListComponent {
 
 
   onPickerChange(event) {
-    this.date = event;
+    this.date = event==''?this.today:event;
     this.getList();
   }
 
@@ -109,14 +110,15 @@ export class BusinessListComponent {
         if (scroll&&!this.end) {
           this.page.current += 1;
         }
-      this.bApi.businessListGet(this.moment(this.date), this.page.current).subscribe(data => {
-        if (data.meta&&data.meta.code === 200 && data.data) {
+      this.bApi.businessListGet(this.moment(this.date), this.page.current).subscribe(res => {
+        if (res.meta&&res.meta.code === 200 && res.data) {
           if (scroll) {
-            this.list.content = this.list.content.concat(data.data.content);
+            this.list.content = this.list.content.concat(res.data.content);
           } else {
-            this.list = data.data;
+            this.list = res.data;
           }
         } else {
+          this.list = {};
           this.end = true;
         }
         this.loading = false;
@@ -140,7 +142,8 @@ export class BusinessListComponent {
       console.error(err);
     });
   }
-  onDelRecord(item){
+  onDelRecord(item,e){
+      e.stopPropagation();
       this.showTipWin = true;
       this.tipMsg = '是否删除该服务记录?';
       this.business = item;

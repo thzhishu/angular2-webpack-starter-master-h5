@@ -36,7 +36,7 @@ export interface BehaviorReport {
     trends?: Array<models.BehaviorSalesTimeSeries>;
 
     /**
-     * 服务明细列表
+     * 生意明细列表
      */
     histories?: Array<models.BusinessHistoryDetail>;
 }

@@ -48,7 +48,7 @@ export class ShopApi {
     /**
      * 批量注册门店
      *
-     * @param payload product
+     * @param payload 更新的门店对象数组
      */
     public shopBatchSavePost (payload: Array<models.Shop>, extraHttpRequestParams?: any ) : Observable<models.ShopResponse> {
         const path = this.basePath + '/shop/batchSave';
@@ -58,7 +58,8 @@ export class ShopApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-        headerParams.set('Content-Type', 'application/json');
+
+          headerParams.set('Content-Type', 'application/json');
 
         // verify required parameter 'payload' is not null or undefined
         if (payload === null || payload === undefined) {
@@ -73,17 +74,17 @@ export class ShopApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }
 
     /**
-     * 逻辑删除门店，注意： 如果门店已经存在服务、员工、顾客， 则删除门店需要手机验证码.
-     * 客户端做法:  1. 客户端调用此方法，如果返回值askForCode&#x3D;1, 则要求用户输入验证码，客户端再次调用delete方法  2. 客户端调用此方法，如果返回值askForCode&lt;&gt;1，说明删除成功 服务端做法:  1. 如果code为空， 判断该门店是否有服务、员工、顾客      1.1 如果有, 则返回 askForCode&#x3D;1， 不删除      1.2 如果没有， 直接删除  2. 如果code不为空， 验证是否合法， 以此决定是否删除
+     * 逻辑删除门店
+     *
      * @param id 门店id
      * @param code 手机验证码
      */
@@ -92,11 +93,10 @@ export class ShopApi {
 
         let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
-        let formParams = new URLSearchParams();
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-        headerParams.set('Content-Type', 'application/x-www-form-urlencoded');
+
 
         // verify required parameter 'id' is not null or undefined
         if (id === null || id === undefined) {
@@ -110,22 +110,18 @@ export class ShopApi {
             queryParameters.set('code', code);
         }
 
-        formParams.append('id', id);
-        formParams.append('code', code);
-
         let requestOptions: RequestOptionsArgs = {
             method: 'DELETE',
             headers: headerParams,
             search: queryParameters
         };
-        requestOptions.body = formParams.toString();
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }
@@ -145,6 +141,7 @@ export class ShopApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
 
         let formParams = new URLSearchParams();
 
@@ -174,10 +171,10 @@ export class ShopApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }
@@ -187,7 +184,7 @@ export class ShopApi {
      *
      * @param token 用户的登录凭证
      */
-    public shopMyshopGet (extraHttpRequestParams?: any ) : Observable<models.MyShopResponse> {
+    public shopMyshopGet (token?: string, extraHttpRequestParams?: any ) : Observable<models.MyShopResponse> {
         const path = this.basePath + '/shop/myshop';
 
         let queryParameters = new URLSearchParams();
@@ -195,6 +192,13 @@ export class ShopApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
+
+        // verify required parameter 'token' is not null or undefined
+        // if (token === null || token === undefined) {
+        //     throw new Error('Required parameter token was null or undefined when calling shopMyshopGet.');
+        // }
+        //     headerParams.set('token', token);
 
         let requestOptions: RequestOptionsArgs = {
             method: 'GET',
@@ -204,10 +208,10 @@ export class ShopApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }
@@ -225,7 +229,8 @@ export class ShopApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-        headerParams.set('Content-Type', 'application/json');
+
+          headerParams.set('Content-Type', 'application/json');
 
         // verify required parameter 'payload' is not null or undefined
         if (payload === null || payload === undefined) {
@@ -240,10 +245,10 @@ export class ShopApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }
@@ -257,12 +262,23 @@ export class ShopApi {
     public shopShopIdGet (token: string, shopId: string, extraHttpRequestParams?: any ) : Observable<models.MyShopResponse> {
         const path = this.basePath + '/shop/{shopId}'
             .replace('{' + 'shopId' + '}', String(shopId));
-        
+
         let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
+
+        // verify required parameter 'token' is not null or undefined
+        if (token === null || token === undefined) {
+            throw new Error('Required parameter token was null or undefined when calling shopShopIdGet.');
+        }
+        // verify required parameter 'shopId' is not null or undefined
+        if (shopId === null || shopId === undefined) {
+            throw new Error('Required parameter shopId was null or undefined when calling shopShopIdGet.');
+        }
+            headerParams.set('token', token);
 
         let requestOptions: RequestOptionsArgs = {
             method: 'GET',
@@ -272,17 +288,9 @@ export class ShopApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {
-                    window.location.href = '/#/login';
-                    return undefined;
-                } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {
-                        alert('您离开时间过长,需要重新登录');
-                        window.location.href = '/#/login';
-                        return undefined;
-                    }
                     return response.json();
                 }
             });
@@ -291,9 +299,9 @@ export class ShopApi {
     /**
      * 更新门店
      *
-     * @param payload 更新的门店对象数组
+     * @param payload 更新的门店对象
      */
-    public shopUpdatePost (payload: Array<models.Shop>, extraHttpRequestParams?: any ) : Observable<models.ShopResponse> {
+    public shopUpdatePost (payload: models.Shop, extraHttpRequestParams?: any ) : Observable<models.ShopResponse> {
         const path = this.basePath + '/shop/update';
 
         let queryParameters = new URLSearchParams();
@@ -301,7 +309,8 @@ export class ShopApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-        headerParams.set('Content-Type', 'application/json');
+
+          headerParams.set('Content-Type', 'application/json');
 
         // verify required parameter 'payload' is not null or undefined
         if (payload === null || payload === undefined) {
@@ -316,14 +325,12 @@ export class ShopApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }
-
-
 
 }

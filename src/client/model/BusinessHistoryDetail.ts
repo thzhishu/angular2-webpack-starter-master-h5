@@ -26,7 +26,7 @@
 import * as models from './models';
 
 /**
- * 服务项目(交易/服务)， 应该从BusinessDetail继承
+ * 服务项目(交易/生意)， 应该从BusinessDetail继承
  */
 export interface BusinessHistoryDetail {
     
