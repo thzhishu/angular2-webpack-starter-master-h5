@@ -11,8 +11,8 @@
     }
 
     .fm-field-err {
-        height:40px;
-        line-height: 40px;
+        height:60px;
+        line-height: 60px;
         font-size:22px;
         text-indent: 24px;
         color:#f16557;
@@ -56,6 +56,12 @@
                 }
             }
                 
+        }
+
+        .si-btn {
+            div {
+                margin:0 24px;
+            }
         }
     }
 }
@@ -138,5 +144,7 @@
             margin:0 auto;
         }
     }
+
+    
 
 }
