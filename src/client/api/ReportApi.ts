@@ -36,169 +36,115 @@ import { Cookie } from 'services';  //tobeplus 缓存注入 header
 
 @Injectable()
 export class ReportApi {
-    protected basePath = '/api/v1';
-    public defaultHeaders : Headers = new Headers();
+  protected basePath = '/api/v1';
+  public defaultHeaders: Headers = new Headers();
 
-    constructor(protected http: Http, @Optional() basePath: string) {
-        if (basePath) {
-            this.basePath = basePath;
-        }
+  constructor(protected http: Http, @Optional() basePath: string) {
+    if (basePath) {
+      this.basePath = basePath;
+    }
+  }
+
+  /**
+   * 满意度报告
+   *
+   * @param pageNumber 当前页
+   * @param pageSize 分页大小
+   * @param startDate 开始时间，格式yyyy-MM-dd
+   * @param endDate 结束时间，格式yyyy-MM-dd
+   */
+  public reportAttitudeGet(startDate?: string, endDate?: string, pageNumber?: number, pageSize?: number, extraHttpRequestParams?: any): Observable<models.AttitudeReportResponse> {
+    const path = this.basePath + '/report/attitude';
+
+    let queryParameters = new URLSearchParams();
+    let headerParams = this.defaultHeaders;
+
+    headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
+    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+
+
+    if (pageNumber !== undefined) {
+      queryParameters.set('pageNumber', String(pageNumber));
     }
 
-    /**
-     * 满意度报告
-     *
-     * @param pageNumber 当前页
-     * @param pageSize 分页大小
-     * @param startDate 开始时间，格式yyyy-MM-dd
-     * @param endDate 结束时间，格式yyyy-MM-dd
-     */
-    public reportAttitudeGet (startDate?: string, endDate?: string,pageNumber?: number, pageSize?: number,  extraHttpRequestParams?: any ) : Observable<models.AttitudeReportResponse> {
-        const path = this.basePath + '/report/attitude';
-
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-
-        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-
-
-        if (pageNumber !== undefined) {
-            queryParameters.set('pageNumber', String(pageNumber));
-        }
-
-        if (pageSize !== undefined) {
-            queryParameters.set('pageSize', String(pageSize));
-        }
-
-        if (startDate !== undefined) {
-            queryParameters.set('startDate', startDate);
-        }
-
-        if (endDate !== undefined) {
-            queryParameters.set('endDate', endDate);
-        }
-
-        let requestOptions: RequestOptionsArgs = {
-            method: 'GET',
-            headers: headerParams,
-            search: queryParameters
-        };
-
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
+    if (pageSize !== undefined) {
+      queryParameters.set('pageSize', String(pageSize));
     }
 
-    /**
-     * 业务总结报告
-     *
-     * @param pageNumber 当前页
-     * @param pageSize 分页大小
-     * @param startDate 开始时间，格式yyyy-MM-dd
-     * @param endDate 结束时间，格式yyyy-MM-dd
-     */
-    public reportBehaviorGet (startDate?: string, endDate?: string,pageNumber?: number, pageSize?: number,  extraHttpRequestParams?: any ) : Observable<models.BehaviorReportResponse> {
-        const path = this.basePath + '/report/behavior';
-
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-
-        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-
-
-        if (pageNumber !== undefined) {
-            queryParameters.set('pageNumber', String(pageNumber));
-        }
-
-        if (pageSize !== undefined) {
-            queryParameters.set('pageSize', String(pageSize));
-        }
-
-        if (startDate !== undefined) {
-            queryParameters.set('startDate', startDate);
-        }
-
-        if (endDate !== undefined) {
-            queryParameters.set('endDate', endDate);
-        }
-
-        let requestOptions: RequestOptionsArgs = {
-            method: 'GET',
-            headers: headerParams,
-            search: queryParameters
-        };
-
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
+    if (startDate !== undefined) {
+      queryParameters.set('startDate', startDate);
     }
+
+    if (endDate !== undefined) {
+      queryParameters.set('endDate', endDate);
+    }
+
+    let requestOptions: RequestOptionsArgs = {
+      method: 'GET',
+      headers: headerParams,
+      search: queryParameters
+    };
+
+    return this.http.request(path, requestOptions)
+      .map((response: Response) => {
+        if (response.status === 204) {
+          return undefined;
+        } else {
+          return response.json();
+        }
+      });
+  }
+
+  /**
+   * 业务总结报告
+   *
+   * @param pageNumber 当前页
+   * @param pageSize 分页大小
+   * @param startDate 开始时间，格式yyyy-MM-dd
+   * @param endDate 结束时间，格式yyyy-MM-dd
+   */
+  public reportBehaviorGet(startDate?: string, endDate?: string, pageNumber?: number, pageSize?: number, extraHttpRequestParams?: any): Observable<models.BehaviorReportResponse> {
+    const path = this.basePath + '/report/behavior';
+
+    let queryParameters = new URLSearchParams();
+    let headerParams = this.defaultHeaders;
+
+    headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
+    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+
+
+    if (pageNumber !== undefined) {
+      queryParameters.set('pageNumber', String(pageNumber));
+    }
+
+    if (pageSize !== undefined) {
+      queryParameters.set('pageSize', String(pageSize));
+    }
+
+    if (startDate !== undefined) {
+      queryParameters.set('startDate', startDate);
+    }
+
+    if (endDate !== undefined) {
+      queryParameters.set('endDate', endDate);
+    }
+
+    let requestOptions: RequestOptionsArgs = {
+      method: 'GET',
+      headers: headerParams,
+      search: queryParameters
+    };
+
+    return this.http.request(path, requestOptions)
+      .map((response: Response) => {
+        if (response.status === 204) {
+          return undefined;
+        } else {
+          return response.json();
+        }
+      });
+  }
 
 }

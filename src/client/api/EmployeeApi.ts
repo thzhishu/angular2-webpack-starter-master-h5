@@ -36,369 +36,234 @@ import { Cookie } from 'services';  //tobeplus 缓存注入 header
 
 @Injectable()
 export class EmployeeApi {
-    protected basePath = '/api/v1';
-    public defaultHeaders : Headers = new Headers();
+  protected basePath = '/api/v1';
+  public defaultHeaders: Headers = new Headers();
 
-    constructor(protected http: Http, @Optional() basePath: string) {
-        if (basePath) {
-            this.basePath = basePath;
-        }
+  constructor(protected http: Http, @Optional() basePath: string) {
+    if (basePath) {
+      this.basePath = basePath;
+    }
+  }
+
+  /**
+   * 删除员工
+   *
+   * @param id 员工id
+   */
+  public employeeDeleteDelete(id: string, extraHttpRequestParams?: any): Observable<models.CommonResponse> {
+    const path = this.basePath + '/employee/delete';
+
+    let queryParameters = new URLSearchParams();
+    let headerParams = this.defaultHeaders;
+
+    headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
+    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+
+
+    // verify required parameter 'id' is not null or undefined
+    if (id === null || id === undefined) {
+      throw new Error('Required parameter id was null or undefined when calling employeeDeleteDelete.');
+    }
+    if (id !== undefined) {
+      queryParameters.set('id', id);
     }
 
-    /**
-     * 删除员工
-     *
-     * @param id 员工id
-     */
-    public employeeDeleteDelete (id: string, extraHttpRequestParams?: any ) : Observable<models.CommonResponse> {
-        const path = this.basePath + '/employee/delete';
+    let requestOptions: RequestOptionsArgs = {
+      method: 'DELETE',
+      headers: headerParams,
+      search: queryParameters
+    };
 
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-
-        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-
-
-        // verify required parameter 'id' is not null or undefined
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling employeeDeleteDelete.');
+    return this.http.request(path, requestOptions)
+      .map((response: Response) => {
+        if (response.status === 204) {
+          return undefined;
+        } else {
+          return response.json();
         }
-        if (id !== undefined) {
-            queryParameters.set('id', id);
+      });
+  }
+
+  /**
+   * H5修改， 返回员工信息以及员工关联的门店ids
+   *
+   * @param token 凭证
+   * @param employeeId 员工id
+   */
+  public employeeEmployeeIdGet(token: string, employeeId: string, extraHttpRequestParams?: any): Observable<models.EmployeeResponse> {
+    const path = this.basePath + '/employee/{employeeId}'
+      .replace('{' + 'employeeId' + '}', String(employeeId));
+
+    let queryParameters = new URLSearchParams();
+    let headerParams = this.defaultHeaders;
+
+    headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
+    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+
+
+    // verify required parameter 'token' is not null or undefined
+    if (token === null || token === undefined) {
+      throw new Error('Required parameter token was null or undefined when calling employeeEmployeeIdGet.');
+    }
+    // verify required parameter 'employeeId' is not null or undefined
+    if (employeeId === null || employeeId === undefined) {
+      throw new Error('Required parameter employeeId was null or undefined when calling employeeEmployeeIdGet.');
+    }
+    // headerParams.set('token', token);
+
+    let requestOptions: RequestOptionsArgs = {
+      method: 'GET',
+      headers: headerParams,
+      search: queryParameters
+    };
+
+    return this.http.request(path, requestOptions)
+      .map((response: Response) => {
+        if (response.status === 204) {
+          return undefined;
+        } else {
+          return response.json();
         }
+      });
+  }
 
-        let requestOptions: RequestOptionsArgs = {
-            method: 'DELETE',
-            headers: headerParams,
-            search: queryParameters
-        };
+  /**
+   * 返回当前门店员工
+   *
+   * @param pageNumber 当前页
+   * @param pageSize 分页大小
+   */
+  public employeeListGet(pageNumber?: number, pageSize?: number, extraHttpRequestParams?: any): Observable<models.EmployeeListResponse> {
+    const path = this.basePath + '/employee/list';
 
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
+    let queryParameters = new URLSearchParams();
+    let headerParams = this.defaultHeaders;
+
+    headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
+    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+
+
+    if (pageNumber !== undefined) {
+      queryParameters.set('pageNumber', String(pageNumber));
     }
 
-    /**
-     * H5修改， 返回员工信息以及员工关联的门店ids
-     *
-     * @param token 凭证
-     * @param employeeId 员工id
-     */
-    public employeeEmployeeIdGet (token: string, employeeId: string, extraHttpRequestParams?: any ) : Observable<models.EmployeeResponse> {
-        const path = this.basePath + '/employee/{employeeId}'
-            .replace('{' + 'employeeId' + '}', String(employeeId));
-
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-
-        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-
-
-        // verify required parameter 'token' is not null or undefined
-        if (token === null || token === undefined) {
-            throw new Error('Required parameter token was null or undefined when calling employeeEmployeeIdGet.');
-        }
-        // verify required parameter 'employeeId' is not null or undefined
-        if (employeeId === null || employeeId === undefined) {
-            throw new Error('Required parameter employeeId was null or undefined when calling employeeEmployeeIdGet.');
-        }
-            // headerParams.set('token', token);
-
-        let requestOptions: RequestOptionsArgs = {
-            method: 'GET',
-            headers: headerParams,
-            search: queryParameters
-        };
-
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
+    if (pageSize !== undefined) {
+      queryParameters.set('pageSize', String(pageSize));
     }
 
-    /**
-     * 返回当前门店员工
-     *
-     * @param pageNumber 当前页
-     * @param pageSize 分页大小
-     */
-    public employeeListGet (pageNumber?: number, pageSize?: number, extraHttpRequestParams?: any ) : Observable<models.EmployeeListResponse> {
-        const path = this.basePath + '/employee/list';
+    let requestOptions: RequestOptionsArgs = {
+      method: 'GET',
+      headers: headerParams,
+      search: queryParameters
+    };
 
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-
-        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-
-
-        if (pageNumber !== undefined) {
-            queryParameters.set('pageNumber', String(pageNumber));
+    return this.http.request(path, requestOptions)
+      .map((response: Response) => {
+        if (response.status === 204) {
+          return undefined;
+        } else {
+          return response.json();
         }
+      });
+  }
 
-        if (pageSize !== undefined) {
-            queryParameters.set('pageSize', String(pageSize));
+  /**
+   * 新建员工
+   *
+   * @param name 姓名
+   * @param code 技师编号
+   * @param mobile 手机号
+   * @param shopIds H5新加关联门店id，多个逗号分隔，服务端需要兼容pc和h5
+   * @param codes H5新加技师编号，多个逗号分隔，服务端需要兼容pc和h5
+   * @param type 1正式，2临时工
+   */
+  public employeeSavePost(name?: string, code?: string, mobile?: string, shopIds?: string, codes?: string, type?: string, extraHttpRequestParams?: any): Observable<models.EmployeeResponse> {
+    const path = this.basePath + '/employee/save';
+
+    let queryParameters = new URLSearchParams();
+    let headerParams = this.defaultHeaders;
+
+    headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
+    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+
+
+    let formParams = new URLSearchParams();
+
+    headerParams.set('Content-Type', 'application/x-www-form-urlencoded');
+
+    formParams.append('name', name);
+    formParams.append('code', code);
+    formParams.append('mobile', mobile);
+    formParams.append('shopIds', shopIds);
+    formParams.append('codes', codes);
+    formParams.append('type', type);
+    let requestOptions: RequestOptionsArgs = {
+      method: 'POST',
+      headers: headerParams,
+      search: queryParameters
+    };
+    requestOptions.body = formParams.toString();
+
+    return this.http.request(path, requestOptions)
+      .map((response: Response) => {
+        if (response.status === 204) {
+          return undefined;
+        } else {
+          return response.json();
         }
+      });
+  }
 
-        let requestOptions: RequestOptionsArgs = {
-            method: 'GET',
-            headers: headerParams,
-            search: queryParameters
-        };
+  /**
+   * 新建员工
+   *
+   * @param id 员工id
+   * @param name 姓名
+   * @param shopIds H5新加关联门店id，多个逗号分隔，服务端需要兼容pc和h5
+   * @param codes H5新加技师编号，多个逗号分隔，服务端需要兼容pc和h5
+   * @param code 技师编号
+   * @param mobile 手机号
+   */
+  public employeeUpdatePost(id?: string, name?: string, shopIds?: string, codes?: string, code?: string, mobile?: string, extraHttpRequestParams?: any): Observable<models.EmployeeResponse> {
+    const path = this.basePath + '/employee/update';
 
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
-    }
+    let queryParameters = new URLSearchParams();
+    let headerParams = this.defaultHeaders;
 
-    /**
-     * 新建员工
-     *
-     * @param name 姓名
-     * @param code 技师编号
-     * @param mobile 手机号
-     * @param shopIds H5新加关联门店id，多个逗号分隔，服务端需要兼容pc和h5
-     * @param codes H5新加技师编号，多个逗号分隔，服务端需要兼容pc和h5
-     * @param type 1正式，2临时工
-     */
-    public employeeSavePost (name?: string, code?: string, mobile?: string, shopIds?: string, codes?: string, type?: string, extraHttpRequestParams?: any ) : Observable<models.EmployeeResponse> {
-        const path = this.basePath + '/employee/save';
-
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-
-        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
     headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
     headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
 
 
-        let formParams = new URLSearchParams();
+    let formParams = new URLSearchParams();
 
-        headerParams.set('Content-Type', 'application/x-www-form-urlencoded');
+    headerParams.set('Content-Type', 'application/x-www-form-urlencoded');
 
-        formParams.append('name',name);
-        formParams.append('code',code);
-        formParams.append('mobile',mobile);
-        formParams.append('shopIds',shopIds);
-        formParams.append('codes',codes);
-        formParams.append('type',type);
-        let requestOptions: RequestOptionsArgs = {
-            method: 'POST',
-            headers: headerParams,
-            search: queryParameters
-        };
-        requestOptions.body = formParams.toString();
+    formParams.append('id', id);
+    formParams.append('name', name);
+    formParams.append('shopIds', shopIds);
+    formParams.append('codes', codes);
+    formParams.append('code', code);
+    formParams.append('mobile', mobile);
+    let requestOptions: RequestOptionsArgs = {
+      method: 'POST',
+      headers: headerParams,
+      search: queryParameters
+    };
+    requestOptions.body = formParams.toString();
 
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
-    }
-
-    /**
-     * 新建员工
-     *
-     * @param id 员工id
-     * @param name 姓名
-     * @param shopIds H5新加关联门店id，多个逗号分隔，服务端需要兼容pc和h5
-     * @param codes H5新加技师编号，多个逗号分隔，服务端需要兼容pc和h5
-     * @param code 技师编号
-     * @param mobile 手机号
-     */
-    public employeeUpdatePost (id?: string, name?: string, shopIds?: string, codes?: string, code?: string, mobile?: string, extraHttpRequestParams?: any ) : Observable<models.EmployeeResponse> {
-        const path = this.basePath + '/employee/update';
-
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-
-        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-
-
-        let formParams = new URLSearchParams();
-
-        headerParams.set('Content-Type', 'application/x-www-form-urlencoded');
-
-        formParams.append('id',id);
-        formParams.append('name',name);
-        formParams.append('shopIds',shopIds);
-        formParams.append('codes',codes);
-        formParams.append('code',code);
-        formParams.append('mobile',mobile);
-        let requestOptions: RequestOptionsArgs = {
-            method: 'POST',
-            headers: headerParams,
-            search: queryParameters
-        };
-        requestOptions.body = formParams.toString();
-
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
-    }
+    return this.http.request(path, requestOptions)
+      .map((response: Response) => {
+        if (response.status === 204) {
+          return undefined;
+        } else {
+          return response.json();
+        }
+      });
+  }
 
 }

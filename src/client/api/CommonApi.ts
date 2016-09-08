@@ -36,344 +36,204 @@ import { Cookie } from 'services';  //tobeplus 缓存注入 header
 
 @Injectable()
 export class CommonApi {
-    protected basePath = '/api/v1';
-    public defaultHeaders : Headers = new Headers();
+  protected basePath = '/api/v1';
+  public defaultHeaders: Headers = new Headers();
 
-    constructor(protected http: Http, @Optional() basePath: string) {
-        if (basePath) {
-            this.basePath = basePath;
+  constructor(protected http: Http, @Optional() basePath: string) {
+    if (basePath) {
+      this.basePath = basePath;
+    }
+  }
+
+  /**
+   * 验证码，返回的是验证码图片的base64
+   * 通过的验证码接口
+   */
+  public commonCaptchaBase64Post(extraHttpRequestParams?: any): Observable<Response> {
+    const path = this.basePath + '/common/captchaBase64';
+
+    let queryParameters = new URLSearchParams();
+    let headerParams = this.defaultHeaders;
+
+    headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
+    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+
+    let requestOptions: RequestOptionsArgs = {
+      method: 'POST',
+      headers: headerParams,
+      search: queryParameters
+    };
+
+    return this.http.request(path, requestOptions)
+      .map((response: Response) => {
+        if (response.status === 204) {
+          return undefined;
+        } else {
+          return response;
         }
+      });
+  }
+
+  /**
+   * 验证码，返回的是stream， 客户端直接在图片src引用api url
+   * 通过的验证码接口
+   */
+  public commonCaptchaPost(extraHttpRequestParams?: any): Observable<{}> {
+    const path = this.basePath + '/common/captcha';
+
+    let queryParameters = new URLSearchParams();
+    let headerParams = this.defaultHeaders;
+
+    headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
+    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+
+    let requestOptions: RequestOptionsArgs = {
+      method: 'POST',
+      headers: headerParams,
+      search: queryParameters
+    };
+
+    return this.http.request(path, requestOptions)
+      .map((response: Response) => {
+        if (response.status === 204) {
+          return undefined;
+        } else {
+          return response.json();
+        }
+      });
+  }
+
+  /**
+   * 验证图形验证码的有效性
+   *
+   * @param uuid 访问验证码生成的uuid
+   * @param code 验证码
+   */
+  public commonCaptchaValidateGet(uuid: string, code: string, extraHttpRequestParams?: any): Observable<models.CommonResponse> {
+    const path = this.basePath + '/common/captcha/validate';
+
+    let queryParameters = new URLSearchParams();
+    let headerParams = this.defaultHeaders;
+
+    headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
+    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+
+    // verify required parameter 'uuid' is not null or undefined
+    if (uuid === null || uuid === undefined) {
+      throw new Error('Required parameter uuid was null or undefined when calling commonCaptchaValidateGet.');
+    }
+    // verify required parameter 'code' is not null or undefined
+    if (code === null || code === undefined) {
+      throw new Error('Required parameter code was null or undefined when calling commonCaptchaValidateGet.');
+    }
+    if (code !== undefined) {
+      queryParameters.set('code', code);
     }
 
-    /**
-     * 验证码，返回的是验证码图片的base64
-     * 通过的验证码接口
-     */
-    public commonCaptchaBase64Post (extraHttpRequestParams?: any ) : Observable<Response> {
-        const path = this.basePath + '/common/captchaBase64';
+    headerParams.set('uuid', uuid);
 
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
+    let requestOptions: RequestOptionsArgs = {
+      method: 'GET',
+      headers: headerParams,
+      search: queryParameters
+    };
 
-        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    return this.http.request(path, requestOptions)
+      .map((response: Response) => {
+        if (response.status === 204) {
+          return undefined;
+        } else {
+          return response.json();
+        }
+      });
+  }
+
+  /**
+   * 找回密码，检验手机验证码有效性， 客户端在点下一步时候调用, 如果服务端返回200， 则json里个修改密码的凭证sign. 客户端需要将在/user/updatePwd接口用到sign
+   *
+   * @param code 手机验证码
+   * @param phone 手机号
+   * @param uuid 验证码接口返回的uuid
+   */
+  public commonCodeVerifyGet(code: string, phone: string, uuid: string, extraHttpRequestParams?: any): Observable<models.PasswordResponse> {
+    const path = this.basePath + '/common/code/verify';
+
+    let queryParameters = new URLSearchParams();
+    let headerParams = this.defaultHeaders;
+
+    headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
     headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
     headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
 
-
-        let requestOptions: RequestOptionsArgs = {
-            method: 'POST',
-            headers: headerParams,
-            search: queryParameters
-        };
-
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response;
-                }
-            });
+    // verify required parameter 'code' is not null or undefined
+    if (code === null || code === undefined) {
+      throw new Error('Required parameter code was null or undefined when calling commonCodeVerifyGet.');
+    }
+    // verify required parameter 'phone' is not null or undefined
+    if (phone === null || phone === undefined) {
+      throw new Error('Required parameter phone was null or undefined when calling commonCodeVerifyGet.');
+    }
+    // verify required parameter 'uuid' is not null or undefined
+    if (uuid === null || uuid === undefined) {
+      throw new Error('Required parameter uuid was null or undefined when calling commonCodeVerifyGet.');
+    }
+    if (code !== undefined) {
+      queryParameters.set('code', code);
     }
 
-    /**
-     * 验证码，返回的是stream， 客户端直接在图片src引用api url
-     * 通过的验证码接口
-     */
-    public commonCaptchaPost (extraHttpRequestParams?: any ) : Observable<{}> {
-        const path = this.basePath + '/common/captcha';
-
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-
-        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-
-
-        let requestOptions: RequestOptionsArgs = {
-            method: 'POST',
-            headers: headerParams,
-            search: queryParameters
-        };
-
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
+    if (phone !== undefined) {
+      queryParameters.set('phone', phone);
     }
 
-    /**
-     * 验证图形验证码的有效性
-     *
-     * @param uuid 访问验证码生成的uuid
-     * @param code 验证码
-     */
-    public commonCaptchaValidateGet (uuid: string, code: string, extraHttpRequestParams?: any ) : Observable<models.CommonResponse> {
-        const path = this.basePath + '/common/captcha/validate';
+    headerParams.set('uuid', uuid);
 
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
+    let requestOptions: RequestOptionsArgs = {
+      method: 'GET',
+      headers: headerParams,
+      search: queryParameters
+    };
 
-        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-
-
-        // verify required parameter 'uuid' is not null or undefined
-        if (uuid === null || uuid === undefined) {
-            throw new Error('Required parameter uuid was null or undefined when calling commonCaptchaValidateGet.');
+    return this.http.request(path, requestOptions)
+      .map((response: Response) => {
+        if (response.status === 204) {
+          return undefined;
+        } else {
+          return response.json();
         }
-        // verify required parameter 'code' is not null or undefined
-        if (code === null || code === undefined) {
-            throw new Error('Required parameter code was null or undefined when calling commonCaptchaValidateGet.');
-        }
-        if (code !== undefined) {
-            queryParameters.set('code', code);
-        }
+      });
+  }
 
-            headerParams.set('uuid', uuid);
+  /**
+   * 数据字典， 返回服务类型
+   * 服务类型列表，服务端请使用缓存。做法:实现CleanAware接口，在clean里实现清理
+   */
+  public commonDictServicesGet(extraHttpRequestParams?: any): Observable<models.ServiceResponse> {
+    const path = this.basePath + '/common/dict/services';
 
-        let requestOptions: RequestOptionsArgs = {
-            method: 'GET',
-            headers: headerParams,
-            search: queryParameters
-        };
+    let queryParameters = new URLSearchParams();
+    let headerParams = this.defaultHeaders;
 
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
-    }
-
-    /**
-     * 找回密码，检验手机验证码有效性， 客户端在点下一步时候调用, 如果服务端返回200， 则json里个修改密码的凭证sign. 客户端需要将在/user/updatePwd接口用到sign
-     *
-     * @param code 手机验证码
-     * @param phone 手机号
-     * @param uuid 验证码接口返回的uuid
-     */
-    public commonCodeVerifyGet (code: string, phone: string, uuid: string, extraHttpRequestParams?: any ) : Observable<models.PasswordResponse> {
-        const path = this.basePath + '/common/code/verify';
-
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-
-        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
     headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
     headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
 
+    let requestOptions: RequestOptionsArgs = {
+      method: 'GET',
+      headers: headerParams,
+      search: queryParameters
+    };
 
-        // verify required parameter 'code' is not null or undefined
-        if (code === null || code === undefined) {
-            throw new Error('Required parameter code was null or undefined when calling commonCodeVerifyGet.');
+    return this.http.request(path, requestOptions)
+      .map((response: Response) => {
+        if (response.status === 204) {
+          return undefined;
+        } else {
+          return response.json();
         }
-        // verify required parameter 'phone' is not null or undefined
-        if (phone === null || phone === undefined) {
-            throw new Error('Required parameter phone was null or undefined when calling commonCodeVerifyGet.');
-        }
-        // verify required parameter 'uuid' is not null or undefined
-        if (uuid === null || uuid === undefined) {
-            throw new Error('Required parameter uuid was null or undefined when calling commonCodeVerifyGet.');
-        }
-        if (code !== undefined) {
-            queryParameters.set('code', code);
-        }
-
-        if (phone !== undefined) {
-            queryParameters.set('phone', phone);
-        }
-
-            headerParams.set('uuid', uuid);
-
-        let requestOptions: RequestOptionsArgs = {
-            method: 'GET',
-            headers: headerParams,
-            search: queryParameters
-        };
-
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
-    }
-
-    /**
-     * 数据字典， 返回服务类型
-     * 服务类型列表，服务端请使用缓存。做法:实现CleanAware接口，在clean里实现清理
-     */
-    public commonDictServicesGet (extraHttpRequestParams?: any ) : Observable<models.ServiceResponse> {
-        const path = this.basePath + '/common/dict/services';
-
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-
-        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 headerheaderParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
-
-
-        let requestOptions: RequestOptionsArgs = {
-            method: 'GET',
-            headers: headerParams,
-            search: queryParameters
-        };
-
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
-    }
+      });
+  }
 
 }
