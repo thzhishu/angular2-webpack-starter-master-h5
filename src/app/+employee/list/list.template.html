@@ -15,7 +15,7 @@
                     <div>服务次数</div>
                 </div>
             </div>
-            <div class="list-tbody" >
+            <div class="list-tbody" #listTbody scrollable [returnTop]="returnTop" (scrollEnd)="onScrollEnd($event)" (scrollTop)="onScrollTop($event)">
                 <div class="pr list-tds" *ngFor="let cr of employees; let idx = index;">
                     <div class="list-edit" (click)="onEditEmployee(cr, $event)" >编辑</div>
                     <div class="pr box box-h box-h-c list-tr "  >
@@ -25,23 +25,19 @@
                         <div>{{ cr.mobile ? cr.mobile : '-' }}</div>
                         <div>{{ cr.serviceTimes ? cr.serviceTimes : '-' }}</div>
                     </div>
-                    
                 </div>
-                    
-                
+                <div class="btn-more" *ngIf="next">
+                    <img  *ngIf="!end" src="/assets/img/loading-circle.gif" alt="" />
+                    {{end?'没有更多内容了':'加载中...'}}
+                </div>
             </div>
-            
-
-            
-                
         </div>
         <div class="list-empty box box-v box-v-cc" *ngIf="!employees.length">
             <div class="list-null">
                 <div class="img"></div>
-                <div class="btn tc" (click)="onAddNewEmployee()">+ 添加技师</div>        
+                <div class="btn tc" (click)="onAddNewEmployee()">+ 添加技师</div>
             </div>
         </div>
-        
     </div>
     <div class="box box-v box-v-cc confirm" *ngIf="showDelWin">
         <div class="box box-v confirm-c">
@@ -53,3 +49,4 @@
         </div>
     </div>
 </div>
+<div class="return-top" alt="回到顶部" *ngIf="isReturnTop" (click)="onReturnTop()" ></div>
