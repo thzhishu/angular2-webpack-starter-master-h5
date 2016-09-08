@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
 import { UserApi, ShopApi, Shop, MyAcountResponse } from 'client';
-
+import * as _ from 'lodash';
 
 @Component({
     selector: 'store-list',
@@ -48,5 +48,19 @@ export class StoreListComponent implements OnInit {
      */
     onEditStore(id) {
         this.router.navigate(['/dashboard/store/edit', id]);
+    }
+
+    //滑动按钮
+    onSwipeLeft(event,listTbody) {
+      event.preventDefault();
+      console.dir(listTbody.children);
+      _.forEach(listTbody.children,(val,i)=>{
+          val.children[1].classList.remove('swipeleft');
+      })
+      event.target.classList.add('swipeleft');
+    }
+    onSwipeRight(event,listTbody) {
+      event.preventDefault();
+      event.target.classList.remove('swipeleft');
     }
 }

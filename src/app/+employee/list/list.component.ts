@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
 import { EmployeeApi } from 'client';
 
+import * as _ from 'lodash';
 
 @Component({
   selector: 'employee-list',
@@ -90,6 +91,19 @@ export class EmployeeList implements OnInit {
   //返回头部
   onReturnTop() {
     this.returnTop = true;
+  }
+  //滑动按钮
+  onSwipeLeft(event,listTbody) {
+    event.preventDefault();
+    console.dir(listTbody.children);
+    _.forEach(listTbody.children,(val,i)=>{
+        val.classList.remove('swipeleft');
+    })
+    event.target.parentNode.classList.add('swipeleft');
+  }
+  onSwipeRight(event,listTbody) {
+    event.preventDefault();
+    event.target.parentNode.classList.remove('swipeleft');
   }
 
   // onDelEmployee() {

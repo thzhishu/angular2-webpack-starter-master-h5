@@ -7,11 +7,15 @@
         font-size:22px;
     }
     .sl-item {
+
         line-height: 78px;
         height:79px;
         border-top: 1px solid #e5e5e5;
         background:#fff;
-        
+        .swipeleft {
+          margin-left: -105px;
+          transition: all 0.25s ease-out;
+        }
 
         .sl-edit {
             width:105px;
@@ -21,10 +25,10 @@
             background: #8cc63f;
             color:#fff;
             text-align: center;
-           
+
         }
         .sl-txt {
-            
+            width: 100%;
             padding: 0 24px;
             background:#fff;
             height:78px;

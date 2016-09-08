@@ -12,7 +12,9 @@
     <div class="title-total">
         合计 <span class="text-warning">{{page?.total||0}}</span> 笔服务 平均 <span class="text-warning">{{list?.score||0}}</span> 分
     </div>
-    <div class="cr-list" (panleft)="!item?.customer?.isDelete&&onSwipeLeft($event,listTbody)" (panright)="!item?.customer?.isDelete&&onSwipeRight($event,listTbody)" *ngIf="!!list?.content">
+    <!-- 滑动按键 暂不需要-->
+    <!-- (panleft)="!item?.customer?.isDelete&&onSwipeLeft($event,listTbody)" (panright)="!item?.customer?.isDelete&&onSwipeRight($event,listTbody)" -->
+    <div class="cr-list"  *ngIf="!!list?.content">
         <div class="list-table">
             <div class="bh list-thead">
                 <div class="box box-h box-h-c list-tr list-ths">

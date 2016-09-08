@@ -5,7 +5,7 @@
         <div class="bw add-ico" (click)="onAddNewEmployee()" ></div>
     </div>
     <div class="cr-list">
-        <div class="list-table" *ngIf="employees.length">
+        <div class="list-table" (panleft)="onSwipeLeft($event,listTbody)" (panright)="onSwipeRight($event,listTbody)" *ngIf="employees.length">
             <div class="bh list-thead">
                 <div class="box box-h box-h-c list-tr list-ths">
                     <div>序号</div>

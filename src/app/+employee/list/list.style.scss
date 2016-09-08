@@ -10,7 +10,7 @@
 
     .list-table {
         position:relative;
-        
+
         height:100%;
         padding-top:79px;
 
@@ -32,13 +32,17 @@
             overflow-y:auto;
             overflow-x:hidden;
             -webkit-overflow-scrolling:touch;
+            .swipeleft {
+              margin-left: -105px;
+              transition: all 0.25s ease-out;
+            }
         }
-        
+
         .list-tr {
             padding:0 24px;
             border-bottom:1px solid #e5e5e5;
             width:640px;
-            
+
             > div {
                 height:78px;
                 line-height: 78px;
