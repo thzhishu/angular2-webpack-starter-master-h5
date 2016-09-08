@@ -121,8 +121,9 @@ export class EmployeeForm implements OnInit, OnDestroy {
     onSave() {
         if (this.submiting) return;
         let stores = this.stores.filter(store => store.checked);
-        let codesArr = stores.filter(store => store.code !== '');
-        if (this.employee.name === '' && codesArr.length === 0) {
+        let codesArr = stores.filter(store => store.code === '');
+        console.log(codesArr);
+        if (this.employee.name === '' && codesArr.length !== 0) {
             this.fieldErrMsg = '员工姓名与技师编号至少填一项';
             return;
         }
@@ -141,10 +142,12 @@ export class EmployeeForm implements OnInit, OnDestroy {
         this.submiting = true;
         if (!this.employee.id) {
             this.eApi.employeeSavePost( this.employee.name, this.employee.code, this.employee.mobile, shopIds, codes, '1' ).subscribe(data => {
+                this.submiting = false;
                 this.employeeRequestedHandler(data);
             }, err => console.error(err));
         } else {
             this.eApi.employeeUpdatePost( this.employee.id, this.employee.name, shopIds, codes, this.employee.code, this.employee.mobile ).subscribe(data => {
+                this.submiting = false;
                 this.employeeRequestedHandler(data);
             }, err => console.error(err));
         }
