@@ -276,44 +276,44 @@ export class CustomerApi {
    * @param pageNumber 当前页
    * @param pageSize 分页大小
    */
-  public customerSearchPhoneOrVehicleLicenceGet(phoneOrVehicleLicence: string, pageNumber?: number, pageSize?: number, extraHttpRequestParams?: any): Observable<models.CustomerSearchResponse> {
-    const path = this.basePath + '/customer/search/{phoneOrVehicleLicence}'
-      .replace('{' + 'phoneOrVehicleLicence' + '}', String(phoneOrVehicleLicence));
+  public customerSearchPhoneOrVehicleLicenceGet (phoneOrVehicleLicence: string, pageNumber?: number, pageSize?: number, extraHttpRequestParams?: any ) : Observable<models.CustomerSearchResponseEx> {
+      const path = this.basePath + '/customer/search/{phoneOrVehicleLicence}'
+          .replace('{' + 'phoneOrVehicleLicence' + '}', String(phoneOrVehicleLicence));
 
-    let queryParameters = new URLSearchParams();
-    let headerParams = this.defaultHeaders;
+      let queryParameters = new URLSearchParams();
+      let headerParams = this.defaultHeaders;
 
-    headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+      headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
+      headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+      headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
 
 
-    // verify required parameter 'phoneOrVehicleLicence' is not null or undefined
-    if (phoneOrVehicleLicence === null || phoneOrVehicleLicence === undefined) {
-      throw new Error('Required parameter phoneOrVehicleLicence was null or undefined when calling customerSearchPhoneOrVehicleLicenceGet.');
-    }
-    if (pageNumber !== undefined) {
-      queryParameters.set('pageNumber', String(pageNumber));
-    }
+      // verify required parameter 'phoneOrVehicleLicence' is not null or undefined
+      if (phoneOrVehicleLicence === null || phoneOrVehicleLicence === undefined) {
+          throw new Error('Required parameter phoneOrVehicleLicence was null or undefined when calling customerSearchPhoneOrVehicleLicenceGet.');
+      }
+      if (pageNumber !== undefined) {
+          queryParameters.set('pageNumber', String(pageNumber));
+      }
 
-    if (pageSize !== undefined) {
-      queryParameters.set('pageSize', String(pageSize));
-    }
+      if (pageSize !== undefined) {
+          queryParameters.set('pageSize', String(pageSize));
+      }
 
-    let requestOptions: RequestOptionsArgs = {
-      method: 'GET',
-      headers: headerParams,
-      search: queryParameters
-    };
+      let requestOptions: RequestOptionsArgs = {
+          method: 'GET',
+          headers: headerParams,
+          search: queryParameters
+      };
 
-    return this.http.request(path, requestOptions)
-      .map((response: Response) => {
-        if (response.status === 204) {
-          return undefined;
-        } else {
-          return response.json();
-        }
-      });
+      return this.http.request(path, requestOptions)
+          .map((response: Response) => {
+              if (response.status === 204) {
+                  return undefined;
+              } else {
+                  return response.json();
+              }
+          });
   }
 
   /**

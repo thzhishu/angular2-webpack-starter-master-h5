@@ -10,7 +10,7 @@ import { Md5 } from 'ts-md5/dist/md5';
     selector: 'customer-form',
     template: require('./form.template.html'),
     styles: [require('./form.style.scss')],
-    directives: [ROUTER_DIRECTIVES],
+    //directives: [ROUTER_DIRECTIVES],
     providers: [CustomerApi ]
 })
 export class CustomerForm implements OnInit {

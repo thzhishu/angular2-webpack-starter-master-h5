@@ -1,9 +1,9 @@
 import { Component, Input, Output, NgZone } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
-import { Http, Response, HTTP_PROVIDERS } from '@angular/http';
+
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
-import {  ControlGroup, FormBuilder, Control } from '@angular/common';
+
 import * as moment from 'moment';
 import * as _ from 'lodash';
 import { Md5 } from 'ts-md5/dist/md5';
@@ -12,15 +12,12 @@ import { Cookie } from 'services';
 
 @Component({
   selector: 'login',
-  directives: [
-    ...ROUTER_DIRECTIVES
-  ],
   template: require('./login.html'),
   styles: [require('./login.scss')],
-  providers: [HTTP_PROVIDERS, UserApi, CommonApi, ShopApi, Md5, Cookie]
+  providers: [UserApi, CommonApi, ShopApi, Md5, Cookie]
 })
 export class Login {
-  loginForm: ControlGroup;
+  loginForm: any;
   zone: any;
   user: any = { phone: '', rnd: '', pwd: '' };
   seekDisabeld: number = 0;
@@ -62,7 +59,7 @@ export class Login {
    * @return {[type]} [description]
    */
   getCodeImg() {
-    this.cApi.commonCaptchaBase64Post().subscribe((data: Response) => {
+    this.cApi.commonCaptchaBase64Post().subscribe((data) => {
       this.img = 'data:image/jpeg;base64,' + (data.text() || '');
       this.uApi.defaultHeaders.set('uuid', data.headers.get('uuid'));
     });

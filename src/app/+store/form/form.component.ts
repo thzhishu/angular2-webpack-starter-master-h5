@@ -15,7 +15,7 @@ const SERVICE_LIST = [
     selector: 'store-form',
     styles: [ require('./form.style.scss') ],
     template: require('./form.template.html'),
-    directives: [ROUTER_DIRECTIVES],
+    //directives: [ROUTER_DIRECTIVES],
     providers: [CommonApi, ShopApi, RegionApi, UserApi, Md5]
 })
 
