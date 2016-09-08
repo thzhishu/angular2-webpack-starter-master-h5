@@ -49,6 +49,13 @@ export class EmployeeForm implements OnInit, OnDestroy {
     // 表单字段错误
     fieldErrMsg: string = '';
 
+    // 删除弹出层
+    showTipWin: boolean = false;
+    tipMsg: string = '';
+    tipKey: string = '';
+    tipOkeyBtnTxt: string = '确定';
+    isAlert: boolean = false;
+
 
     constructor( private eApi: EmployeeApi, private sApi: ShopApi,  private router: Router, private route: ActivatedRoute ) {
     }
@@ -61,6 +68,9 @@ export class EmployeeForm implements OnInit, OnDestroy {
         this.sub && this.sub.unsubscribe();
     }
 
+    /**
+     * 通过Id获取员工
+     */
     getEmployeeById(id) {
         this.eApi.employeeEmployeeIdGet('', id).subscribe(data => {
             if (data.meta && data.meta.code === 200 && data.data) {
@@ -87,6 +97,9 @@ export class EmployeeForm implements OnInit, OnDestroy {
         });
     }
 
+    /**
+     * 获取所有门店
+     */
     getAllStores() {
         this.sApi.shopMyshopGet().subscribe((data) => {
             if (data.meta&&data.meta.code === 200 && data.data) {
@@ -108,6 +121,9 @@ export class EmployeeForm implements OnInit, OnDestroy {
         });
     }
 
+    /**
+     * 初始化门店弹出层
+     */
     initLayerStores() {
         this.layerStore = {
             stores: _.cloneDeep(this.stores),
@@ -118,12 +134,15 @@ export class EmployeeForm implements OnInit, OnDestroy {
         };
     }
 
+    /**
+     * 保存员工信息
+     */
     onSave() {
         if (this.submiting) return;
         let stores = this.stores.filter(store => store.checked);
-        let codesArr = stores.filter(store => store.code === '');
-        console.log(codesArr);
-        if (this.employee.name === '' && codesArr.length !== 0) {
+        let noCodesArr = stores.filter(store => store.code === '');
+        let haveCodeArr = stores.filter(store => store.code !== '');
+        if (this.employee.name === '' && noCodesArr.length !== 0) {
             this.fieldErrMsg = '员工姓名与技师编号至少填一项';
             return;
         }
@@ -136,6 +155,7 @@ export class EmployeeForm implements OnInit, OnDestroy {
             return;
         }
         this.fieldErrMsg = '';
+        stores = noCodesArr.concat(haveCodeArr);
         let shopIds = stores.map(store => store.id).join(',');
         let codes = stores.map(store => store.code).join(',');
         console.log('shopIds', shopIds, codes);
@@ -154,6 +174,9 @@ export class EmployeeForm implements OnInit, OnDestroy {
 
     }
 
+    /**
+     * 处理保存员工信息后的响应
+     */
     employeeRequestedHandler(data) {
         if (data.meta&&data.meta.code === 200) {
             this.router.navigate(['/dashboard/employee/list']);
@@ -164,9 +187,7 @@ export class EmployeeForm implements OnInit, OnDestroy {
         }
     }
 
-    back() {
-        window.history.back();
-    }
+    
     
 
     onSelectStore() {
@@ -257,6 +278,106 @@ export class EmployeeForm implements OnInit, OnDestroy {
     onStoreCodeBlur(store) {
         store.code = store.code.replace(/,/g, '').trim();
     }
+
+    /**
+     * 返回上一页
+     */
+    back() {
+        window.history.back()
+    }
+
+    /**
+     * 检查表单是否有改动
+     */
+    onGoBack() {
+        let employee = Md5.hashStr(JSON.stringify(this.employee), false).toString();
+        this.oldEmployee === employee ? this.back() : this.onShowSaveLayer();
+    }
+
+    /**
+     * 显示删除员工弹出层
+     */
+    onShowSaveLayer() {
+        this.tipMsg = '您有信息未保存';
+        this.tipKey = 'save-employee';
+        this.tipOkeyBtnTxt = '保存';
+        this.showConfirmLayer();
+    }
+
+    /**
+     * 删除员工 
+     */
+    delEmployee() {
+        this.eApi.employeeDeleteDelete(this.employee.id).subscribe(data => {
+            if (data.meta.code === 200 ) {
+                this.hideConfirmLayer();
+                this.router.navigate(['/dashboard/employee/list']);
+            } else {
+                if (data.error && data.error.message) {
+                    console.log(data.error.message);
+                }
+            }
+        }, err => console.error(err));
+    }
+
+    /**
+     * 显示删除员工弹出层
+     */
+    onShowDelEmplyeeLayer() {
+        this.tipMsg = '技师删除后，其历史服务记录不会被清除！';
+        this.tipKey = 'del-employee';
+        this.tipOkeyBtnTxt = '删除';
+        this.showConfirmLayer();
+    }
     
+    /**
+     * 显示 confirm 弹出层
+     */
+    showConfirmLayer() {
+        this.showTipWin = true;
+    }
+
+    /**
+     * 隐藏 confirm 弹出层
+     */
+    hideConfirmLayer() {
+        this.showTipWin = false;
+        this.tipMsg = '';
+        this.tipKey = '';
+        this.tipOkeyBtnTxt = '确定';
+    }
+
+    /**
+     * confirm 弹出层 点确定回调
+     */
+    onOkey(key) {
+        if (key === 'del-employee') {
+            this.delEmployee();
+            return;
+        }
+        if (key === 'save-employee') {
+            this.hideConfirmLayer();
+            this.onSave();
+            return;
+        }
+    }
+
+    /**
+     * confirm 弹出层 点取消回调
+     */
+    onCancel(key) {
+        if (key === 'del-employee') {
+            this.hideConfirmLayer();
+            return;
+        }
+        
+        if (key === 'save-employee') {
+            this.back();
+            return;
+        }
+        
+    }
 
 }
+
+
