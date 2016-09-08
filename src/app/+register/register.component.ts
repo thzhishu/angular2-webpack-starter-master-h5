@@ -1,6 +1,5 @@
 import { Component, Input, Output, NgZone } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
-import { HTTP_PROVIDERS, Response } from '@angular/http';
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 import * as moment from 'moment';
@@ -11,12 +10,9 @@ import { Cookie } from 'services';
 
 @Component({
   selector: 'register',
-  directives: [
-    ...ROUTER_DIRECTIVES
-  ],
   template: require('./register.html'),
   styles: [require('./register.scss')],
-  providers: [HTTP_PROVIDERS, UserApi, CommonApi, ShopApi, Md5, Cookie]
+  providers: [UserApi, CommonApi, ShopApi, Md5, Cookie]
 })
 export class Register {
   zone: any;
@@ -62,7 +58,7 @@ export class Register {
    * @return {[type]} [description]
    */
   getCodeImg() {
-    this.cApi.commonCaptchaBase64Post().subscribe((data: Response) => {
+    this.cApi.commonCaptchaBase64Post().subscribe((data) => {
       this.img = 'data:image/jpeg;base64,' + (data.text() || '');
       this.uApi.defaultHeaders.set('uuid', data.headers.get('uuid'));
       this.isCode = true;

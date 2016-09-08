@@ -6,7 +6,7 @@ import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
     selector: 'employee-add',
     template: require('./add.template.html'),
     styles: [require('./add.style.scss')],
-    directives: [ROUTER_DIRECTIVES]
+    //directives: [ROUTER_DIRECTIVES]
 })
 export class EmployeeAdd {
     

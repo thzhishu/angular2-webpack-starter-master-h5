@@ -23,6 +23,7 @@ export * from './CustomerListResponse';
 export * from './CustomerResponse';
 export * from './CustomerSearch';
 export * from './CustomerSearchResponse';
+export * from './CustomerSearchResponseEx';
 export * from './EmployeeItem';
 export * from './EmployeeListItem';
 export * from './EmployeeListResponse';

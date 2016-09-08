@@ -7,7 +7,7 @@ import { CustomerApi, Customer } from 'client';
   selector: 'cutomer-list',
   template: require('./list.template.html'),
   styles: [require('./list.style.scss')],
-  directives: [...ROUTER_DIRECTIVES],
+  //directives: [...ROUTER_DIRECTIVES],
   providers: [CustomerApi]
 })
 export class CustomerList implements OnInit {

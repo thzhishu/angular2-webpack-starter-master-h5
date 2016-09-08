@@ -7,7 +7,7 @@ import * as moment from 'moment';
   selector: 'report-week',
   template: require('./week.template.html'),
   styles: [require('./week.style.scss')],
-  directives: [ROUTER_DIRECTIVES],
+  //directives: [ROUTER_DIRECTIVES],
   providers: [ReportApi]
 })
 export class ReportWeek {

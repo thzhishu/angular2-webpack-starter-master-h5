@@ -5,7 +5,7 @@ import { ROUTER_DIRECTIVES, Router, ActivatedRoute, NavigationEnd } from '@angul
 	selector: 'home',
 	styleUrls: [ './home.style.scss' ],
 	template: require('./home.template.html'),
-	directives: [ROUTER_DIRECTIVES]
+	//directives: [ROUTER_DIRECTIVES]
 })
 export class Home {
 	showMenu: boolean = false;

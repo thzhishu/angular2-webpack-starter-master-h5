@@ -8,7 +8,7 @@ import { StoreFormComponent } from '../form/form.component';
     selector: 'store-init',
     styles: [ require('./init.style.scss') ],
     template: require('./init.template.html'),
-    directives: [ROUTER_DIRECTIVES],
+    //directives: [ROUTER_DIRECTIVES],
     providers: [ShopApi]
 })
 

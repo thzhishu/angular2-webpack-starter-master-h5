@@ -7,7 +7,7 @@ import { UserApi, ShopApi, Shop, MyAcountResponse } from 'client';
     selector: 'store-list',
     styles: [ require('./list.style.scss') ],
     template: require('./list.template.html'),
-    directives: [ROUTER_DIRECTIVES],
+    //directives: [ROUTER_DIRECTIVES],
     providers: [ShopApi]
 })
 

@@ -1,6 +1,6 @@
 import { Component, Input, Output, NgZone } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
-import { Http, Response, HTTP_PROVIDERS } from '@angular/http';
+
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 import * as moment from 'moment';
@@ -12,8 +12,8 @@ import { UserApi, CommonApi } from 'client';
   selector: 'forget-pwd',
   template: require('./forget-pwd.html'),
   styles: [require('./forget-pwd.scss')],
-  directives: [...ROUTER_DIRECTIVES],
-  providers: [HTTP_PROVIDERS, UserApi, CommonApi, Md5],
+  //directives: [...ROUTER_DIRECTIVES],
+  providers: [UserApi, CommonApi, Md5],
 })
 
 export class ForgetPwd {
@@ -51,7 +51,7 @@ export class ForgetPwd {
    * @return {[type]} [description]
    */
   getCodeImg() {
-    this.cApi.commonCaptchaBase64Post().subscribe((data: Response) => {
+    this.cApi.commonCaptchaBase64Post().subscribe((data) => {
      this.img = 'data:image/jpeg;base64,' + data.text();
      this.uuid =  data.headers.get('uuid');
       this.isCode = true;

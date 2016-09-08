@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { Http, Response, HTTP_PROVIDERS } from '@angular/http';
 import { UserApi, ShopApi, Shop, MyAcountResponse } from 'client';
 import { Cookie} from 'services';
 
@@ -30,8 +29,8 @@ const NO_TOPBAR_URLS = [
     selector: 'dashboard',
     template: require('./dashboard.template.html'),
     styles: [require('./dashboard.style.scss')],
-    directives: [ROUTER_DIRECTIVES],
-    providers: [HTTP_PROVIDERS, UserApi, ShopApi, Cookie]
+    //directives: [ROUTER_DIRECTIVES],
+    providers: [UserApi, ShopApi, Cookie]
 })
 export class Dashboard {
     showMenu: boolean = false;
@@ -48,7 +47,7 @@ export class Dashboard {
         this.routeSub = this.router.events.filter( event => event instanceof NavigationEnd)
                                           .map(event => event.url)
                                           .subscribe( data => {
-                                              
+
                                               console.log('NavigationEnd URL: ', data);
                                               if (_.includes(data,'/edit/')) {
                                                 data = data.slice(0, data.indexOf('/edit/') + 5);

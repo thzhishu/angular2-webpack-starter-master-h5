@@ -11,7 +11,7 @@ import * as _ from 'lodash';
     selector: 'employee-form',
     template: require('./form.template.html'),
     styles: [require('./form.style.scss')],
-    directives: [ROUTER_DIRECTIVES],
+    //directives: [ROUTER_DIRECTIVES],
     providers: [EmployeeApi, ShopApi ]
 })
 export class EmployeeForm implements OnInit, OnDestroy {

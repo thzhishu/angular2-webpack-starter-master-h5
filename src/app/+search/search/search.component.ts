@@ -7,7 +7,7 @@ import { CustomerApi, Customer,CustomerSearchResponse } from 'client';
     selector: 'search-page',
     template: require('./search.template.html'),
     styles: [require('./search.style.scss')],
-    directives: [...ROUTER_DIRECTIVES],
+    //directives: [...ROUTER_DIRECTIVES],
     providers: [CustomerApi]
 })
 export class SearchPage implements OnInit {

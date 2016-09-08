@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -13,7 +13,7 @@ export const routes = [
 @NgModule({
     declarations: [ StoreInitComponent ],
     imports: [
-        BrowserModule,
+        CommonModule,
         FormsModule,
         RouterModule.forChild(routes),
         SFMModule

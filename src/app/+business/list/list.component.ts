@@ -1,6 +1,6 @@
 import { Component, Input, Output, NgZone, OnDestroy } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
-import { Http, Response, HTTP_PROVIDERS } from '@angular/http';
+
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';

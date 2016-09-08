@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, NgZone } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
-import { HTTP_PROVIDERS } from '@angular/http';
-import {  ControlGroup, FormBuilder, Control, NgControlGroup } from '@angular/common';
+
+
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -18,8 +18,8 @@ import { BusinessApi, EmployeeApi, CustomerApi, Customer, EmployeeListItem, Cust
   selector: 'business-edit',
   template: require('./edit.html'),
   styles: [require('./edit.scss')],
-  directives: [ROUTER_DIRECTIVES],
-  providers: [HTTP_PROVIDERS, BusinessApi, EmployeeApi, CustomerApi, Md5]
+  //directives: [ROUTER_DIRECTIVES],
+  providers: [BusinessApi, EmployeeApi, CustomerApi, Md5]
 })
 
 export class BusinessEditComponent implements OnInit {

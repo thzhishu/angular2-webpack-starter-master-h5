@@ -7,7 +7,7 @@ import { EmployeeApi } from 'client';
   selector: 'employee-list',
   template: require('./list.template.html'),
   styles: [require('./list.style.scss')],
-  directives: [...ROUTER_DIRECTIVES],
+  //directives: [...ROUTER_DIRECTIVES],
   providers: [EmployeeApi]
 })
 export class EmployeeList implements OnInit {

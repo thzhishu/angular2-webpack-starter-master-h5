@@ -15,7 +15,7 @@ describe('x-large directive', () => {
   // Create a test component to test directives
   @Component({
     template: '',
-    directives: [ XLarge ]
+    //directives: [ XLarge ]
   })
   class TestComponent {}
 

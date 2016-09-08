@@ -9,7 +9,7 @@ import { Md5 } from 'ts-md5/dist/md5';
     selector: 'store-edit',
     styles: [ require('./edit.style.scss') ],
     template: require('./edit.template.html'),
-    directives: [ROUTER_DIRECTIVES],
+    //directives: [ROUTER_DIRECTIVES],
     providers: [ShopApi, UserApi]
 })
 
