@@ -1,6 +1,6 @@
 <div class="db-c-wrap store">
     <div class="box box-h box-h-c db-title">
-        <div class="bw back-ico"></div>
+        <div class="bw back-ico" (click)="back()"></div>
         <div class="ellipsis tc flex-1">门店列表</div>
         <div class="bw add-ico" (click)="onAddStore()" ></div>
     </div>
@@ -9,9 +9,6 @@
             <div class="pa sl-edit" (click)="onEditStore(store.id)">编辑</div>
             <div class="pr sl-txt ellipsis">{{store.name}}</div>
         </div>
-        
-        
-        
     </div>
     
 </div>

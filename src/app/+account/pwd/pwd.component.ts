@@ -46,7 +46,7 @@ export class AccountPwd {
             this.submitting = false;
             if (data.meta&&data.meta.code === 200) {
                 if (data.data) {
-                    this.isLeaveSave ? window.history.back() : this.router.navigate(['/dashbroad/account/info']);
+                    this.isLeaveSave ? window.history.back() : this.router.navigate(['/dashboard/account/info']);
                 }
             } else {
                 this.fieldErrMsg = data.error.message;

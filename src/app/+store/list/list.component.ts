@@ -49,4 +49,11 @@ export class StoreListComponent implements OnInit {
     onEditStore(id) {
         this.router.navigate(['/dashboard/store/edit', id]);
     }
+
+    /**
+     * 返回上一页
+     */
+    back() {
+        window.history.back();
+    }
 }
