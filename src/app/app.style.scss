@@ -129,11 +129,11 @@ input {
   color: #f16557;
   font-size: 24px;
   padding: 0 20px 10px;
-  margin-bottom: 10px;
+  margin-bottom: 14px;
 }
 
 .content {
-  margin: 25px 0;
+  margin: 25px 0 36px;
 }
 
 .input-group {
@@ -162,12 +162,12 @@ input {
   }
 
   .input-img {
-    float: right;
-    height: 85.25px;
-    width: 247.5px;
-    position: absolute;
-    right: 117px;
-    top: 0;
+      float: right;
+      height: 68px;
+      width: 196px;
+      position: absolute;
+      right: 117px;
+      top: 9px;
   }
 
   .input-btn {
@@ -223,7 +223,7 @@ input {
 .find-mima {
   width: 122px;
   display: block;
-  margin: 25px;
+  margin: 14px 25px;
   text-decoration: none;
 }
 

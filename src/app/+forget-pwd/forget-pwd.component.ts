@@ -219,7 +219,7 @@ export class ForgetPwd {
       this.errorMsg = '密码不能为空';
       return true;
     }
-    if(f.value.pwd.length<6&&f.value.pwd.length>16){
+    if(f.value.pwd.length<6||f.value.pwd.length>16){
         this.errorMsg = '请输入由6~16位的英文字母,数字和符号组成的密码';
         return true;
     }
@@ -236,7 +236,7 @@ export class ForgetPwd {
       this.errorMsg = '确认密码不能为空';
       return true;
     }
-    if(f.value.checkPwd.length<6&&f.value.checkPwd.length>16){
+    if(f.value.checkPwd.length<6||f.value.checkPwd.length>16){
         this.errorMsg = '请输入由6~16位的英文字母,数字和符号组成的密码';
         return true;
     }

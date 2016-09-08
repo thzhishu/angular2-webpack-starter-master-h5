@@ -29,11 +29,13 @@
                     我已接受</label><span class="text-primary">《<a class="protocol text-primary" (click)="onOpenProtocol($event)">天会智数隐私协议</a>》</span>
             </div>
         </div>
-        <div class="alert-error" *ngIf="errorMsg">
-            {{errorMsg}}
+        <div class="alert-error">
+            <!-- 临时解决 -->
+            <span *ngIf="errorMsg=='手机号已被注册'||errorMsg=='该手机号码已注册，请登录'">该手机号码已注册,请<a class="btn-link" routerLink="/login">登录</a></span>
+            <span *ngIf="!(errorMsg=='手机号已被注册'||errorMsg=='该手机号码已注册，请登录')">{{errorMsg}}</span>
         </div>
         <div class="btn-block">
-            <button type="submit" class="btn btn-primary" [disabled]="loading&&!user.protocol" >注&nbsp;&nbsp;册</button>
+            <button type="submit" class="btn btn-primary" [disabled]="loading||!user.protocol" >注&nbsp;&nbsp;册</button>
         </div>
     </form>
     </div>
