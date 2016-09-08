@@ -219,18 +219,35 @@ export class ForgetPwd {
       this.errorMsg = '密码不能为空';
       return true;
     }
-    if (!(/.{6,16}/.test(f.value.pwd))) {
-      this.errorMsg = '请输入由6~16位的英文字母、数字或字符组成的密码';
-      return true;
+    if(f.value.pwd.length<6&&f.value.pwd.length>16){
+        this.errorMsg = '请输入由6~16位的英文字母,数字和符号组成的密码';
+        return true;
     }
+    if (/^(?![a-zA-z]+$)(?!\d+$)(?![!@#$%^&*]+$)(?![a-zA-z\d]+$)(?![a-zA-z!@#$%^&*]+$)(?![\d!@#$%^&*]+$)[a-zA-Z\d!@#$%^&*]+$/.test(f.value.pwd)) {
+        this.errorMsg = '请输入由6~16位的英文字母,数字和符号组成的密码';
+        return true;
+    }
+
+    // if (!(/.{6,16}/.test(f.value.pwd))) {
+    //   this.errorMsg = '请输入由6~16位的英文字母、数字或字符组成的密码';
+    //   return true;
+    // }
     if (f.controls.checkPwd.errors && f.controls.checkPwd.errors.required) {
       this.errorMsg = '确认密码不能为空';
       return true;
     }
-    if (!(/^.{6,16}$/.test(f.value.checkPwd))) {
-      this.errorMsg = '请输入由6~16位的英文字母、数字或字符组成的密码';
-      return true;
+    if(f.value.checkPwd.length<6&&f.value.checkPwd.length>16){
+        this.errorMsg = '请输入由6~16位的英文字母,数字和符号组成的密码';
+        return true;
     }
+    if (/^(?![a-zA-z]+$)(?!\d+$)(?![!@#$%^&*]+$)(?![a-zA-z\d]+$)(?![a-zA-z!@#$%^&*]+$)(?![\d!@#$%^&*]+$)[a-zA-Z\d!@#$%^&*]+$/.test(f.value.checkPwd)) {
+        this.errorMsg = '请输入由6~16位的英文字母,数字和符号组成的密码';
+        return true;
+    }
+    // if (!(/^.{6,16}$/.test(f.value.checkPwd))) {
+    //   this.errorMsg = '请输入由6~16位的英文字母、数字或字符组成的密码';
+    //   return true;
+    // }
     if(f.value.checkPwd!==f.value.pwd){
         this.errorMsg = '两次密码不一致,请重新输入';
         return true;
