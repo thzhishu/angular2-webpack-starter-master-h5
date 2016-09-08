@@ -58,6 +58,7 @@ export class CommonApi {
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
 
+
         let requestOptions: RequestOptionsArgs = {
             method: 'POST',
             headers: headerParams,
@@ -66,7 +67,7 @@ export class CommonApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
                     return response;
@@ -78,7 +79,7 @@ export class CommonApi {
      * 验证码，返回的是stream， 客户端直接在图片src引用api url
      * 通过的验证码接口
      */
-    public commonCaptchaPost (extraHttpRequestParams?: any ) : Observable<Response> {
+    public commonCaptchaPost (extraHttpRequestParams?: any ) : Observable<{}> {
         const path = this.basePath + '/common/captcha';
 
         let queryParameters = new URLSearchParams();
@@ -86,6 +87,7 @@ export class CommonApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
 
         let requestOptions: RequestOptionsArgs = {
             method: 'POST',
@@ -95,17 +97,17 @@ export class CommonApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    return response;
+                    return response.json();
                 }
             });
     }
 
     /**
      * 验证图形验证码的有效性
-     * 
+     *
      * @param uuid 访问验证码生成的uuid
      * @param code 验证码
      */
@@ -141,14 +143,13 @@ export class CommonApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }
-
 
     /**
      * 找回密码，检验手机验证码有效性， 客户端在点下一步时候调用, 如果服务端返回200， 则json里个修改密码的凭证sign. 客户端需要将在/user/updatePwd接口用到sign
@@ -165,6 +166,7 @@ export class CommonApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
 
         // verify required parameter 'code' is not null or undefined
         if (code === null || code === undefined) {
@@ -196,10 +198,10 @@ export class CommonApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }
@@ -217,6 +219,7 @@ export class CommonApi {
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
 
+
         let requestOptions: RequestOptionsArgs = {
             method: 'GET',
             headers: headerParams,
@@ -225,10 +228,10 @@ export class CommonApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {    alert('您离开时间过长,需要重新登录');                      window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }

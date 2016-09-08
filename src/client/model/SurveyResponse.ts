@@ -30,7 +30,7 @@ export interface SurveyResponse {
 
     meta?: models.Meta;
 
-    data?: any;
+    data?: models.SurveyBody;
 
     error?: models.Error;
 }

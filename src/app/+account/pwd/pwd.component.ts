@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserApi, CommonApi } from 'client';
+import { UserApi, CommonApi,UserResponse } from 'client';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
 import { Md5 } from 'ts-md5/dist/md5';
 
@@ -27,14 +27,14 @@ export class AccountPwd {
     isLeaveSave: boolean = false;
 
     constructor(private router: Router, private uApi: UserApi) {
-        
+
     }
 
     ngOnInit() {
         this.isLeaveSave = false;
     }
 
-    
+
     onSave() {
         if ( (this.fieldErrMsg !== '') || !this.checkPwd() ) return;
         if (this.submitting) return;
@@ -42,10 +42,10 @@ export class AccountPwd {
         let np = Md5.hashStr(this.newPwd.trim(), false).toString();
         let rnp = Md5.hashStr(this.reNewPwd.trim(), false).toString();
         this.submitting = true;
-        this.uApi.userChangePwdPost(op, np, rnp).subscribe(data => {
+        this.uApi.userChangePwdPost(op, np, rnp).subscribe((data:UserResponse) => {
             this.submitting = false;
             if (data.meta&&data.meta.code === 200) {
-                if (data.data && data.data.User) {
+                if (data.data) {
                     this.isLeaveSave ? window.history.back() : this.router.navigate(['/dashbroad/account/info']);
                 }
             } else {
@@ -118,7 +118,7 @@ export class AccountPwd {
             this.onSave();
             return;
         }
-        
+
     }
     onCancel(key) {
         this.showTipWin = false;

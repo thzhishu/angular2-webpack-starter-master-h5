@@ -45,7 +45,6 @@ export class CustomerApi {
         }
     }
 
-
     /**
      * 删除顾客信息
      * 根据顾客id删除顾客
@@ -57,8 +56,11 @@ export class CustomerApi {
 
         let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
+
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
+
         // verify required parameter 'customerId' is not null or undefined
         if (customerId === null || customerId === undefined) {
             throw new Error('Required parameter customerId was null or undefined when calling customerCustomerIdDeleteDelete.');
@@ -94,6 +96,7 @@ export class CustomerApi {
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
 
+
         // verify required parameter 'customerId' is not null or undefined
         if (customerId === null || customerId === undefined) {
             throw new Error('Required parameter customerId was null or undefined when calling customerCustomerIdGet.');
@@ -106,20 +109,22 @@ export class CustomerApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }
 
     /**
-     * 根据顾客id获取顾客详情和历史服务记录
+     * 根据顾客id获取顾客详情和历史生意记录
      *
      * @param customerId 顾客id
+     * @param pageNumber 当前页
+     * @param pageSize 分页大小
      */
-    public customerHistoryCustomerIdGet (customerId: string, pageNumber?: string, pageSize?: string, extraHttpRequestParams?: any ) : Observable<models.CustomerSearchResponse> {
+    public customerHistoryCustomerIdGet (customerId: string, pageNumber?: number, pageSize?: number, extraHttpRequestParams?: any ) : Observable<models.CustomerSearchResponse> {
         const path = this.basePath + '/customer/history/{customerId}'
             .replace('{' + 'customerId' + '}', String(customerId));
 
@@ -129,17 +134,17 @@ export class CustomerApi {
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
 
+
         // verify required parameter 'customerId' is not null or undefined
         if (customerId === null || customerId === undefined) {
             throw new Error('Required parameter customerId was null or undefined when calling customerHistoryCustomerIdGet.');
         }
-
         if (pageNumber !== undefined) {
-            queryParameters.set('pageNumber', pageNumber);
+            queryParameters.set('pageNumber', String(pageNumber));
         }
 
         if (pageSize !== undefined) {
-            queryParameters.set('pageSize', pageSize);
+            queryParameters.set('pageSize', String(pageSize));
         }
 
         let requestOptions: RequestOptionsArgs = {
@@ -150,21 +155,21 @@ export class CustomerApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }
 
     /**
-     * 根据顾客id获取顾客详情和历史服务记录
+     * 根据顾客id获取顾客详情和历史生意记录
      *
      * @param pageNumber 当前页
      * @param pageSize 分页大小
      */
-    public customerListGet (pageNumber?: string, pageSize?: string, extraHttpRequestParams?: any ) : Observable<models.CustomerListResponse> {
+    public customerListGet (pageNumber?: number, pageSize?: number, extraHttpRequestParams?: any ) : Observable<models.CustomerListResponse> {
         const path = this.basePath + '/customer/list';
 
         let queryParameters = new URLSearchParams();
@@ -173,12 +178,13 @@ export class CustomerApi {
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
 
+
         if (pageNumber !== undefined) {
-            queryParameters.set('pageNumber', pageNumber);
+            queryParameters.set('pageNumber', String(pageNumber));
         }
 
         if (pageSize !== undefined) {
-            queryParameters.set('pageSize', pageSize);
+            queryParameters.set('pageSize', String(pageSize));
         }
 
         let requestOptions: RequestOptionsArgs = {
@@ -189,10 +195,10 @@ export class CustomerApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }
@@ -212,7 +218,7 @@ export class CustomerApi {
      * @param vehicleYear 购买年份
      * @param vehicleMiles 行驶里程
      */
-    public customerSaveOrUpdatePost (vehicleLicence: string, id?: string, mobile?: string, vehicleFrame?: string, name?: string, birthYear?: string, gender?: string, vehicleBrand?: string, vehicleModel?: string, vehicleYear?: string, vehicleMiles?: string, extraHttpRequestParams?: any ) : Observable<models.CustomerResponse> {
+    public customerSaveOrUpdatePost (vehicleLicence: string, id?: string, mobile?: string, vehicleFrame?: string, name?: string, birthYear?: number, gender?: number, vehicleBrand?: string, vehicleModel?: string, vehicleYear?: string, vehicleMiles?: string, extraHttpRequestParams?: any ) : Observable<models.CustomerResponse> {
         const path = this.basePath + '/customer/saveOrUpdate';
 
         let queryParameters = new URLSearchParams();
@@ -220,6 +226,7 @@ export class CustomerApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
 
         let formParams = new URLSearchParams();
 
@@ -234,13 +241,12 @@ export class CustomerApi {
         formParams.append('mobile',mobile);
         formParams.append('vehicleFrame',vehicleFrame);
         formParams.append('name',name);
-        formParams.append('birthYear', birthYear.toString());
-        formParams.append('gender',gender.toString());
+        formParams.append('birthYear',String(birthYear));
+        formParams.append('gender',String(gender));
         formParams.append('vehicleBrand',vehicleBrand);
         formParams.append('vehicleModel',vehicleModel);
         formParams.append('vehicleYear',vehicleYear);
         formParams.append('vehicleMiles',vehicleMiles);
-
         let requestOptions: RequestOptionsArgs = {
             method: 'POST',
             headers: headerParams,
@@ -250,10 +256,10 @@ export class CustomerApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }
@@ -265,7 +271,7 @@ export class CustomerApi {
      * @param pageNumber 当前页
      * @param pageSize 分页大小
      */
-    public customerSearchPhoneOrVehicleLicenceGet (phoneOrVehicleLicence: string, pageNumber?: string, pageSize?: string, extraHttpRequestParams?: any ) : Observable<models.CustomerSearchResponse> {
+    public customerSearchPhoneOrVehicleLicenceGet (phoneOrVehicleLicence: string, pageNumber?: number, pageSize?: number, extraHttpRequestParams?: any ) : Observable<models.CustomerSearchResponse> {
         const path = this.basePath + '/customer/search/{phoneOrVehicleLicence}'
             .replace('{' + 'phoneOrVehicleLicence' + '}', String(phoneOrVehicleLicence));
 
@@ -275,16 +281,17 @@ export class CustomerApi {
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
 
+
         // verify required parameter 'phoneOrVehicleLicence' is not null or undefined
         if (phoneOrVehicleLicence === null || phoneOrVehicleLicence === undefined) {
             throw new Error('Required parameter phoneOrVehicleLicence was null or undefined when calling customerSearchPhoneOrVehicleLicenceGet.');
         }
         if (pageNumber !== undefined) {
-            queryParameters.set('pageNumber', pageNumber);
+            queryParameters.set('pageNumber', String(pageNumber));
         }
 
         if (pageSize !== undefined) {
-            queryParameters.set('pageSize', pageSize);
+            queryParameters.set('pageSize', String(pageSize));
         }
 
         let requestOptions: RequestOptionsArgs = {
@@ -295,10 +302,10 @@ export class CustomerApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }
@@ -317,7 +324,7 @@ export class CustomerApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-        
+
 
         // verify required parameter 'vehicleLicence' is not null or undefined
         if (vehicleLicence === null || vehicleLicence === undefined) {
@@ -331,10 +338,10 @@ export class CustomerApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }

@@ -39,7 +39,7 @@ export interface BusinessList {
     score?: number;
 
     /**
-     * 服务列表
+     * 生意列表
      */
     content?: Array<models.BusinessListItem>;
 }

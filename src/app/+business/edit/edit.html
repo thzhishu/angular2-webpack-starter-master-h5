@@ -2,7 +2,7 @@
   <div class="box box-h box-h-c db-title">
     <div class="bw back-ico" (click)="back()"></div>
     <div class="ellipsis tc flex-1">编辑服务</div>
-    <div class="btn btn-default" (click)="onSubmit(f)">保存</div>
+    <div class="btn btn-default" (click)="!loading&&onSubmit(f)">保存</div>
   </div>
   <div class="cr-add">
     <div class="cr-form">
@@ -40,11 +40,11 @@
         </div>
         <div class="fm-field" *ngIf="business.employeeId==-1">
           <div class="box-block">
-            <input class="flex-1 fm-ipt-block" placeholder="请输入员工姓名" name="employeeName" type="text" maxlength="17" [(ngModel)]="business.employeeName">
+            <input class="flex-1 fm-ipt-block" placeholder="请输入员工姓名" name="employeeName" type="text" maxlength="17" [(ngModel)]="employeeName">
             <span class="inner-tip"><b>*</b>至少填一项</span>
           </div>
           <div class="box-block">
-              <input class="flex-1 fm-ipt-block" placeholder="请输入员工编号" name="employeeCode" type="text" maxlength="17" [(ngModel)]="business.employeeCode">
+              <input class="flex-1 fm-ipt-block" placeholder="请输入员工编号" name="employeeCode" type="text" maxlength="17" [(ngModel)]="employeeCode">
           </div>
         </div>
         <div class="box box-h fm-field">

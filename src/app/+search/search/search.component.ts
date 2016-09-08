@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
-import { CustomerApi, Customer } from 'client';
+import { CustomerApi, Customer,CustomerSearchResponse } from 'client';
 
 
 @Component({
@@ -20,7 +20,7 @@ export class SearchPage implements OnInit {
     showHistories: boolean = true;
     customers = [];
     constructor(private capi: CustomerApi, private router: Router, private route: ActivatedRoute) {
-        
+
     }
 
     ngOnInit() {
@@ -45,7 +45,7 @@ export class SearchPage implements OnInit {
         this.setSearchHistory(this.searchStr);
         // this.router.navigate(['/dashboard/search/result', encodeURIComponent(this.searchStr)]);
         this.getSearchCustomers(encodeURIComponent(this.searchStr));
-        
+
 
     }
     setSearchHistory(str) {
@@ -56,7 +56,7 @@ export class SearchPage implements OnInit {
         this.searchHistories.unshift(str);
         this.searchHistories = this.searchHistories.slice(0, 10);
         window.localStorage.setItem('thzs-search-histories', JSON.stringify(this.searchHistories));
-        
+
     }
     goSearch(hs) {
         this.searchStr = hs;
@@ -112,16 +112,18 @@ export class SearchPage implements OnInit {
 
     getSearchCustomers(str) {
 		console.log('customer search list....');
-		this.capi.customerSearchPhoneOrVehicleLicenceGet(str).subscribe( data => {
+		this.capi.customerSearchPhoneOrVehicleLicenceGet(str).subscribe( (data:CustomerSearchResponse) => {
 			if (data.meta&&data.meta.code === 200 && data.data) {
-				let dd = data.data;
-				if ( dd.length === 1 ) {
-					this.router.navigate(['/dashboard/customer/detail', dd[0].id]);
-				} else {
-					this.customers = dd;
-                    this.showHistories = false;
-				}
-				
+
+                //by tobeplus 临时注释 夏老师修改
+				// let dd = data.data;
+				// if ( dd.length === 1 ) {
+				// 	this.router.navigate(['/dashboard/customer/detail', dd[0].id]);
+				// } else {
+				// 	this.customers = dd;
+                //     this.showHistories = false;
+				// }
+
 			} else {
 				this.customers = [];
 			}

@@ -5,12 +5,12 @@
         <div class="bw add-ico" routerLink="../../../add"></div>
     </div>
     <div class="time-block">
-        <a class="fl arrow" (click)="onLastDate()">&lt;</a>
-        <input type="date" name="name" class="time-btn" [max]="today" [(ngModel)]="date" (change)="onPickerChange(date)">
-        <a class="fr arrow" [hidden]="!isToday()" (click)="onNextDate()">&gt;</a>
+        <a class="arrow-left arrow" (click)="onLastDate()">&lt;</a>
+        <input type="date" name="name" class="time-btn" required [max]="today" [ngModel]="date" (ngModelChange)="onPickerChange($event)">
+        <a class="arrow-right arrow" [hidden]="!isToday()" (click)="onNextDate()">&gt;</a>
     </div>
     <div class="title-total">
-        {{scrollEnd}}合计 <span class="text-warning">{{page?.total||0}}</span> 笔服务 平均 <span class="text-warning">{{list?.score||0}}</span> 分
+        合计 <span class="text-warning">{{page?.total||0}}</span> 笔服务 平均 <span class="text-warning">{{list?.score||0}}</span> 分
     </div>
     <div class="cr-list" (panleft)="!item?.customer?.isDelete&&onSwipeLeft($event,listTbody)" (panright)="!item?.customer?.isDelete&&onSwipeRight($event,listTbody)" *ngIf="!!list?.content">
         <div class="list-table">
@@ -33,7 +33,7 @@
                     <div>{{item.employee}}</div>
                     <div>{{item.score}}</div>
                     <div class="list-edit" [routerLink]="['../../../edit',item.id]">编辑</div>
-                    <div class="list-del" (click)="onDelRecord(item)">删除</div>
+                    <div class="list-del" (click)="onDelRecord(item,$event)">删除</div>
                 </div>
                 <div class="btn-more" *ngIf="next">
                     <img  *ngIf="!end" src="/assets/img/loading-circle.gif" alt="" />

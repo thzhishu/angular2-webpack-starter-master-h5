@@ -30,7 +30,7 @@ export interface BehaviorReportResponse {
 
     meta?: models.Meta;
 
-    data?: Array<models.BehaviorReport>;
+    data?: models.BehaviorReport;
 
     error?: models.Error;
 }

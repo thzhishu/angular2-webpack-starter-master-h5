@@ -50,7 +50,7 @@ export class RegionApi {
      * 
      * @param cityId 省份id
      */
-    public regionCityIdCountyGet (cityId: string, extraHttpRequestParams?: any ) : Observable<models.CustomerSearchResponse> {
+    public regionCityIdCountyGet (cityId: string, extraHttpRequestParams?: any ) : Observable<models.RegionListResponse> {
         const path = this.basePath + '/region/{cityId}/county'
             .replace('{' + 'cityId' + '}', String(cityId));
 
@@ -59,6 +59,7 @@ export class RegionApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
 
         // verify required parameter 'cityId' is not null or undefined
         if (cityId === null || cityId === undefined) {
@@ -72,10 +73,10 @@ export class RegionApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }
@@ -93,6 +94,7 @@ export class RegionApi {
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
 
+
         let requestOptions: RequestOptionsArgs = {
             method: 'GET',
             headers: headerParams,
@@ -101,10 +103,10 @@ export class RegionApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }
@@ -124,6 +126,7 @@ export class RegionApi {
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
 
+
         // verify required parameter 'provinceId' is not null or undefined
         if (provinceId === null || provinceId === undefined) {
             throw new Error('Required parameter provinceId was null or undefined when calling regionProvinceIdCityGet.');
@@ -136,10 +139,10 @@ export class RegionApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login';                     return undefined;                 } else if (response.status === 204) {
+                if (response.status === 204) {
                     return undefined;
                 } else {
-                    if (response.json().meta&&response.json().meta.code === 401) {   alert('您离开时间过长,需要重新登录');                         window.location.href = '/#/login';                     return undefined;}                     return response.json();
+                    return response.json();
                 }
             });
     }

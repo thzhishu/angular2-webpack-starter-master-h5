@@ -26,7 +26,7 @@
 import * as models from './models';
 
 /**
- * 服务
+ * 生意
  */
 export interface BusinessListItem {
     
@@ -80,4 +80,9 @@ export interface BusinessListItem {
      * 满意度评分 
      */
     score?: number;
+
+    /**
+     * 1正常，4顾客被删除
+     */
+    customerStatus?: number;
 }

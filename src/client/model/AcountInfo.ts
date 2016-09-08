@@ -34,9 +34,9 @@ export interface AcountInfo {
     packages?: string;
 
     /**
-     * 门店列表
+     * 角色列表, H5新增
      */
-    shops?: Array<models.Shop>;
+    roles?: Array<models.Role>;
 
     user?: models.User;
 }

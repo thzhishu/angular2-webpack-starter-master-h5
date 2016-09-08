@@ -34,7 +34,7 @@ export interface CustomerSearch {
     totalAmount?: number;
 
     /**
-     * 服务评价平均分
+     * 生意评价平均分
      */
     totalAvgScore?: number;
 
@@ -43,5 +43,5 @@ export interface CustomerSearch {
     /**
      * 交易明细列表
      */
-    histories?: Array<models.BusinessHistoryDetail>;
+    histories?: Array<models.CustomerHistoryItem>;
 }
