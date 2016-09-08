@@ -102,9 +102,9 @@ export class Login {
       .subscribe((data:UserLoginResponse) => {
         this.loading = 0;
         if (data.meta&&data.meta.code === 200) {
-          Cookie.save('token', data.data.token, 7);
-          Cookie.save('shopId', data.data.lastShopId,7);
-          Cookie.save('clientType', 'h5', 7);
+          Cookie.save('token', data.data.token, 14);
+          Cookie.save('shopId', data.data.lastShopId,14);
+          Cookie.save('clientType', 'h5', 14);
           this.sApi.defaultHeaders.set('token', data.data.token);
           if (data.data.lastShopId === null) {
             this.router.navigate(['/init-store']);

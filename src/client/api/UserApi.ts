@@ -490,11 +490,13 @@ export class UserApi {
     if (sign === null || sign === undefined) {
       throw new Error('Required parameter sign was null or undefined when calling userPasswordSmsPost.');
     }
+    // headerParams.set('Content-Type', 'application/json');
     headerParams.set('Content-Type', 'application/x-www-form-urlencoded');
 
     formParams.append('mobile', mobile);
     formParams.append('rnd', rnd);
     formParams.append('sign', sign);
+
     let requestOptions: RequestOptionsArgs = {
       method: 'POST',
       headers: headerParams,
