@@ -40,7 +40,7 @@ export class CustomerList implements OnInit {
       if (scroll && !this.end) {
         this.page.current++;
       }
-      this.capi.customerListGet(curPage, pageSize).subscribe(res => {
+      this.capi.customerListGet(this.page.current, pageSize).subscribe(res => {
         if (res.meta && res.meta.code === 200) {
           if (res.data&&res.data.length>0) {
             if (scroll) {
@@ -49,8 +49,6 @@ export class CustomerList implements OnInit {
               this.customers = res.data;
             }
             this.page.current = res.meta.current;
-            this.page.limit = res.meta.limit;
-            this.page.total = res.meta.total;
           } else {
             if (scroll) {
               this.end = true;
@@ -61,6 +59,8 @@ export class CustomerList implements OnInit {
         } else {
           alert(res.error.message);
         }
+        this.page.limit = res.meta.limit;
+        this.page.total = res.meta.total;
         this.loading = false;
       }, err => {
         console.error(err);
