@@ -45,6 +45,15 @@ export class CustomerDetail implements OnInit {
   isReturnTop: boolean = false;
   returnTop: boolean = false;
 
+  showTipWin: boolean = false;
+  tipMsg: string = '';
+  tipKey: string = '';
+  tipOkeyBtnTxt: string = '确定';
+  isAlert: boolean = false;
+
+  tempBusinessId: any;
+
+
   constructor(private cApi: CustomerApi, private router: Router, private route: ActivatedRoute, private bApi: BusinessApi) {
 
   }
@@ -245,4 +254,74 @@ export class CustomerDetail implements OnInit {
   //     event.target.parentNode.parentNode.classList.remove('panup');
   //   }
   // }
+
+  /**
+   * 删除指定的服务
+   */
+  delBusiness() {
+    this.bApi.businessDeleteDelete(this.tempBusinessId).subscribe(data => {
+      if (data.meta && data.meta.code === 200) {
+        this.tempBusinessId = undefined;
+        this.getCustomerById(this.customerId);
+        this.hideConfirmLayer();
+      } else {
+        if (data.error && data.error.message) {
+          console.log(data.error.message);
+        }
+      }
+    }, err => {
+      console.error(err);
+    });
+  }
+
+  /**
+   * 显示删除员工弹出层
+   */
+  onShowDelBusiness(id) {
+      this.tipMsg = '确定删除该笔服务？';
+      this.tipKey = 'del-business';
+      this.tipOkeyBtnTxt = '确定';
+      this.tempBusinessId = id;
+      this.showConfirmLayer();
+  }
+  
+  /**
+   * 显示 confirm 弹出层
+   */
+  showConfirmLayer() {
+      this.showTipWin = true;
+  }
+
+  /**
+   * 隐藏 confirm 弹出层
+   */
+  hideConfirmLayer() {
+      this.showTipWin = false;
+      this.tipMsg = '';
+      this.tipKey = '';
+      this.tipOkeyBtnTxt = '确定';
+  }
+
+  /**
+   * confirm 弹出层 点确定回调
+   */
+  onOkey(key) {
+      if (key === 'del-business') {
+        this.delBusiness();
+        return;
+      }
+
+  }
+
+  /**
+   * confirm 弹出层 点取消回调
+   */
+  onCancel(key) {
+      if (key === 'del-business') {
+        this.hideConfirmLayer();
+        return;
+      }
+      
+  }
+
 }

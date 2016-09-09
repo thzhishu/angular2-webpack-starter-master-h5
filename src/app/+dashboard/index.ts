@@ -58,6 +58,12 @@ export const routes = [
         children: [
           { path: 'info', loadChildren: () => System.import('../+account/info') },
           { path: 'pwd', loadChildren: () => System.import('../+account/pwd') },
+          {
+              path: 'subAccount',
+              children: [
+                  { path: 'list', loadChildren: () => System.import('../+subAccount/list') }
+              ]
+          },
         ]
       },
       {
