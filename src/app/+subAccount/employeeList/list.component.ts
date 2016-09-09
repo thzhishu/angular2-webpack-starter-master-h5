@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
-import { EmployeeApi } from 'client';
+import { EmployeeApi, EmployeeListItem } from 'client';
 
 import * as _ from 'lodash';
 
@@ -23,6 +23,8 @@ export class AccountEmployeeList implements OnInit {
   end: boolean = false;
   isReturnTop: boolean = false;
   returnTop: boolean = false;
+
+  @Input() currentEmployee: EmployeeListItem;
 
   constructor(private eApi: EmployeeApi, private router: Router, private route: ActivatedRoute) {
     this.page.current = String(1);

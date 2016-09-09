@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
+import {  EmployeeListItem } from 'client';
 
 
 @Component({
@@ -12,6 +13,8 @@ export class SubAccountAdd {
 
     // 控制员工列表层是否显示
     showEmployeeLayer: boolean = false;
+    // 选中的技师
+    selectedEmployee: EmployeeListItem;
 
     constructor(private router: Router, private route: ActivatedRoute ) {
 

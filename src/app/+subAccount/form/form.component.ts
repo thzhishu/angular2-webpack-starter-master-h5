@@ -421,12 +421,8 @@ export class SubAccountForm implements OnInit, OnDestroy {
      * 从技师列表中添加
      */
     onAddFromEmployee() {
-        
-        setTimeout(() => {
-            console.log('form employee');
-            this.onShowEmployee.next({isShow: true});
-        }, 0);
-        
+        console.log('form employee');
+        this.onShowEmployee.next({isShow: true});
     }
 
 }
