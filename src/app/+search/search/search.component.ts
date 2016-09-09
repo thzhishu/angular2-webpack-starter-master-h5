@@ -18,7 +18,7 @@ export class SearchPage implements OnInit {
   isAlert: boolean = false;
   searchHistories: string[] = [];
   showHistories: boolean = true;
-  customers = [];
+  customers:any = [];
   constructor(private capi: CustomerApi, private router: Router, private route: ActivatedRoute) {
 
   }
@@ -112,7 +112,7 @@ export class SearchPage implements OnInit {
 
   getSearchCustomers(str) {
     console.log('customer search list....');
-    this.capi.customerSearchPhoneOrVehicleLicenceGet(str).subscribe((data: CustomerSearchResponse) => {
+    this.capi.customerSearchPhoneOrVehicleLicenceGet(str).subscribe((data) => {
       if (data.meta && data.meta.code === 200 && data.data) {
         let dd = data.data;
         if (dd.length === 1) {
