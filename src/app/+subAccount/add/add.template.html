@@ -1,0 +1,6 @@
+<div class="sa-wrap" [class.opacity0] = "showEmployeeLayer">
+    <sub-account-form (onShowEmployeeLayer)="onShowEmployeeLayer($event)"></sub-account-form>
+</div>
+<div class="sa-wrap" *ngIf="showEmployeeLayer">
+    <account-employee-list ></account-employee-list>
+</div>
