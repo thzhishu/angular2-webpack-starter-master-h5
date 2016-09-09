@@ -14,13 +14,19 @@ import { ROUTES } from './app.routes';
 import { App } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState } from './app.service';
+
+import { AuthGuard } from './auth.guard';
+import { AuthService }     from './auth.service';
+
 import { Home } from './home';
 import { NoContent } from './no-content';
 
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
-  AppState
+  AppState,
+  AuthGuard,
+  AuthService
 ];
 
 /**
