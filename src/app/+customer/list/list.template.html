@@ -4,6 +4,7 @@
         <div class="ellipsis tc flex-1">我的顾客</div>
         <div class="bw add-ico" (click)="onAddNewCustomer()" ></div>
     </div>
+    <div class="return-top" alt="回到顶部" *ngIf="isReturnTop" (click)="onReturnTop()" ></div>
     <div class="cr-list" #listTbody scrollable [returnTop]="returnTop" (scrollEnd)="onScrollEnd($event)" (scrollTop)="onScrollTop($event)">
         <div class="list-table" *ngIf="customers.length">
             <div class="bh list-thead">
@@ -48,4 +49,3 @@
         </div>
     </div>
 </div>
-<div class="return-top" alt="回到顶部" *ngIf="isReturnTop" (click)="onReturnTop()" ></div>

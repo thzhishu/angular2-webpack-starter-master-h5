@@ -71,11 +71,10 @@
         <div class="flex-1 tr">合计：<span>{{customerDetail?.historiesTotol}}</span>
           次</div>
       </div>
-      <div class="cd-hs-list" #listTbody (panleft)="onSwipeLeft($event,listTbody)" (panright)="onSwipeRight($event,listTbody)">
+      <div class="cd-hs-list" #listTbody (panleft)="hs.score === null&&onSwipeLeft($event,listTbody)" (panright)="hs.score === null&&onSwipeRight($event,listTbody)">
         <!-- 历史服务列表 -->
         <div class="cd-hs-item " *ngFor="let hs of histories">
           <div class="cd-slide ">
-            <a class="list-del cd-slide-del" (click)="onShowDelBusiness(hs.id)" >删除</a>
             <a class="list-edit cd-slide-eidt" [routerLink]="['/dashboard/business/edit', hs.id]">编辑</a>
             <div class="list-tbody ">
               <div class="box box-h box-h-c hs-tr tc">
@@ -179,14 +178,4 @@
       </div>
     </div>
   </div>
-</div>
-
-<div class="box box-v box-v-cc confirm" *ngIf="showTipWin">
-    <div class="box box-v confirm-c">
-        <div class="flex-1 confirm-msg tc">{{tipMsg}}</div>
-        <div class="box box-h box-h-c confirm-op tc">
-            <div class="flex-1 confirm-ok" (click)="onOkey(tipKey)">{{ tipOkeyBtnTxt }}</div>
-            <div class="flex-1 confirm-cancel" *ngIf="!isAlert" (click)="onCancel(tipKey)" >取消</div>
-        </div>
-    </div>
 </div>

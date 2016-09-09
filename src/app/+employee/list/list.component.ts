@@ -49,7 +49,11 @@ export class EmployeeList implements OnInit {
             this.employees = res.data;
           }
         } else {
-          this.employees = [];
+          if (scroll) {
+
+          } else {
+            this.employees = [];
+          }
           this.end = true;
           alert(res.error.message);
         }
@@ -93,15 +97,15 @@ export class EmployeeList implements OnInit {
     this.returnTop = true;
   }
   //滑动按钮
-  onSwipeLeft(event,listTbody) {
+  onSwipeLeft(event, listTbody) {
     event.preventDefault();
     console.dir(listTbody.children);
-    _.forEach(listTbody.children,(val,i)=>{
-        val.classList.remove('swipeleft');
+    _.forEach(listTbody.children, (val, i) => {
+      val.classList.remove('swipeleft');
     })
     event.target.parentNode.classList.add('swipeleft');
   }
-  onSwipeRight(event,listTbody) {
+  onSwipeRight(event, listTbody) {
     event.preventDefault();
     event.target.parentNode.classList.remove('swipeleft');
   }

@@ -128,12 +128,13 @@ input {
 .alert-error {
   color: #f16557;
   font-size: 24px;
-  padding: 0 20px 10px;
-  margin-bottom: 14px;
+  padding: 0 20px;
+  height: 70px;
+  line-height: 70px;
 }
 
 .content {
-  margin: 25px 0 36px;
+  margin-top: 25px;
 }
 
 .input-group {

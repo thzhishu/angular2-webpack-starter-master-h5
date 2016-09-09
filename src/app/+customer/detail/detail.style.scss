@@ -128,22 +128,6 @@
     right:0;
     z-index: 1;
 }
-.cd-slide-del {
-    display:block;
-    position:absolute;
-    width:85px;
-    height:143px;
-    background: #f16557;
-    font-size:22px;
-    color:#fff;
-    line-height: 143px;
-    text-align: center;
-    text-decoration: none;
-    top:0;
-    right: 85px;
-    z-index:1;
-}
-
 .cd-slide {
     position:relative;
     // .swipeleft{
@@ -186,7 +170,7 @@
         transition: all .1s ease-in-out;
     }
     &.swipeleft{
-        left: -170px;
+        left: -86px;
         transition: left .25s ease-out;
     }
     &.panup{

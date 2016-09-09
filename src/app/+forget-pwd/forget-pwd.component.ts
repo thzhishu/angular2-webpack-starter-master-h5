@@ -122,7 +122,7 @@ export class ForgetPwd {
   //验证手机号
   onCheckPhone(f) {
     if (this.errorNext1Tip(f)) {
-        this.getCodeImg();
+        // this.getCodeImg();
       return false;
     }
     this.loading = 1;
@@ -153,7 +153,6 @@ export class ForgetPwd {
   // 重置密码
   onEditPwd(f) {
     if (this.errorNext2Tip(f)) {
-
       return false;
     }
     if(!this.sign){
@@ -181,7 +180,7 @@ export class ForgetPwd {
       if (this.errorMsg === '短信验证码超时，导致userId不存在') {
         // this.router.navigate(['/login']);
         this.next = 1;
-        this.getCodeImg();
+        // this.getCodeImg();
       }
     }
     this.openProtocol = false;

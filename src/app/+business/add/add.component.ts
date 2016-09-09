@@ -11,7 +11,7 @@ import * as _ from 'lodash';
 import { Md5 } from 'ts-md5/dist/md5';
 import { Cookie } from 'services';
 
-import { BusinessApi, EmployeeApi, CustomerApi, Customer, EmployeeListItem, CustomerSearchResponse, BusinessDetail } from 'client';
+import { BusinessApi, EmployeeApi, CustomerApi, EmployeeListItem, CustomerSearchResponse, BusinessDetail } from 'client';
 
 @Component({
   selector: 'business-add',
@@ -73,10 +73,9 @@ export class BusinessAddComponent implements OnInit {
 
   // 初始化
   ngOnInit() {
-    //   this.sub = this.route.params.subscribe( params => {
-    //       this.id = +params['id'];
-    //       this.getList(this.id);
-    //   });
+    this.sub = this.route.params.subscribe(params => {
+      this.business.vehicleLicence = params['vl'];
+    });
     this.getEmployeeList();
     this.VehicleCode.subscribe(data => {
       if (data.meta && data.meta.code === 200) {
@@ -117,7 +116,7 @@ export class BusinessAddComponent implements OnInit {
   }
 
   getEmployeeList() {
-    this.eApi.employeeListGet(1,10000).subscribe(data => {
+    this.eApi.employeeListGet(1, 10000).subscribe(data => {
       if (data.meta && data.meta.code === 200) {
         this.employeeList = data.data;
       }
@@ -132,7 +131,7 @@ export class BusinessAddComponent implements OnInit {
   }
 
   onChangeVL(val) {
-     this.business.vehicleLicence = val;
+    this.business.vehicleLicence = val;
     if (this.oldPlate === val) {
       return;
     }
@@ -175,7 +174,7 @@ export class BusinessAddComponent implements OnInit {
 
     data.shopId = Cookie.load('shopId');
     if (data.employeeId == -1) {
-      this.eApi.employeeSavePost(this.employeeName||'', this.employeeCode||'', '', '', '', type).subscribe(res => {
+      this.eApi.employeeSavePost(this.employeeName || '', this.employeeCode || '', '', '', '', type).subscribe(res => {
         if (res.meta.code === 200) {
           data.employeeId = res.data.id;
           this.save(data);
@@ -253,11 +252,11 @@ export class BusinessAddComponent implements OnInit {
       return false;
     }
     if (plate.length < 7 || plate.length > 9) {
-      this.errorMsg = '车牌号格式不正确';
+      this.errorMsg = '请输入正确的车牌号';
       this.showPlateImg = false;
       return false;
     } else {
-      this.errorMsg = this.errorMsg=='车牌号格式不正确'?'':this.errorMsg;
+      this.errorMsg = this.errorMsg == '请输入正确的车牌号' ? '' : this.errorMsg;
     }
     this.searchVehicleCode.next(plate);
     return true;
@@ -274,7 +273,6 @@ export class BusinessAddComponent implements OnInit {
     this.businessItemErr = false;
   }
   selectEmployee(evt) {
-    console.log(evt === 'null');
     this.businessEmployeeErr = !evt || evt === 'null' ? true : false;
     this.business.employeeId = evt;
     this.employeeChecked = evt === 'other' ? true : false;

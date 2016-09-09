@@ -112,7 +112,7 @@ export class Register {
       return;
     }
     if (this.errorSeekTip(f)) {
-      this.getCodeImg();
+    //   this.getCodeImg();
       return false;
     }
     this.seekDisabeld = 1;
@@ -133,7 +133,7 @@ export class Register {
       if (data.meta&&data.meta.code !== 200) {
         clearInterval(this.timeout);
         this.errorMsg = data.error.message;
-        this.getCodeImg();
+        // this.getCodeImg();
         this.seekBtnTitle = '重新发送';
         this.seekDisabeld = 0;
       } else {
@@ -169,7 +169,7 @@ export class Register {
   //注册
   onRegister(f) {
     if (this.errorTip(f)) {
-      this.getCodeImg();
+    //   this.getCodeImg();
       return false;
     }
     this.loading = 1;
@@ -196,7 +196,7 @@ export class Register {
         //   });
         } else {
           this.errorMsg = data.error.message;
-          this.getCodeImg();
+        //   this.getCodeImg();
         }
       })
   }
@@ -235,8 +235,7 @@ export class Register {
       return true;
     }
     if (f.controls.rnd.errors && f.controls.rnd.errors.required) {
-    //   this.errorMsg = '验证码不能为空';
-      this.errorMsg = '检验码不能为空';
+      this.errorMsg = '验证码不能为空';
       return true;
     }
     if (f.controls.code.errors && f.controls.code.errors.required) {

@@ -27,7 +27,7 @@
         </div>
         <div class="box box-h box-h-c fm-field ">
           <label class="fm-label" for="name">服务项目:</label>
-          <input class="flex-1 fm-ipt" id="name" name="name" type="text" placeholder="必填项" required maxlength="17" [(ngModel)]="business.name">
+          <input class="flex-1 fm-ipt" id="name" name="name" type="text" placeholder="必填项" required maxlength="20" [(ngModel)]="business.name">
         </div>
         <div class="box box-h box-h-c fm-sel">
           <label class="fm-label" for="employeeId">主理技师:</label>
@@ -39,16 +39,16 @@
         </div>
         <div class="fm-field" *ngIf="business.employeeId==-1">
           <div class="box-block">
-            <input class="flex-1 fm-ipt-block" placeholder="请输入员工姓名" name="employeeName" type="text" maxlength="17" [(ngModel)]="employeeName">
+            <input class="flex-1 fm-ipt-block" placeholder="请输入员工姓名" maxlength="20" name="employeeName" type="text" [(ngModel)]="employeeName">
             <span class="inner-tip"><b>*</b>至少填一项</span>
           </div>
           <div class="box-block">
-              <input class="flex-1 fm-ipt-block" placeholder="请输入员工编号" name="employeeCode" type="text" maxlength="17" [(ngModel)]="employeeCode">
+              <input class="flex-1 fm-ipt-block" placeholder="请输入员工编号" maxlength="20" name="employeeCode" type="text" [(ngModel)]="employeeCode">
           </div>
         </div>
         <div class="box box-h fm-field">
           <label class="fm-label" for="description">备注:</label>
-          <textarea class="flex-1 fm-ta" name="description" id="description" [(ngModel)]="business.description"></textarea>
+          <textarea class="flex-1 fm-ta" name="description" id="description" maxlength="200" [(ngModel)]="business.description"></textarea>
         </div>
 
       </form>

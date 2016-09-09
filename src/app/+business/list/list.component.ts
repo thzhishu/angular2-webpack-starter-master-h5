@@ -8,7 +8,7 @@ import * as moment from 'moment';
 import * as _ from 'lodash';
 import { Md5 } from 'ts-md5/dist/md5';
 
-import { BusinessApi,BusinessList, BusinessListResponse } from 'client';
+import { BusinessApi, BusinessList, BusinessListResponse } from 'client';
 
 
 
@@ -22,7 +22,7 @@ import { BusinessApi,BusinessList, BusinessListResponse } from 'client';
 export class BusinessListComponent {
   list: BusinessList;
   today: string = moment().format('YYYY-MM-DD');
-  date: string =  moment().format('YYYY-MM-DD');
+  date: string = moment().format('YYYY-MM-DD');
   page: any = { current: 1 };
   dateShow: boolean = false;
   timeout: any;
@@ -38,10 +38,10 @@ export class BusinessListComponent {
   tipOkeyBtnTxt: string = '确定';
   oldFeildString: string = '';
   business: string = '';
-  zone:any;
+  zone: any;
 
   constructor(private router: Router, private route: ActivatedRoute, private bApi: BusinessApi) {
-      this.zone = new NgZone({ enableLongStackTrace: false }); //事务控制器
+    this.zone = new NgZone({ enableLongStackTrace: false }); //事务控制器
   }
 
   // 初始化
@@ -71,7 +71,7 @@ export class BusinessListComponent {
 
 
   onPickerChange(event) {
-    this.date = event==''?this.today:event;
+    this.date = event == '' ? this.today : event;
     this.getList();
   }
 
@@ -103,15 +103,15 @@ export class BusinessListComponent {
   }
 
   getList(scroll = false) {
-      this.loading = true;
+    this.loading = true;
 
     window.clearTimeout(this.timeout);
     this.timeout = window.setTimeout(() => {
-        if (scroll&&!this.end) {
-          this.page.current += 1;
-        }
+      if (scroll && !this.end) {
+        this.page.current += 1;
+      }
       this.bApi.businessListGet(this.moment(this.date), this.page.current).subscribe(res => {
-        if (res.meta&&res.meta.code === 200 && res.data) {
+        if (res.meta && res.meta.code === 200 && res.data) {
           if (scroll) {
             this.list.content = this.list.content.concat(res.data.content);
           } else {
@@ -121,12 +121,16 @@ export class BusinessListComponent {
           this.page.limit = res.meta.limit;
           this.page.total = res.meta.total;
         } else {
-          this.list = {};
+          if (scroll) {
+
+          } else {
+            this.list = {};
+          }
           this.end = true;
         }
         this.loading = false;
       })
-  }, 500);
+    }, 500);
   }
 
   delete(data) {
@@ -145,27 +149,27 @@ export class BusinessListComponent {
       console.error(err);
     });
   }
-  onDelRecord(item,e){
-      e.stopPropagation();
-      this.showTipWin = true;
-      this.tipMsg = '是否删除该服务记录?';
-      this.business = item;
+  onDelRecord(item, e) {
+    e.stopPropagation();
+    this.showTipWin = true;
+    this.tipMsg = '是否删除该服务记录?';
+    this.business = item;
   }
-  onOkey(){
+  onOkey() {
     this.delete(this.business);
   }
-  onCancel(){
-      this.showTipWin = false;
-      this.getList();
+  onCancel() {
+    this.showTipWin = false;
+    this.getList();
   }
-  onGoto(item){
-      this.router.navigate(['/dashboard/customer/detail/'+item.customerId]);
+  onGoto(item) {
+    this.router.navigate(['/dashboard/customer/detail/' + item.customerId]);
   }
 
   //无限滚动
   onScrollEnd(next) {
     this.next = next;
-    if (next&&!this.loading) {
+    if (next && !this.loading) {
       this.getList(true);
     }
   }
@@ -174,19 +178,19 @@ export class BusinessListComponent {
     this.returnTop = !!returnTop;
   }
   //返回头部
-  onReturnTop(){
+  onReturnTop() {
     this.returnTop = true;
   }
 
   //滑动按钮
-  onSwipeLeft(event,listTbody) {
+  onSwipeLeft(event, listTbody) {
     event.preventDefault();
-    _.forEach(listTbody.children,(val,i)=>{
-        val.classList.remove('swipeleft');
+    _.forEach(listTbody.children, (val, i) => {
+      val.classList.remove('swipeleft');
     })
     event.target.parentNode.classList.add('swipeleft');
   }
-  onSwipeRight(event,listTbody) {
+  onSwipeRight(event, listTbody) {
     event.preventDefault();
     event.target.parentNode.classList.remove('swipeleft');
   }

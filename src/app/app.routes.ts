@@ -3,7 +3,7 @@ import { Home } from './home';
 import { NoContent } from './no-content';
 
 import { DataResolver } from './app.resolver';
-import { AuthGuard } from './auth.guard';
+// import { AuthGuard } from './auth.guard';
 
 
 export const ROUTES: Routes = [
