@@ -18,8 +18,8 @@
                 <a [class.disabled]="seekDisabeld" (click)="!seekDisabeld&&onSeekPhone(fp.phone,fp.rnd)" class="input-btn-info btn btn-info">{{seekBtnTitle}}</a>
             </div>
         </div>
-        <div class="alert-error" *ngIf="errorMsg">
-            {{errorMsg}}
+        <div class="alert-error" >
+            <span *ngIf="errorMsg">{{errorMsg}}</span>
         </div>
         <div class="btn-block">
             <button type="submit" class="btn btn-primary" [disabled]="loading" >下一步</button>
@@ -35,8 +35,8 @@
                 <input type="password" class="input" name="checkPwd" [(ngModel)]="fp.checkPwd"  #checkPwd="ngModel" required placeholder="请确认你的新密码" >
             </div>
         </div>
-        <div class="alert-error" *ngIf="errorMsg">
-            {{errorMsg}}
+        <div class="alert-error" >
+            <span *ngIf="errorMsg">{{errorMsg}}</span>
         </div>
         <div class="btn-block">
             <button type="submit" class="btn btn-primary" [disabled]="loading" >确认提交</button>

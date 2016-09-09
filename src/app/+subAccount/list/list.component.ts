@@ -8,15 +8,15 @@ import * as _ from 'lodash';
   selector: 'employee-list',
   template: require('./list.template.html'),
   styles: [require('./list.style.scss')],
-  //directives: [...ROUTER_DIRECTIVES],
+  // directives: [...ROUTER_DIRECTIVES],
   providers: [EmployeeApi]
 })
-export class EmployeeList implements OnInit {
+export class SubAccountList implements OnInit {
   page: any = {};
   employees: any[] = [];
   showDelWin: boolean = false;
   delEmployee: any;
-  //滚动相关
+  // 滚动相关
   timeout: any;
   next: boolean = false;
   loading: boolean = false;
@@ -49,22 +49,12 @@ export class EmployeeList implements OnInit {
             this.employees = res.data;
           }
         } else {
-          if (scroll) {
-
-          } else {
-            this.employees = [];
-          }
+          this.employees = [];
           this.end = true;
           alert(res.error.message);
         }
         this.loading = false;
-        // if (data.meta && data.meta.code === 200 && data.data) {
-        //   this.employees = data.data.length ? data.data : [];
-        // } else {
-        //   if (data.error && data.error.message) {
-        //     console.log(data.error.message);
-        //   }
-        // }
+        
       }, err => {
         console.error(err);
         this.employees = [];
@@ -81,7 +71,7 @@ export class EmployeeList implements OnInit {
     this.router.navigate(['/dashboard/employee/add']);
   }
 
-  //无限滚动
+  // 无限滚动
   onScrollEnd(next) {
     this.next = next;
     if (next && !this.loading) {
@@ -92,17 +82,17 @@ export class EmployeeList implements OnInit {
     this.isReturnTop = !returnTop;
     this.returnTop = !!returnTop;
   }
-  //返回头部
+  // 返回头部
   onReturnTop() {
     this.returnTop = true;
   }
-  //滑动按钮
+  // 滑动按钮
   onSwipeLeft(event, listTbody) {
     event.preventDefault();
     console.dir(listTbody.children);
     _.forEach(listTbody.children, (val, i) => {
-      val.classList.remove('swipeleft');
-    })
+        val.classList.remove('swipeleft');
+    });
     event.target.parentNode.classList.add('swipeleft');
   }
   onSwipeRight(event, listTbody) {
@@ -110,31 +100,5 @@ export class EmployeeList implements OnInit {
     event.target.parentNode.classList.remove('swipeleft');
   }
 
-  // onDelEmployee() {
-  //     this.capi.customerCustomerIdDeleteDelete(String(this.delCustomer.id)).subscribe( data => {
-  //         if (data.meta&&data.meta.code === 200) {
-  //             this.onCloseDelWin();
-  //             this.getCustomerList(this.page.current, this.page.limit);
-  //         } else {
-  //             if (data.error && data.error.message) {
-  //                 console.log(data.error.message);
-  //             }
-  //         }
-  //     }, err => {
-  //         console.error(err);
-  //     });
-  // }
-  // onCloseDelWin() {
-  //     this.showDelWin = false;
-  //     this.delEmployee = undefined;
-  // }
-  // onShowDelWin(employee, e) {
-  //     e.stopPropagation();
-  //     this.showDelWin = true;
-  //     this.delEmployee = employee;
-  // }
-  // onViewCustomerDetail(customer, e) {
-  //     e.stopPropagation();
-  //     this.router.navigate(['/dashboard/customer/detail', customer.id]);
-  // }
+  
 }

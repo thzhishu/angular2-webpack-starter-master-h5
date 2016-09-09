@@ -48,7 +48,11 @@ export class CustomerList implements OnInit {
             this.customers = res.data;
           }
         } else {
-          this.customers = [];
+            if (scroll) {
+
+            } else {
+              this.customers = [];
+            }
           this.end = true;
           alert(res.error.message);
         }

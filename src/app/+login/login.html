@@ -21,25 +21,9 @@
                 <a (click)="onChangeCodeImg()" class="input-btn btn btn-link">换一张</a>
             </div>
         </div>
-        <!-- {{info(loginForm)}} -->
-        <div class="alert-error" *ngIf="errorMsg">
-            {{errorMsg}}
+        <div class="alert-error" >
+            <span *ngIf="errorMsg">{{errorMsg}}</span>
         </div>
-        <!-- <div class="alert-error" *ngIf="errorMsg">
-            {{errorMsg}}
-        </div>
-        <div class="alert-error" *ngIf="!errorMsg&&phone.errors?.required&&phone.blur">
-             手机号码不能为空
-        </div>
-        <div class="alert-error" *ngIf="!errorMsg&&phone.errors?.pattern&&phone.blur">
-             请输入正确的手机号码
-        </div>
-        <div class="alert-error" *ngIf="!errorMsg&&pwd.errors?.required&&pwd.blur">
-            账户密码不能为空
-        </div>
-        <div class="alert-error" *ngIf="!errorMsg&&rnd.errors?.required&&rnd.blur">
-            验证码不能为空
-        </div> -->
         <div class="btn-block">
             <button type="submit" class="btn btn-primary" [disabled]="loading" >登&nbsp;&nbsp;录</button>
         </div>

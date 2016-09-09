@@ -45,6 +45,7 @@ export const routes = [
           { path: '', redirectTo: 'list', pathMatch: 'full' },
           { path: 'list', loadChildren: () => System.import('../+business/list') },
           { path: 'add', loadChildren: () => System.import('../+business/add') },
+          { path: 'add/:vl', loadChildren: () => System.import('../+business/add') },
           { path: 'edit/:id', loadChildren: () => System.import('../+business/edit') },
         ]
       },
@@ -59,6 +60,12 @@ export const routes = [
         children: [
           { path: 'info', loadChildren: () => System.import('../+account/info') },
           { path: 'pwd', loadChildren: () => System.import('../+account/pwd') },
+          {
+              path: 'subAccount',
+              children: [
+                  { path: 'list', loadChildren: () => System.import('../+subAccount/list') }
+              ]
+          },
         ]
       },
       {

@@ -753,6 +753,7 @@ td, th {
   outline: none;
   padding: 30px 40px;
   background: #fff;
+  border: 0;
   appearance: none;
   -moz-appearance: none;
   -webkit-appearance: none;

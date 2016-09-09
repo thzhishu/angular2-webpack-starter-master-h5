@@ -45,7 +45,7 @@ export class Login {
     } else {
       this.errorMsg = message;
     }
-    this.getCodeImg();
+    // this.getCodeImg();
   }
 
   // 初始化
