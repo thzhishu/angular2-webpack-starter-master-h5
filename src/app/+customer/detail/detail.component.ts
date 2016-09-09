@@ -199,7 +199,7 @@ export class CustomerDetail implements OnInit {
   }
 
   onAddNewCustomer() {
-    this.router.navigate(['/dashboard/business/add']);
+    this.router.navigate(['/dashboard/business/add',this.customer.vehicleLicence]);
   }
 
   //无限滚动

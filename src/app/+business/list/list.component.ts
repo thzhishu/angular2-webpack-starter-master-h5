@@ -121,8 +121,6 @@ export class BusinessListComponent {
             this.list = res.data;
           }
           this.page.current = res.meta.current;
-          this.page.limit = res.meta.limit;
-          this.page.total = res.meta.total;
         } else {
           if (scroll) {
 
@@ -131,6 +129,8 @@ export class BusinessListComponent {
           }
           this.end = true;
         }
+        this.page.limit = res.meta.limit;
+        this.page.total = res.meta.total;
         this.loading = false;
       })
     }, 500);
