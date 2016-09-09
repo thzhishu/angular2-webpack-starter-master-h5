@@ -95,6 +95,7 @@ export class CustomerDetail implements OnInit {
               this.histories = this.customerDetail.histories;
             }
           } else {
+            this.histories = [];
             this.end = true;
           }
         } else {
