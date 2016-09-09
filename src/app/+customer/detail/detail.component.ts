@@ -226,9 +226,20 @@ export class CustomerDetail implements OnInit {
       val.children[0].children[1] && val.children[0].children[1].classList.remove('swipeleft');
     })
     event.target.parentNode.parentNode.classList.add('swipeleft');
-    // event.target.parentNode.parentNode.parentNode.parentNode.parentNode.children[1].children[0].children[1].classList.remove('swipeleft')
   }
   onSwipeRight(event, listTbody) {
+    event.preventDefault();
+    event.target.parentNode.parentNode.classList.remove('swipeleft');
+  }
+
+  onListSwipeLeft(event, listTbody) {
+    event.preventDefault();
+    _.forEach(listTbody.children, (val, i) => {
+      val.children[0].children[1] && val.children[0].children[1].classList.remove('swipeleft');
+    })
+    event.target.parentNode.parentNode.classList.add('swipeleft');
+  }
+  onListSwipeRight(event, listTbody) {
     event.preventDefault();
     event.target.parentNode.parentNode.classList.remove('swipeleft');
   }

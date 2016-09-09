@@ -76,6 +76,7 @@ export class BusinessEditComponent implements OnInit {
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       this.id = +params['id'];
+      this.tipKey = 'edit';
       this.getList(this.id);
     });
     this.getEmployeeList();
@@ -306,7 +307,7 @@ export class BusinessEditComponent implements OnInit {
     this.bApi.businessDeleteDelete(data.id).subscribe(res => {
       this.loading = 0;
       if (res.meta.code === 200) {
-        this.router.navigate(['/dashboard/business/list']);
+        this.router.navigate(['/dashboard/customer/detail/' + data.id]);
         this.onCancel();
       } else {
         alert(res.error.message);

@@ -71,16 +71,19 @@ export class BusinessListComponent {
 
 
   onPickerChange(event) {
+    this.page.current = 1;
     this.date = event == '' ? this.today : event;
     this.getList();
   }
 
   onLastDate() {
+    this.page.current = 1;
     this.date = moment(this.date).subtract(1, 'days').format('YYYY-MM-DD');
     this.getList();
   }
 
   onNextDate() {
+    this.page.current = 1;
     this.date = moment(this.date).add(1, 'days').format('YYYY-MM-DD');
     this.getList();
   }
@@ -117,9 +120,6 @@ export class BusinessListComponent {
           } else {
             this.list = res.data;
           }
-          this.page.current = res.meta.current;
-          this.page.limit = res.meta.limit;
-          this.page.total = res.meta.total;
         } else {
           if (scroll) {
 
@@ -128,6 +128,9 @@ export class BusinessListComponent {
           }
           this.end = true;
         }
+        this.page.current = res.meta.current;
+        this.page.limit = res.meta.limit;
+        this.page.total = res.meta.total;
         this.loading = false;
       })
     }, 500);

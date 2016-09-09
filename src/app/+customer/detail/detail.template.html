@@ -71,12 +71,12 @@
         <div class="flex-1 tr">合计：<span>{{customerDetail?.historiesTotol}}</span>
           次</div>
       </div>
-      <div class="cd-hs-list" #listTbody (panleft)="hs.score === null&&onSwipeLeft($event,listTbody)" (panright)="hs.score === null&&onSwipeRight($event,listTbody)">
+      <div class="cd-hs-list" #listTbody>
         <!-- 历史服务列表 -->
         <div class="cd-hs-item " *ngFor="let hs of histories">
-          <div class="cd-slide ">
+          <div class="cd-slide " (swipeleft)="hs.score === null&&onListSwipeLeft($event,listTbody)" (swiperight)="hs.score === null&&onListSwipeRight($event,listTbody)">
             <a class="list-edit cd-slide-eidt" [routerLink]="['/dashboard/business/edit', hs.id]">编辑</a>
-            <div class="list-tbody ">
+            <div class="list-tbody "  >
               <div class="box box-h box-h-c hs-tr tc">
                 <div>结账日期</div>
                 <div>服务项目</div>
