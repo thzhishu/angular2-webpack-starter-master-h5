@@ -71,7 +71,7 @@
         <div class="flex-1 tr">合计：<span>{{customerDetail?.historiesTotol}}</span>
           次</div>
       </div>
-      <div class="cd-hs-list" #listTbody (panleft)="onSwipeLeft($event,listTbody)" (panright)="onSwipeRight($event,listTbody)">
+      <div class="cd-hs-list" #listTbody (panleft)="hs.score === null&&onSwipeLeft($event,listTbody)" (panright)="hs.score === null&&onSwipeRight($event,listTbody)">
         <!-- 历史服务列表 -->
         <div class="cd-hs-item " *ngFor="let hs of histories">
           <div class="cd-slide ">

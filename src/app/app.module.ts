@@ -17,6 +17,8 @@ import { AppState } from './app.service';
 
 import { AuthGuard } from './auth.guard';
 import { AuthService }     from './auth.service';
+import { UserApi } from 'client';
+
 
 import { Home } from './home';
 import { NoContent } from './no-content';
@@ -25,8 +27,9 @@ import { NoContent } from './no-content';
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
   AppState,
-  AuthGuard,
-  AuthService
+  // AuthGuard,
+  // AuthService,
+  // UserApi
 ];
 
 /**

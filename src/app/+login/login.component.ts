@@ -10,7 +10,7 @@ import { Md5 } from 'ts-md5/dist/md5';
 import { UserApi, CommonApi, ShopApi, UserLoginResponse } from 'client';
 import { Cookie } from 'services';
 
-import { AuthService }     from '../auth.service';
+// import { AuthService }     from '../auth.service';
 
 @Component({
   selector: 'login',
@@ -29,8 +29,9 @@ export class Login {
   loading: number = 0;
   openProtocol: number = 0;
   openErrorProtocol: boolean = false;
+  uuid:string;
 
-  constructor(private router: Router, private route: ActivatedRoute, private uApi: UserApi, private cApi: CommonApi, private sApi: ShopApi, private as: AuthService) {
+  constructor(private router: Router, private route: ActivatedRoute, private uApi: UserApi, private cApi: CommonApi, private sApi: ShopApi) {
     this.zone = new NgZone({ enableLongStackTrace: false }); // 事务控制器
   }
 
@@ -64,6 +65,7 @@ export class Login {
     this.cApi.commonCaptchaBase64Post().subscribe((data) => {
       this.img = 'data:image/jpeg;base64,' + (data.text() || '');
       this.uApi.defaultHeaders.set('uuid', data.headers.get('uuid'));
+      this.uuid = data.headers.get('uuid');
     });
   }
   onChangeCodeImg() {
@@ -101,13 +103,12 @@ export class Login {
       .subscribe((data:UserLoginResponse) => {
         this.loading = 0;
         if (data.meta&&data.meta.code === 200) {
-          this.as.login();
           Cookie.save('token', data.data.token, 14);
           Cookie.save('shopId', data.data.lastShopId,14);
           Cookie.save('clientType', 'h5', 14);
           this.sApi.defaultHeaders.set('token', data.data.token);
           if (data.data.lastShopId === null) {
-            this.router.navigate(['/init-store']);
+            this.router.navigate(['/init']);
           } else {
             this.sApi.defaultHeaders.set('shopId', String(data.data.lastShopId));
             this.router.navigate(['/dashboard/business/list']);
