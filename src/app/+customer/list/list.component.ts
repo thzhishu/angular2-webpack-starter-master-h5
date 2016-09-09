@@ -48,6 +48,9 @@ export class CustomerList implements OnInit {
             } else {
               this.customers = res.data;
             }
+            this.page.current = res.meta.current;
+            this.page.limit = res.meta.limit;
+            this.page.total = res.meta.total;
           } else {
             if (scroll) {
               this.end = true;

@@ -22,6 +22,6 @@ export class SubAccountAdd {
      */
     onShowEmployeeListLayer(show) {
         console.log('form employee', show);
-        this.showEmployeeLayer = show ? true : false;
+        // this.showEmployeeLayer = show ? true : false;
     }
 }

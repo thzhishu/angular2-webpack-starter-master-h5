@@ -48,7 +48,7 @@ export class ReportWeek {
     window.clearTimeout(this.timeout);
     this.timeout = window.setTimeout(() => {
       if (scroll && !this.end) {
-        this.page.current += 1;
+        this.page.current++;
       }
       this.page.current = this.page.current ? this.page.current : 1;
       this.rApi.reportAttitudeGet(this.start, this.end, this.page.current, 10).subscribe(res => {

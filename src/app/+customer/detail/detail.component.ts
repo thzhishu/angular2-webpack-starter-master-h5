@@ -64,7 +64,7 @@ export class CustomerDetail implements OnInit {
     window.clearTimeout(this.timeout);
     this.timeout = window.setTimeout(() => {
       if (scroll && !this.end) {
-        this.page.current += 1;
+        this.page.current++;
       }
       this.cApi.customerHistoryCustomerIdGet(id, this.page.current, this.page.limit).subscribe(data => {
         if (data.meta && data.meta.code === 200 && data.data) {

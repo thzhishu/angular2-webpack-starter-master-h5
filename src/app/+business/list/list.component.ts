@@ -111,7 +111,7 @@ export class BusinessListComponent {
     window.clearTimeout(this.timeout);
     this.timeout = window.setTimeout(() => {
       if (scroll && !this.end) {
-        this.page.current += 1;
+        this.page.current++;
       }
       this.bApi.businessListGet(this.moment(this.date), this.page.current).subscribe(res => {
         if (res.meta && res.meta.code === 200 && res.data) {
@@ -120,6 +120,9 @@ export class BusinessListComponent {
           } else {
             this.list = res.data;
           }
+          this.page.current = res.meta.current;
+          this.page.limit = res.meta.limit;
+          this.page.total = res.meta.total;
         } else {
           if (scroll) {
 
@@ -128,9 +131,6 @@ export class BusinessListComponent {
           }
           this.end = true;
         }
-        this.page.current = res.meta.current;
-        this.page.limit = res.meta.limit;
-        this.page.total = res.meta.total;
         this.loading = false;
       })
     }, 500);

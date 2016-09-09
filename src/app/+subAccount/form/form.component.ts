@@ -104,7 +104,7 @@ export class SubAccountForm implements OnInit, OnDestroy {
      * 保存子账号
      */
     onSubAccountSave() {
-        
+
     }
 
     /**
@@ -226,8 +226,8 @@ export class SubAccountForm implements OnInit, OnDestroy {
         }
     }
 
-    
-    
+
+
 
     onSelectStore() {
         this.fieldErrMsg = '';
@@ -313,7 +313,7 @@ export class SubAccountForm implements OnInit, OnDestroy {
         });
 
     }
-    
+
     onStoreCodeBlur(store) {
         store.code = store.code.replace(/,/g, '').trim();
     }
@@ -344,7 +344,7 @@ export class SubAccountForm implements OnInit, OnDestroy {
     }
 
     /**
-     * 删除员工 
+     * 删除员工
      */
     delEmployee() {
         this.eApi.employeeDeleteDelete(this.employee.id).subscribe(data => {
@@ -368,7 +368,7 @@ export class SubAccountForm implements OnInit, OnDestroy {
         this.tipOkeyBtnTxt = '删除';
         this.showConfirmLayer();
     }
-    
+
     /**
      * 显示 confirm 弹出层
      */
@@ -409,26 +409,24 @@ export class SubAccountForm implements OnInit, OnDestroy {
             this.hideConfirmLayer();
             return;
         }
-        
+
         if (key === 'save-employee') {
             this.back();
             return;
         }
-        
+
     }
 
     /**
      * 从技师列表中添加
      */
     onAddFromEmployee() {
-        
-        setTimeout(() => {
-            console.log('form employee');
-            this.onShowEmployee.next({isShow: true});
-        }, 0);
-        
+
+        // setTimeout(() => {
+            console.log('form employee',this.onShowEmployee);
+            this.onShowEmployee.emit({isShow: true});
+        // }, 0);
+
     }
 
 }
-
-
