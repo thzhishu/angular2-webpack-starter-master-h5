@@ -19,7 +19,8 @@ const NO_MENU_URLS = [
     '/dashboard/account/pwd',
     '/dashboard/store/list',
     '/dashboard/store/add',
-    '/dashboard/store/edit'
+    '/dashboard/store/edit',
+    '/dashboard/account/subAccount/add'
 ];
 const NO_TOPBAR_URLS = [
     '/dashboard/search/page'
