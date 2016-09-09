@@ -71,7 +71,8 @@ export class SubAccountForm implements OnInit, OnDestroy {
     tipOkeyBtnTxt: string = '确定';
     isAlert: boolean = false;
 
-    @Output() onShowEmployeeLayer = new EventEmitter<boolean>();
+    @Output() onShowEmployee = new EventEmitter();
+
     constructor( private eApi: EmployeeApi, private sApi: ShopApi, private rApi: RoleApi,  private router: Router, private route: ActivatedRoute ) {
     }
 
@@ -420,8 +421,12 @@ export class SubAccountForm implements OnInit, OnDestroy {
      * 从技师列表中添加
      */
     onAddFromEmployee() {
-        console.log('form employee');
-        this.onShowEmployeeLayer.next(true);
+        
+        setTimeout(() => {
+            console.log('form employee');
+            this.onShowEmployee.next({isShow: true});
+        }, 0);
+        
     }
 
 }

@@ -20,7 +20,7 @@ export class SubAccountAdd {
     /**
      * 显示 员工列表层
      */
-    onShowEmployeeListLayer(show: boolean) {
+    onShowEmployeeListLayer(show) {
         console.log('form employee', show);
         this.showEmployeeLayer = show ? true : false;
     }
