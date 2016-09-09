@@ -44,6 +44,7 @@ export class Dashboard {
     noTopbar: boolean = false;
 
     constructor(private router: Router, private uApi: UserApi, private sApi: ShopApi) {
+        console.log(this.router);
         this.routeSub = this.router.events.filter( event => event instanceof NavigationEnd)
                                           .map(event => event.url)
                                           .subscribe( data => {

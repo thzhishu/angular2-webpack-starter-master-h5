@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { Dashboard } from './dashboard.component';
+import { ROLES_RESOLVER_PROVIDERS } from './dashboard.resolver';
 import { BTModule } from '../business-tab/bt.module';
 
 // async components must be named routes for WebpackAsyncRoute
@@ -89,6 +90,9 @@ export const routes = [
     FormsModule,
     RouterModule.forChild(routes),
     BTModule,
+  ],
+  providers: [ // expose our Services and Providers into Angular's dependency injection
+    ROLES_RESOLVER_PROVIDERS
   ]
 })
 export default class DashboardModule {

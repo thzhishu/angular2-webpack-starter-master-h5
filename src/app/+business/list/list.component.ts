@@ -117,6 +117,9 @@ export class BusinessListComponent {
           } else {
             this.list = res.data;
           }
+          this.page.current = res.meta.current;
+          this.page.limit = res.meta.limit;
+          this.page.total = res.meta.total;
         } else {
           this.list = {};
           this.end = true;

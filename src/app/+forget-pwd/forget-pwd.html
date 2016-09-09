@@ -15,7 +15,7 @@
             </div>
             <div class="input-group" [class.error]="!code?.valid&&false">
                 <input type="text" class="input input-50" name="code" maxlength="4" [(ngModel)]="fp.code"  #rnd="ngModel" required placeholder="请输入短信验证码">
-                <a [class.disabeld]="seekDisabeld" (click)="!seekDisabeld&&onSeekPhone(fp.phone,fp.rnd)" class="input-btn-info btn btn-info">{{seekBtnTitle}}</a>
+                <a [class.disabled]="seekDisabeld" (click)="!seekDisabeld&&onSeekPhone(fp.phone,fp.rnd)" class="input-btn-info btn btn-info">{{seekBtnTitle}}</a>
             </div>
         </div>
         <div class="alert-error" *ngIf="errorMsg">
