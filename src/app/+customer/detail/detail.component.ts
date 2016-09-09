@@ -64,7 +64,7 @@ export class CustomerDetail implements OnInit {
     window.clearTimeout(this.timeout);
     this.timeout = window.setTimeout(() => {
       if (scroll && !this.end) {
-        this.page.current += 1;
+        this.page.current++;
       }
       this.cApi.customerHistoryCustomerIdGet(id, this.page.current, this.page.limit).subscribe(data => {
         if (data.meta && data.meta.code === 200 && data.data) {
@@ -199,7 +199,7 @@ export class CustomerDetail implements OnInit {
   }
 
   onAddNewCustomer() {
-    this.router.navigate(['/dashboard/customer/add']);
+    this.router.navigate(['/dashboard/business/add',this.customer.vehicleLicence]);
   }
 
   //无限滚动
@@ -226,9 +226,20 @@ export class CustomerDetail implements OnInit {
       val.children[0].children[1] && val.children[0].children[1].classList.remove('swipeleft');
     })
     event.target.parentNode.parentNode.classList.add('swipeleft');
-    // event.target.parentNode.parentNode.parentNode.parentNode.parentNode.children[1].children[0].children[1].classList.remove('swipeleft')
   }
   onSwipeRight(event, listTbody) {
+    event.preventDefault();
+    event.target.parentNode.parentNode.classList.remove('swipeleft');
+  }
+
+  onListSwipeLeft(event, listTbody) {
+    event.preventDefault();
+    _.forEach(listTbody.children, (val, i) => {
+      val.children[0].children[1] && val.children[0].children[1].classList.remove('swipeleft');
+    })
+    event.target.parentNode.parentNode.classList.add('swipeleft');
+  }
+  onListSwipeRight(event, listTbody) {
     event.preventDefault();
     event.target.parentNode.parentNode.classList.remove('swipeleft');
   }

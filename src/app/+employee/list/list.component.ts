@@ -39,7 +39,7 @@ export class EmployeeList implements OnInit {
     window.clearTimeout(this.timeout);
     this.timeout = window.setTimeout(() => {
       if (scroll && !this.end) {
-        this.page.current += 1;
+        this.page.current++;
       }
       this.eApi.employeeListGet(curPage, pageSize).subscribe(res => {
         if (res.meta && res.meta.code === 200 && res.data) {
@@ -48,6 +48,9 @@ export class EmployeeList implements OnInit {
           } else {
             this.employees = res.data;
           }
+          this.page.current = res.meta.current;
+          this.page.limit = res.meta.limit;
+          this.page.total = res.meta.total;
         } else {
           if (scroll) {
 

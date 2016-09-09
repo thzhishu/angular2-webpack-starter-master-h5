@@ -38,22 +38,27 @@ export class CustomerList implements OnInit {
     window.clearTimeout(this.timeout);
     this.timeout = window.setTimeout(() => {
       if (scroll && !this.end) {
-        this.page.current += 1;
+        this.page.current++;
       }
       this.capi.customerListGet(curPage, pageSize).subscribe(res => {
-        if (res.meta && res.meta.code === 200 && res.data) {
-          if (scroll) {
-            this.customers = this.customers.concat(res.data);
-          } else {
-            this.customers = res.data;
-          }
-        } else {
+        if (res.meta && res.meta.code === 200) {
+          if (res.data&&res.data.length>0) {
             if (scroll) {
-
+              this.customers = this.customers.concat(res.data);
+            } else {
+              this.customers = res.data;
+            }
+            this.page.current = res.meta.current;
+            this.page.limit = res.meta.limit;
+            this.page.total = res.meta.total;
+          } else {
+            if (scroll) {
+              this.end = true;
             } else {
               this.customers = [];
             }
-          this.end = true;
+          }
+        } else {
           alert(res.error.message);
         }
         this.loading = false;
