@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
 import { EmployeeApi, EmployeeListItem } from 'client';
 
@@ -14,8 +14,11 @@ import * as _ from 'lodash';
 export class AccountEmployeeList implements OnInit {
   page: any = {};
   employees: any[] = [];
-  showDelWin: boolean = false;
   delEmployee: any;
+
+  // 显示添加新技师层
+  showAddEmployeeLayer: boolean = false;
+
   //滚动相关
   timeout: any;
   next: boolean = false;
@@ -25,6 +28,8 @@ export class AccountEmployeeList implements OnInit {
   returnTop: boolean = false;
 
   @Input() currentEmployee: EmployeeListItem;
+  @Output() onChangeEmployee = new EventEmitter();
+  @Output() onShowEmployee = new EventEmitter();
 
   constructor(private eApi: EmployeeApi, private router: Router, private route: ActivatedRoute) {
     this.page.current = String(1);
@@ -33,6 +38,8 @@ export class AccountEmployeeList implements OnInit {
 
   ngOnInit() {
     this.getEmployeeList(this.page.current, this.page.limit);
+    console.log('employee list init');
+    console.log(this.currentEmployee);
   }
 
   getEmployeeList(curPage, pageSize, scroll = false) {
@@ -56,13 +63,6 @@ export class AccountEmployeeList implements OnInit {
           alert(res.error.message);
         }
         this.loading = false;
-        // if (data.meta && data.meta.code === 200 && data.data) {
-        //   this.employees = data.data.length ? data.data : [];
-        // } else {
-        //   if (data.error && data.error.message) {
-        //     console.log(data.error.message);
-        //   }
-        // }
       }, err => {
         console.error(err);
         this.employees = [];
@@ -71,12 +71,26 @@ export class AccountEmployeeList implements OnInit {
   }
 
 
-  onEditEmployee(employee, e) {
-    e.stopPropagation();
-    this.router.navigate(['/dashboard/employee/edit', employee.id]);
-  }
   onAddNewEmployee() {
-    this.router.navigate(['/dashboard/employee/add']);
+    this.showAddEmployeeLayer = true;
+  }
+
+  /**
+   * 选择一个员工作为子账号
+   */
+  onSelectAccount(employee) {
+     if (this.currentEmployee && this.currentEmployee.id === employee.id) {
+       alert('重选吧');
+     } else {
+       // this.currentEmployee = employee;
+       this.onChangeEmployee.emit(employee);
+     }
+  }
+  /**
+   * 关闭员工弹出层
+   */
+  onCloseEmployeeLayer() {
+    this.onShowEmployee.emit(false);
   }
 
   //无限滚动
@@ -108,31 +122,15 @@ export class AccountEmployeeList implements OnInit {
     event.target.parentNode.classList.remove('swipeleft');
   }
 
-  // onDelEmployee() {
-  //     this.capi.customerCustomerIdDeleteDelete(String(this.delCustomer.id)).subscribe( data => {
-  //         if (data.meta&&data.meta.code === 200) {
-  //             this.onCloseDelWin();
-  //             this.getCustomerList(this.page.current, this.page.limit);
-  //         } else {
-  //             if (data.error && data.error.message) {
-  //                 console.log(data.error.message);
-  //             }
-  //         }
-  //     }, err => {
-  //         console.error(err);
-  //     });
-  // }
-  // onCloseDelWin() {
-  //     this.showDelWin = false;
-  //     this.delEmployee = undefined;
-  // }
-  // onShowDelWin(employee, e) {
-  //     e.stopPropagation();
-  //     this.showDelWin = true;
-  //     this.delEmployee = employee;
-  // }
-  // onViewCustomerDetail(customer, e) {
-  //     e.stopPropagation();
-  //     this.router.navigate(['/dashboard/customer/detail', customer.id]);
-  // }
+  /**
+   * 控制 添加新技师层的显示和隐藏
+   */
+  onToggleShowLayer(evt) {
+    this.showAddEmployeeLayer = evt.hide == true ? false : true;
+    if (evt.reload) {
+      this.getEmployeeList(1, 20);
+    }
+  }
+
+  
 }

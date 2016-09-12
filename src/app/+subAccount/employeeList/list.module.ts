@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { AccountEmployeeList } from './list.component';
+import { AccountEmployeeAddModule } from '../employeeAdd/add.module';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { AccountEmployeeList } from './list.component';
     CommonModule,
     FormsModule,
     RouterModule,
+    AccountEmployeeAddModule
   ],
   exports: [AccountEmployeeList],
 })

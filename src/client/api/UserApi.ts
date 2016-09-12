@@ -78,6 +78,7 @@ export class UserApi {
       throw new Error('Required parameter password was null or undefined when calling userAccountCreatePost.');
     }
     headerParams.set('Content-Type', 'application/x-www-form-urlencoded');
+    // headerParams.set('Content-Type', 'application/json');
 
     formParams.append('name', name);
     formParams.append('employeeId', String(employeeId));
@@ -188,7 +189,7 @@ export class UserApi {
    * @param roleIds 角色id，多角色用逗号分隔
    * @param shopIds 关联门店id, 用逗号分隔
    */
-  public userAccountUpdatePost(mobile: string, password: string, id?: number, name?: string, employeeId?: number, roleIds?: string, shopIds?: string, extraHttpRequestParams?: any): Observable<models.CommonResponse> {
+  public userAccountUpdatePost(mobile: string, password: string, id?: string, name?: string, employeeId?: string, roleIds?: string, shopIds?: string, extraHttpRequestParams?: any): Observable<models.CommonResponse> {
     const path = this.basePath + '/user/account/update';
 
     let queryParameters = new URLSearchParams();

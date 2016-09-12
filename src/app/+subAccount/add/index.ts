@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 
 import { SubAccountAdd } from './add.component';
 import { AFMModule } from '../form/afm.module';
-import { AccountEmployeeListModule } from '../employeeList/accountList.module';
+import { AccountEmployeeListModule } from '../employeeList/list.module';
 
 // async components must be named routes for WebpackAsyncRoute
 export const routes = [

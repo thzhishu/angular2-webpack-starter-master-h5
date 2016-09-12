@@ -1,22 +1,4 @@
 .cr {
-
-    select {
-        background:#fff;
-        border:none;
-        outline:none;
-        display:block;
-        width:100%;
-        appearance: none;
-        -moz-appearance:none;
-        -webkit-appearance:none;
-        height:78px;
-        padding:0;
-    }
-
-    .fm-sel {
-        border:none;
-    }
-
     .db-title {
         .bw {  
             width:93px;
@@ -49,18 +31,13 @@
             color:#9a9a9a;
             font-size:18px;
         }
-        .fm-sel {
-            &:before, &:after {
-                top: 44px;
-            }
-        }
 
         
 
         form {
             background:#fff;
         }
-        .account-form {
+        .employee-form {
             .r-store {
                 .flex-1 {
                     line-height: 78px;
@@ -68,8 +45,8 @@
                 .bw {
                     width:14px;
                     height:14px;
-                    margin:0 78px 0 16px;
-                    transform: rotate(-180deg);
+                    margin:0 24px;
+                    transform: rotate(-90deg);
                     &:before, &:after {
                         background:#4d4d4d;
                         width:14px;
@@ -172,94 +149,45 @@
 
 }
 
-.cr {
-    .op-list {
-        line-height: 78px;
-        height: 79px;
-        font-size:16px;
-        
-        text-indent: 24px;
-        a {
+.employee-add-form {
+    width:100%;
+    height:100%;
+
+    .cr-add {
+        height: auto;
+        width:592px;
+        background:#fff;
+        border-radius: 20px;
+        padding:28px 0 30px;
+
+        .cr-add-t {
+            font-size:22px;
+            line-height:1;
             color:#38b549;
-            text-decoration: underline;
+            text-indent: 24px;
+            margin-bottom:16px;
         }
     }
-
-    .op-mobile {
-        border:none;
-    }
-
-    .op-f-tip {
-        font-size:18px;
-        color:#9a9a9a;
-        line-height: 1;
-        padding: 0 24px 20px;
-    }
-
-    .role-des {
-        width:22px;
-        height:22px;
-        line-height: 22px;
-        color:#fff;
-        font-size:22px;
-        background:#f07265;
-        border-radius: 2px;
-        margin-right: 24px;
+    .employee-form {
+        > .fm-field {
+            &:first-child {
+                border-top: 1px solid #e5e5e5;
+            }
+        }
     }
 }
-.mask-tip {
-    position:fixed;
-    top:0;
-    right:0;
-    bottom:0;
-    left:0;
-
-    .mt-box {
-        position:relative;
-        width: 537px;
-        border-radius: 20px;
-        background:rgba(0, 0, 0, .9);
-        color:#fff;
-        font-size: 22px;
-        line-height: 1;
-        padding: 0 8px;
-    }
-    .mt-tit {
-        height: 65px;
-        padding: 31px 26px 12px;
-        border-bottom: 1px dashed #fff;
-    }
-    .mt-close {
-        position:absolute;
-        transform: scale(.714) rotate(-45deg);
-        right: 12px;
-        top:22px;
-    }
-    .mt-img {
-        width:158px;
-        height:149px;
-        background: url(/assets/img/dashboard/jxw-tip.png) no-repeat center center;
-        background-size: contain;
-        margin: 0 30px 0 40px;
-    }
-    .mt-cont {
-        line-height: 28px;
-        padding: 33px 29px 29px 0;
-        
-        .mt-c-txt1 {
-            padding: 0 0 24px;
-        }
-        .mt-c-txt2 {
-            padding: 0 0 18px;
-        }
-        .mt-btn {
-            width:149px;
-            height: 29px;
-            border: 1px solid #38b549;
-            color:#38b549;
-            line-height: 26px;
-            border-radius: 8px;
-            font-size: 18px;
-        }
+.employee-btns {
+    font-size:0;
+    > div {
+        display: inline-block;
+        font-size:28px;
+        width:172px;
+        height: 42px;
+        border: 1px solid #38b549;
+        color:#38b549;
+        line-height: 40px;
+        text-align: center;
+        margin: 0 32px;
+        border-radius: 8px;
     }
 }

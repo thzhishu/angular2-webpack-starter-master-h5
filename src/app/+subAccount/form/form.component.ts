@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
-import { EmployeeApi, ShopApi, RoleApi, EmployeeItem } from 'client';
+import { EmployeeApi, ShopApi, RoleApi, UserApi, EmployeeItem } from 'client';
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -12,7 +12,7 @@ import * as _ from 'lodash';
     template: require('./form.template.html'),
     styles: [require('./form.style.scss')],
     //directives: [ROUTER_DIRECTIVES],
-    providers: [EmployeeApi, ShopApi, RoleApi ]
+    providers: [EmployeeApi, ShopApi, RoleApi, UserApi, Md5 ]
 })
 export class SubAccountForm implements OnInit, OnDestroy {
     sub: any;
@@ -33,6 +33,7 @@ export class SubAccountForm implements OnInit, OnDestroy {
 
     // 账号对象
     account = {
+        id: '',
         name: '',
         employeeId: '',
         mobile: '',
@@ -45,7 +46,7 @@ export class SubAccountForm implements OnInit, OnDestroy {
     // 子账号关联门店字符串
     accountShopStr: string = '请选择';
 
-    employeeShopStr: string = '请选择';
+    // employeeShopStr: string = '请选择';
 
     // 关联门店弹出层
     showStoresLayer: boolean = false;
@@ -71,9 +72,13 @@ export class SubAccountForm implements OnInit, OnDestroy {
     tipOkeyBtnTxt: string = '确定';
     isAlert: boolean = false;
 
-    @Output() onShowEmployee = new EventEmitter();
+    // 控制角色字段提示是否显示
+    roleFieldTip: boolean = false;
 
-    constructor( private eApi: EmployeeApi, private sApi: ShopApi, private rApi: RoleApi,  private router: Router, private route: ActivatedRoute ) {
+    @Output() onShowEmployee = new EventEmitter();
+    @Output() onUpdateSelectEmployee = new EventEmitter();
+
+    constructor( private uApi: UserApi, private eApi: EmployeeApi, private sApi: ShopApi, private rApi: RoleApi,  private router: Router, private route: ActivatedRoute ) {
     }
 
     ngOnInit() {
@@ -104,8 +109,75 @@ export class SubAccountForm implements OnInit, OnDestroy {
      * 保存子账号
      */
     onSubAccountSave() {
-
+        if (this.submiting) return;
+        let stores = this.stores.filter(store => store.checked);
+        if (this.account.name === '') {
+            this.fieldErrMsg = '员工姓名不能为空';
+            return;
+        }
+        if (this.account.roleIds === '') {
+            this.fieldErrMsg = '请选择账户角色';
+            return;
+        }
+        if (stores.length === 0) {
+            this.fieldErrMsg = '请选择关联门店';
+            return;
+        }
+        if (this.account.mobile === '') {
+            this.fieldErrMsg = '手机号码不能为空';
+            return;
+        }
+        if (!(/^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[579])[0-9]{8}$/.test(this.account.mobile)) {
+            this.fieldErrMsg = '请输入正确的手机号码';
+            return;
+        }
+        if (this.account.password === '') {
+            this.fieldErrMsg = '密码不能为空';
+            return;
+        }
+        if (!this.pwdFormat(this.account.password) ) {
+            this.fieldErrMsg = '请输入由6~16位的英文字母、数字或符号组成的密码';
+            return;
+        }
+        
+        this.fieldErrMsg = '';
+        this.account.shopIds = stores.map(store => store.id).join(',');
+        this.submiting = true;
+        let ac = this.account;
+        if (!this.account.id) {
+            this.uApi.userAccountCreatePost( ac.mobile, Md5.hashStr(ac.password.trim(), false).toString(), ac.name, Number(ac.employeeId), ac.roleIds, ac.shopIds ).subscribe(data => {
+                this.submiting = false;
+                this.employeeRequestedHandler(data);
+            }, err => console.error(err));
+        } else {
+            this.uApi.userAccountUpdatePost( ac.mobile, Md5.hashStr(ac.password.trim(), false).toString(), String(ac.id), ac.name, String(ac.employeeId), ac.roleIds, ac.shopIds ).subscribe(data => {
+                this.submiting = false;
+                this.employeeRequestedHandler(data);
+            }, err => console.error(err));
+        }
     }
+
+    /**
+     * 验证密码
+     */
+    pwdFormat(str) {
+        return /^[\x21-\x7E]{6,16}$/.test(str) ? true : false;
+    }
+
+    /**
+     * 处理保存员工信息后的响应
+     */
+    employeeRequestedHandler(data) {
+        if (data.meta && data.meta.code === 200) {
+            this.router.navigate(['/dashboard/account/subAccount/list']);
+        } else {
+            if (data.error && data.error.msg) {
+                console.log('employee save error: ', data.error.msg);
+            }
+        }
+    }
+
+    
 
     /**
      * 通过Id获取员工
@@ -127,7 +199,7 @@ export class SubAccountForm implements OnInit, OnDestroy {
                 });
                 this.employee.shops = sp;
                 console.log('shops: ', this.employee.shops);
-                this.employeeShopStr = sp.length === 0 ? '请选择' : (sp.length > 1) ? `${sp[0].name}等${sp.length}家门店` : `${sp[0].name}`;
+                this.accountShopStr = sp.length === 0 ? '请选择' : (sp.length > 1) ? `${sp[0].name}等${sp.length}家门店` : `${sp[0].name}`;
                 this.oldEmployee = Md5.hashStr(JSON.stringify(this.employee), false).toString();
                 this.initLayerStores();
             }
@@ -213,18 +285,7 @@ export class SubAccountForm implements OnInit, OnDestroy {
 
     }
 
-    /**
-     * 处理保存员工信息后的响应
-     */
-    employeeRequestedHandler(data) {
-        if (data.meta&&data.meta.code === 200) {
-            this.router.navigate(['/dashboard/employee/list']);
-        } else {
-            if (data.error && data.error.msg) {
-                console.log('employee save error: ', data.error.msg);
-            }
-        }
-    }
+    
 
 
 
@@ -253,38 +314,22 @@ export class SubAccountForm implements OnInit, OnDestroy {
 
     checkStoreLayer(isTip = false) {
         let stores = this.layerStore.stores.filter(store => store.checked);
+        console.log('stores: ', stores);
         if ( stores.length === 0 ) {
             if (isTip) {
                 this.layerStore.storeTipMsg = '请选择关联门店';
                 this.layerStore.storeValid = false;
             } else {
-                this.employeeShopStr = '请选择';
+                this.accountShopStr = '请选择';
                 this.stores = _.cloneDeep(this.layerStore.stores);
                 this.onHideStoreLayer();
             }
             return false;
         } else {
-            if (this.employee.name === '') {
-                let codes = stores.filter(store => store.code !== '');
-                let codeErr = false;
-                codes.forEach(store => {
-                    if (store.code.indexOf(',') > -1) {
-                        codeErr = true;
-                        store.hasErr = true;
-                    }
-                });
-                if (codeErr) {
-                    this.layerStore.storeTipMsg = '员工编号中不可包含逗号';
-                    this.layerStore.storeValid = false;
-                    return false;
-                }
-                if (codes.length) {
-                    this.employee.name = codes[0].code;
-                }
-            }
+            
             this.layerStore.storeTipMsg = '';
             this.layerStore.storeValid = true;
-            this.employeeShopStr = stores.length > 1 ? `${stores[0].name}等${stores.length}家门店` : `${stores[0].name}`;
+            this.accountShopStr = stores.length > 1 ? `${stores[0].name}等${stores.length}家门店` : `${stores[0].name}`;
             this.stores = _.cloneDeep(this.layerStore.stores);
             this.employee.shops = _.cloneDeep(stores);
             this.onHideStoreLayer();
@@ -422,7 +467,47 @@ export class SubAccountForm implements OnInit, OnDestroy {
      */
     onAddFromEmployee() {
         console.log('form employee');
-        this.onShowEmployee.next({isShow: true});
+        this.onShowEmployee.next(true);
+    }
+
+    /**
+     * 从技师列表中选择后，设置员工姓名
+     */
+    onSetEmployeeName(data) {
+        this.account.name = data.name;
+        this.account.employeeId = data.id;
+    }
+
+    /**
+     * 切换角色字段提示
+     */
+    onToggleRoleFieldTip() {
+        this.roleFieldTip = !this.roleFieldTip;
+    }
+
+    /**
+     * 账号姓名改变
+     */
+    onAccountNameChange(evt) {
+        console.log(evt);
+        console.log(this.account.name, this.account.employeeId);
+        if (this.account.employeeId && this.account.name !== evt ) {
+            this.clearAccountEmployeeInfo();
+            this.account.name = '';
+        } else {
+            this.account.name = evt;
+        }
+        
+    }
+
+    /**
+     * 清除关联的技师信息
+     */
+    clearAccountEmployeeInfo() {
+        this.account.employeeId = '';
+        this.account.mobile = '';
+        this.account.name = '';
+        this.onUpdateSelectEmployee.emit(undefined);
     }
 
 
