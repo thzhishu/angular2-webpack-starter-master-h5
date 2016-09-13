@@ -15,6 +15,7 @@ export class AccountEmployeeList implements OnInit {
   page: any = {};
   employees: any[] = [];
   delEmployee: any;
+  newSelectEmployee: EmployeeListItem;
 
   // 显示添加新技师层
   showAddEmployeeLayer: boolean = false;
@@ -26,6 +27,13 @@ export class AccountEmployeeList implements OnInit {
   end: boolean = false;
   isReturnTop: boolean = false;
   returnTop: boolean = false;
+
+  // 删除弹出层
+  showTipWin: boolean = false;
+  tipMsg: string = '';
+  tipKey: string = '';
+  tipOkeyBtnTxt: string = '确定';
+  isAlert: boolean = false;
 
   @Input() currentEmployee: EmployeeListItem;
   @Output() onChangeEmployee = new EventEmitter();
@@ -80,10 +88,20 @@ export class AccountEmployeeList implements OnInit {
    */
   onSelectAccount(employee) {
      if (this.currentEmployee && this.currentEmployee.id === employee.id) {
-       alert('重选吧');
+        // alert('重选吧');
+        this.tipMsg = '该技师已被添加为子账号，请重新选择';
+        this.tipKey = 'account-has';
+        this.tipOkeyBtnTxt = '确认';
+        this.isAlert = true;
+        this.showConfirmLayer();
      } else {
        // this.currentEmployee = employee;
-       this.onChangeEmployee.emit(employee);
+       this.tipMsg = '确认选择该技师？';
+       this.tipKey = 'account-select';
+       this.tipOkeyBtnTxt = '确认';
+       this.isAlert = false;
+       this.newSelectEmployee = employee;
+       this.showConfirmLayer();
      }
   }
   /**
@@ -132,5 +150,57 @@ export class AccountEmployeeList implements OnInit {
     }
   }
 
-  
+  /**
+   * 显示 confirm 弹出层
+   */
+  showConfirmLayer() {
+    this.showTipWin = true;
+  }
+
+  /**
+   * 隐藏 confirm 弹出层
+   */
+  hideConfirmLayer() {
+    this.showTipWin = false;
+  }
+
+  /**
+   * 重置 confirm 弹出层
+   */
+  resetConfirmLayer() {
+    this.showTipWin = false;
+    this.tipMsg = '';
+    this.tipKey = '';
+    this.tipOkeyBtnTxt = '确定';
+    this.isAlert = false;
+  }
+
+  /**
+   * confirm 弹出层 okey
+   */
+  onOkey(key) {
+    if (key === 'account-has') {
+      this.resetConfirmLayer();
+      this.hideConfirmLayer();
+      return;
+    }
+    if ( key === 'account-select' ) {
+      this.onChangeEmployee.emit(this.newSelectEmployee);
+      this.resetConfirmLayer();
+      this.hideConfirmLayer();
+      return;
+    }
+  }
+
+  /**
+   * confirm 弹出层 cancel
+   */
+  onCancel(key) {
+    if ( key === 'account-select' ) {
+      this.newSelectEmployee = undefined;
+      this.resetConfirmLayer();
+      this.hideConfirmLayer();
+      return;
+    }
+  }
 }

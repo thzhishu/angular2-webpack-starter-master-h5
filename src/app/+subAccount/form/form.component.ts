@@ -17,17 +17,15 @@ import * as _ from 'lodash';
 export class SubAccountForm implements OnInit, OnDestroy {
     sub: any;
     submiting: boolean = false;
-    oldEmployee: string = '';
+    oldAccount: string = '';
+    accountId: number;
+    passwordPlaceholder: string = '必填项';
+    isRequirePassword: boolean = true;
 
-    employee: any = {
+    selectEmployee = {
         id: '',
         name: '',
-        code: '',
-        mobile: '',
-        serviceTimes: 0,
-        createTime: '',
-        updateTime: '',
-        shops: []
+        mobile: ''
     };
     stores: any[] = [];
 
@@ -39,7 +37,9 @@ export class SubAccountForm implements OnInit, OnDestroy {
         mobile: '',
         password: '',
         roleIds: '',
-        shopIds: ''
+        shopIds: '',
+        roles: [],
+        shops: []
     };
     // 角色
     roles = [];
@@ -127,30 +127,33 @@ export class SubAccountForm implements OnInit, OnDestroy {
             this.fieldErrMsg = '手机号码不能为空';
             return;
         }
-        if (!(/^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[579])[0-9]{8}$/.test(this.account.mobile)) {
+        if (!(/^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[579])[0-9]{8}$/.test(this.account.mobile))) {
             this.fieldErrMsg = '请输入正确的手机号码';
             return;
         }
-        if (this.account.password === '') {
+        if (this.isRequirePassword && this.account.password === '') {
             this.fieldErrMsg = '密码不能为空';
             return;
         }
-        if (!this.pwdFormat(this.account.password) ) {
+        if ( (this.account.password !== '') && !this.pwdFormat(this.account.password) ) {
             this.fieldErrMsg = '请输入由6~16位的英文字母、数字或符号组成的密码';
             return;
         }
+
+        console.log('save account', this.account)
         
         this.fieldErrMsg = '';
         this.account.shopIds = stores.map(store => store.id).join(',');
         this.submiting = true;
         let ac = this.account;
         if (!this.account.id) {
-            this.uApi.userAccountCreatePost( ac.mobile, Md5.hashStr(ac.password.trim(), false).toString(), ac.name, Number(ac.employeeId), ac.roleIds, ac.shopIds ).subscribe(data => {
+            this.uApi.userAccountCreatePost( ac.mobile, Md5.hashStr(ac.password.trim(), false).toString(), ac.name, String(ac.employeeId), ac.roleIds, ac.shopIds ).subscribe(data => {
                 this.submiting = false;
                 this.employeeRequestedHandler(data);
             }, err => console.error(err));
         } else {
-            this.uApi.userAccountUpdatePost( ac.mobile, Md5.hashStr(ac.password.trim(), false).toString(), String(ac.id), ac.name, String(ac.employeeId), ac.roleIds, ac.shopIds ).subscribe(data => {
+            let pwd = this.account.password === '' ? '' : Md5.hashStr(ac.password.trim(), false).toString();
+            this.uApi.userAccountUpdatePost( ac.mobile, pwd, String(ac.id), ac.name, String(ac.employeeId), ac.roleIds, ac.shopIds ).subscribe(data => {
                 this.submiting = false;
                 this.employeeRequestedHandler(data);
             }, err => console.error(err));
@@ -171,42 +174,16 @@ export class SubAccountForm implements OnInit, OnDestroy {
         if (data.meta && data.meta.code === 200) {
             this.router.navigate(['/dashboard/account/subAccount/list']);
         } else {
-            if (data.error && data.error.msg) {
-                console.log('employee save error: ', data.error.msg);
+            if (data.error && data.error.message) {
+                console.log('account save error: ', data.error.message);
+                this.fieldErrMsg = data.error.message;
             }
         }
     }
 
     
 
-    /**
-     * 通过Id获取员工
-     */
-    getEmployeeById(id) {
-        this.eApi.employeeEmployeeIdGet('', id).subscribe(data => {
-            if (data.meta && data.meta.code === 200 && data.data) {
-                console.log('edit', data);
-                this.employee = data.data;
-                let sp = [];
-                this.employee.shops.forEach(shop => {
-                    this.stores.forEach(store => {
-                        if (shop.shopId === store.id) {
-                            store.checked = true;
-                            store.code = shop.code;
-                            sp.push(_.cloneDeep(store));
-                        }
-                    });
-                });
-                this.employee.shops = sp;
-                console.log('shops: ', this.employee.shops);
-                this.accountShopStr = sp.length === 0 ? '请选择' : (sp.length > 1) ? `${sp[0].name}等${sp.length}家门店` : `${sp[0].name}`;
-                this.oldEmployee = Md5.hashStr(JSON.stringify(this.employee), false).toString();
-                this.initLayerStores();
-            }
-        }, err => {
-            console.error(err);
-        });
-    }
+    
 
     /**
      * 获取所有门店
@@ -221,15 +198,59 @@ export class SubAccountForm implements OnInit, OnDestroy {
                     store.hasErr = false;
                 });
                 this.initLayerStores();
-                this.oldEmployee = Md5.hashStr(JSON.stringify(this.employee), false).toString();
+                this.oldAccount = Md5.hashStr(JSON.stringify(this.account), false).toString();
                 this.sub = this.route.params.subscribe( params => {
                     console.log('empolyee form params: ', params);
                     if (params['id']) {
-                        this.getEmployeeById(String(params['id']));
+                        this.accountId = +params['id'];
+                        this.getAccountbyId(this.accountId);
+                        
                     }
                 });
             }
         });
+    }
+
+    /**
+     * 获取子账号通过 id
+     */
+    getAccountbyId(id) {
+        this.uApi.userAccountIdGet(id).subscribe(data => {
+            if (data.meta.code === 200 && data.data) {
+                this.passwordPlaceholder = '******';
+                this.account = Object.assign(this.account, data.data);
+                this.formatAccountInfo();
+                this.initLayerStores();
+                this.oldAccount = Md5.hashStr(JSON.stringify(this.account), false).toString();
+                console.log('edit account', this.account);
+            }
+        }, err => console.error(err));
+    }
+
+    /**
+     * 格式化账号信息
+     */
+    formatAccountInfo() {
+        let storeNames = [];
+        this.account.password = '';
+        this.account.employeeId = this.account.employeeId ? this.account.employeeId : '';
+        this.isRequirePassword = false;
+        this.account.roleIds = this.account.roles[0];
+        this.account.shopIds = this.account.shops.join(',');
+        this.stores.forEach(store => {
+            if (this.account.shops.indexOf(String(store.id)) > -1) {
+                store.checked = true;
+                storeNames.push(store.name);
+
+            }
+        });
+        if (this.account.employeeId) {
+            this.selectEmployee.id = this.account.employeeId;
+            this.selectEmployee.name = this.account.name;
+            this.selectEmployee.mobile = this.account.mobile;
+        }
+        
+        this.accountShopStr = storeNames.length > 1 ? `${storeNames[0]}等${storeNames.length}家门店` : `${storeNames}`;
     }
 
     /**
@@ -245,73 +266,57 @@ export class SubAccountForm implements OnInit, OnDestroy {
         };
     }
 
-    /**
-     * 保存员工信息
-     */
-    onSave() {
-        if (this.submiting) return;
-        let stores = this.stores.filter(store => store.checked);
-        let noCodesArr = stores.filter(store => store.code === '');
-        let haveCodeArr = stores.filter(store => store.code !== '');
-        if (this.employee.name === '' && noCodesArr.length !== 0) {
-            this.fieldErrMsg = '员工姓名与技师编号至少填一项';
-            return;
-        }
-        if (stores.length === 0) {
-            this.fieldErrMsg = '请选择关联门店';
-            return;
-        }
-        if (this.employee.mobile !== '' && !(/^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[579])[0-9]{8}$/.test(this.employee.mobile)) ) {
-            this.fieldErrMsg = '请填写正确的手机号';
-            return;
-        }
-        this.fieldErrMsg = '';
-        stores = noCodesArr.concat(haveCodeArr);
-        let shopIds = stores.map(store => store.id).join(',');
-        let codes = stores.map(store => store.code).join(',');
-        console.log('shopIds', shopIds, codes);
-        this.submiting = true;
-        if (!this.employee.id) {
-            this.eApi.employeeSavePost( this.employee.name, this.employee.code, this.employee.mobile, shopIds, codes, '1' ).subscribe(data => {
-                this.submiting = false;
-                this.employeeRequestedHandler(data);
-            }, err => console.error(err));
-        } else {
-            this.eApi.employeeUpdatePost( this.employee.id, this.employee.name, shopIds, codes, this.employee.code, this.employee.mobile ).subscribe(data => {
-                this.submiting = false;
-                this.employeeRequestedHandler(data);
-            }, err => console.error(err));
-        }
-
-    }
+    
 
     
 
 
 
-
+    /**
+     * 绑定显示关联门店弹出层
+     */
     onSelectStore() {
         this.fieldErrMsg = '';
         this.onShowStoreLayer();
     }
 
+    /**
+     * 输入型字段获取焦点时清除错误信息
+     */
     onFieldFocus() {
         this.fieldErrMsg = '';
     }
 
+    /**
+     * 显示关联门店弹出层
+     */
     onShowStoreLayer() {
         this.layerStore.showStoresLayer = true;
     }
+
+    /**
+     * 隐藏关联门店弹出层
+     */
     onHideStoreLayer() {
         this.layerStore.showStoresLayer = false;
     }
+    /**
+     * 点叉叉号关闭弹出层时，如果是编辑则直接关闭， 如果是新建则用户所选的有效
+     */
     onCloseStoreLayer() {
-        this.employee.id ? this.onHideStoreLayer() : this.checkStoreLayer();
+        this.account.id ? this.onHideStoreLayer() : this.checkStoreLayer();
     }
-    selectEmployeeStores() {
+
+    /**
+     * 确认用户所选门店
+     */
+    selectAccountStores() {
         this.checkStoreLayer(true);
     }
 
+    /**
+     * 确认用户所选门店并格式化显示字符串
+     */
     checkStoreLayer(isTip = false) {
         let stores = this.layerStore.stores.filter(store => store.checked);
         console.log('stores: ', stores);
@@ -326,28 +331,38 @@ export class SubAccountForm implements OnInit, OnDestroy {
             }
             return false;
         } else {
-            
             this.layerStore.storeTipMsg = '';
             this.layerStore.storeValid = true;
             this.accountShopStr = stores.length > 1 ? `${stores[0].name}等${stores.length}家门店` : `${stores[0].name}`;
             this.stores = _.cloneDeep(this.layerStore.stores);
-            this.employee.shops = _.cloneDeep(stores);
+            this.account.shops = _.cloneDeep(stores);
             this.onHideStoreLayer();
             return true;
         }
     }
 
+    /**
+     * 选中或取消某一个门店回调
+     */
     onCheckStore(store, evt) {
         store.checked = evt;
         if (store.checked) {
             this.layerStore.storeTipMsg = '';
         }
+        this.account.shopIds = this.layerStore.stores.filter(store => store.checked).map(store=>store.id).join(',');
+        console.log('change store account', this.account);
     }
 
+    /**
+     * 门店技工编号获取焦点
+     */
     onStoreCodeFocus() {
         this.layerStore.storeTipMsg = '';
     }
 
+    /**
+     * 选择所有
+     */
     onToggleStoreAll(evt) {
         this.layerStore.storeAll = evt;
         if (this.layerStore.storeAll) {
@@ -359,6 +374,9 @@ export class SubAccountForm implements OnInit, OnDestroy {
 
     }
 
+    /**
+     * 门店技工编号失去焦点时删除其中的逗号
+     */
     onStoreCodeBlur(store) {
         store.code = store.code.replace(/,/g, '').trim();
     }
@@ -367,15 +385,16 @@ export class SubAccountForm implements OnInit, OnDestroy {
      * 返回上一页
      */
     back() {
-        window.history.back()
+        // window.history.back()
+        this.router.navigate(['/dashboard/account/subAccount/list']);
     }
 
     /**
      * 检查表单是否有改动
      */
     onGoBack() {
-        let employee = Md5.hashStr(JSON.stringify(this.employee), false).toString();
-        this.oldEmployee === employee ? this.back() : this.onShowSaveLayer();
+        let employee = Md5.hashStr(JSON.stringify(this.account), false).toString();
+        this.oldAccount === employee ? this.back() : this.onShowSaveLayer();
     }
 
     /**
@@ -383,7 +402,7 @@ export class SubAccountForm implements OnInit, OnDestroy {
      */
     onShowSaveLayer() {
         this.tipMsg = '您有信息未保存';
-        this.tipKey = 'save-employee';
+        this.tipKey = 'save-account';
         this.tipOkeyBtnTxt = '保存';
         this.showConfirmLayer();
     }
@@ -391,11 +410,11 @@ export class SubAccountForm implements OnInit, OnDestroy {
     /**
      * 删除员工
      */
-    delEmployee() {
-        this.eApi.employeeDeleteDelete(this.employee.id).subscribe(data => {
+    delAccount() {
+        this.uApi.userAccountIdDeleteDelete(Number(this.account.id)).subscribe(data => {
             if (data.meta.code === 200 ) {
                 this.hideConfirmLayer();
-                this.router.navigate(['/dashboard/employee/list']);
+                this.router.navigate(['/dashboard/account/subAccount/list']);
             } else {
                 if (data.error && data.error.message) {
                     console.log(data.error.message);
@@ -407,9 +426,9 @@ export class SubAccountForm implements OnInit, OnDestroy {
     /**
      * 显示删除员工弹出层
      */
-    onShowDelEmplyeeLayer() {
-        this.tipMsg = '技师删除后，其历史服务记录不会被清除！';
-        this.tipKey = 'del-employee';
+    onShowDelAccountLayer() {
+        this.tipMsg = '删除子账号后该账号将无法登录！';
+        this.tipKey = 'del-account';
         this.tipOkeyBtnTxt = '删除';
         this.showConfirmLayer();
     }
@@ -435,13 +454,13 @@ export class SubAccountForm implements OnInit, OnDestroy {
      * confirm 弹出层 点确定回调
      */
     onOkey(key) {
-        if (key === 'del-employee') {
-            this.delEmployee();
+        if (key === 'del-account') {
+            this.delAccount();
             return;
         }
-        if (key === 'save-employee') {
+        if (key === 'save-account') {
             this.hideConfirmLayer();
-            this.onSave();
+            this.onSubAccountSave();
             return;
         }
     }
@@ -450,12 +469,12 @@ export class SubAccountForm implements OnInit, OnDestroy {
      * confirm 弹出层 点取消回调
      */
     onCancel(key) {
-        if (key === 'del-employee') {
+        if (key === 'del-account') {
             this.hideConfirmLayer();
             return;
         }
 
-        if (key === 'save-employee') {
+        if (key === 'save-account') {
             this.back();
             return;
         }
@@ -467,6 +486,7 @@ export class SubAccountForm implements OnInit, OnDestroy {
      */
     onAddFromEmployee() {
         console.log('form employee');
+        this.fieldErrMsg = '';
         this.onShowEmployee.next(true);
     }
 
@@ -474,8 +494,11 @@ export class SubAccountForm implements OnInit, OnDestroy {
      * 从技师列表中选择后，设置员工姓名
      */
     onSetEmployeeName(data) {
+        this.clearAccountEmployeeInfo();
         this.account.name = data.name;
         this.account.employeeId = data.id;
+        this.account.mobile = data.mobile;
+        this.selectEmployee = data;
     }
 
     /**
@@ -493,11 +516,23 @@ export class SubAccountForm implements OnInit, OnDestroy {
         console.log(this.account.name, this.account.employeeId);
         if (this.account.employeeId && this.account.name !== evt ) {
             this.clearAccountEmployeeInfo();
-            this.account.name = '';
+            // this.account.name = '';
         } else {
             this.account.name = evt;
         }
         
+    }
+
+    /**
+     * 账号电话改变
+     */
+    onAccountMobileChange(evt) {
+        if (this.account.employeeId && this.selectEmployee.mobile !== '' && this.account.mobile !== evt ) {
+            this.clearAccountEmployeeInfo();
+            // this.account.mobile = '';
+        } else {
+            this.account.mobile = evt;
+        }
     }
 
     /**
@@ -507,6 +542,20 @@ export class SubAccountForm implements OnInit, OnDestroy {
         this.account.employeeId = '';
         this.account.mobile = '';
         this.account.name = '';
+        this.account.roleIds = '';
+        this.account.shopIds = '';
+        this.account.password = '';
+        this.passwordPlaceholder = '必填项';
+        this.accountShopStr = '请选择';
+        this.isRequirePassword = true;
+        this.stores.forEach(store => {
+            store.code = '';
+            store.checked = false;
+            store.hasErr = false;
+        });
+        this.selectEmployee = undefined;
+        this.initLayerStores();
+        console.log('after clear account', this.account);
         this.onUpdateSelectEmployee.emit(undefined);
     }
 

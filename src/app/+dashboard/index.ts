@@ -65,6 +65,7 @@ export const routes = [
               children: [
                   { path: 'list', loadChildren: () => System.import('../+subAccount/list') },
                   { path: 'add', loadChildren: () => System.import('../+subAccount/add') },
+                  { path: 'edit/:id', loadChildren: () => System.import('../+subAccount/edit') },
               ]
           },
         ]

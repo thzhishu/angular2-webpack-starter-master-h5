@@ -284,7 +284,7 @@ export class ShopApi {
     if (shopId === null || shopId === undefined) {
       throw new Error('Required parameter shopId was null or undefined when calling shopShopIdGet.');
     }
-    headerParams.set('token', token);
+    // headerParams.set('token', token);
 
     let requestOptions: RequestOptionsArgs = {
       method: 'GET',

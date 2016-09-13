@@ -1,0 +1,12 @@
+.sa-wrap {
+    position:fixed;
+    left:0;
+    top:63px;
+    bottom:0;
+    right:0;
+    z-index: 1000;
+
+    &.opacity0 {
+        opacity:0;
+    }
+}

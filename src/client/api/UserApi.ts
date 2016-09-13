@@ -55,7 +55,7 @@ export class UserApi {
    * @param roleIds 角色id，多角色用逗号分隔
    * @param shopIds 关联门店id, 用逗号分隔
    */
-  public userAccountCreatePost(mobile: string, password: string, name?: string, employeeId?: number, roleIds?: string, shopIds?: string, extraHttpRequestParams?: any): Observable<models.CommonResponse> {
+  public userAccountCreatePost(mobile: string, password: string, name?: string, employeeId?: string, roleIds?: string, shopIds?: string, extraHttpRequestParams?: any): Observable<models.CommonResponse> {
     const path = this.basePath + '/user/account/create';
 
     let queryParameters = new URLSearchParams();
