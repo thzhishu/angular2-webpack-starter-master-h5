@@ -1,6 +1,9 @@
-<div class="sa-wrap" [class.opacity0] = "showEmployeeLayer">
-    <sub-account-form (onShowEmployee)="onShowEmployeeListLayer($event)" (onUpdateSelectEmployee)="onUpdateSelectEmployee($event)"></sub-account-form>
+<div class="sub-accounts">
+    <div class="sa-wrap sa-wrap-form" [class.opacity0] = "showEmployeeLayer">
+        <sub-account-form (onShowEmployee)="onShowEmployeeListLayer($event)" (onUpdateSelectEmployee)="onUpdateSelectEmployee($event)"></sub-account-form>
+    </div>
+    <div class="sa-wrap sa-wrap-list" *ngIf="showEmployeeLayer" [class.slideToShow] = "showEmployeeLayer">
+        <account-employee-list [currentEmployee]="selectedEmployee" (onShowEmployee)="onShowEmployeeListLayer($event)" (onChangeEmployee)="onChangeEmployee($event)"  ></account-employee-list>
+    </div>
 </div>
-<div class="sa-wrap" *ngIf="showEmployeeLayer">
-    <account-employee-list [currentEmployee]="selectedEmployee" (onShowEmployee)="onShowEmployeeListLayer($event)" (onChangeEmployee)="onChangeEmployee($event)"  ></account-employee-list>
-</div>
+    

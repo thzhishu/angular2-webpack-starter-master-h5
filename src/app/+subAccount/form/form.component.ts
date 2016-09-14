@@ -22,7 +22,7 @@ export class SubAccountForm implements OnInit, OnDestroy {
     passwordPlaceholder: string = '必填项';
     isRequirePassword: boolean = true;
 
-    selectEmployee = {
+    currentSelectEmployee = {
         id: '',
         name: '',
         mobile: ''
@@ -245,9 +245,9 @@ export class SubAccountForm implements OnInit, OnDestroy {
             }
         });
         if (this.account.employeeId) {
-            this.selectEmployee.id = this.account.employeeId;
-            this.selectEmployee.name = this.account.name;
-            this.selectEmployee.mobile = this.account.mobile;
+            this.currentSelectEmployee.id = this.account.employeeId;
+            this.currentSelectEmployee.name = this.account.name;
+            this.currentSelectEmployee.mobile = this.account.mobile;
         }
         
         this.accountShopStr = storeNames.length > 1 ? `${storeNames[0]}等${storeNames.length}家门店` : `${storeNames}`;
@@ -498,7 +498,7 @@ export class SubAccountForm implements OnInit, OnDestroy {
         this.account.name = data.name;
         this.account.employeeId = data.id;
         this.account.mobile = data.mobile;
-        this.selectEmployee = data;
+        this.currentSelectEmployee = Object.assign({}, data);
     }
 
     /**
@@ -516,6 +516,7 @@ export class SubAccountForm implements OnInit, OnDestroy {
         console.log(this.account.name, this.account.employeeId);
         if (this.account.employeeId && this.account.name !== evt ) {
             this.clearAccountEmployeeInfo();
+            this.onUpdateSelectEmployee.emit(undefined);
             // this.account.name = '';
         } else {
             this.account.name = evt;
@@ -527,8 +528,9 @@ export class SubAccountForm implements OnInit, OnDestroy {
      * 账号电话改变
      */
     onAccountMobileChange(evt) {
-        if (this.account.employeeId && this.selectEmployee.mobile !== '' && this.account.mobile !== evt ) {
+        if (this.account.employeeId && this.currentSelectEmployee.mobile !== '' && this.account.mobile !== evt ) {
             this.clearAccountEmployeeInfo();
+            this.onUpdateSelectEmployee.emit(undefined);
             // this.account.mobile = '';
         } else {
             this.account.mobile = evt;
@@ -553,10 +555,10 @@ export class SubAccountForm implements OnInit, OnDestroy {
             store.checked = false;
             store.hasErr = false;
         });
-        this.selectEmployee = undefined;
+        this.currentSelectEmployee = undefined;
         this.initLayerStores();
         console.log('after clear account', this.account);
-        this.onUpdateSelectEmployee.emit(undefined);
+        
     }
 
 

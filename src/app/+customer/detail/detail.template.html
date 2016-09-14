@@ -84,10 +84,10 @@
                 <div>客户满意度</div>
               </div>
               <div class="box box-h box-h-c hs-tr tc">
-                <div>{{ moment(hs.enterDate, 'YYYY.MM.DD') || '-' }}</div>
-                <div>{{hs.name || '-'}}</div>
-                <div>{{hs.employee || '-'}}</div>
-                <div>
+                <div class="ellipsis">{{ moment(hs.enterDate, 'YYYY.MM.DD') || '-' }}</div>
+                <div class="ellipsis">{{hs.name || '-'}}</div>
+                <div class="ellipsis">{{hs.employee || '-'}}</div>
+                <div class="ellipsis">
                   <a href="javascript:;" *ngIf="hs.score === null" (click)="onShowCommentWin(hs)">邀请顾客做服务评价</a>
                   <a href="javascript:;" class="score" *ngIf="hs.score !== null">{{ hs.score }}</a>
                 </div>

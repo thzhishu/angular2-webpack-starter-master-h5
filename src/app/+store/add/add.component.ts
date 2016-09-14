@@ -58,6 +58,7 @@ export class StoreAddComponent implements OnInit {
         if (this.submitting) return;
         if (!this.sf.formFieldValidate()) return;
         let shops = [];
+        this.store.area = Number(this.store.area);
         shops.push(this.store);
         this.submitting = true;
         this.sApi.shopBatchSavePost(shops).subscribe(data => {

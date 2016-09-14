@@ -8,15 +8,15 @@
         <div>
             <div class="box box-h box-h-c">
                 <div class="flex-1 tl">
-                    账户版本 : <span>免费版</span>
+                    账户版本 : <span>{{account?.packages}}</span>
                 </div>
                 <div class="flex-1 tr">
-                    账户角色 : <span>管理员</span>
+                    账户角色 : <span>{{account?.roles[0].name}}</span>
                 </div>
             </div>
             <div class="box box-h box-h-c">
-                <div class="slabel">登陆账号</div>
-                <div class="flex-1">18098776787</div>
+                <div class="slabel">登录账号</div>
+                <div class="flex-1">{{account?.user.mobile}}</div>
             </div>
             <a routerLink="/dashboard/account/pwd" class="box box-h box-h-c">
                 <div class="slabel flex-1">修改密码</div>

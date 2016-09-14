@@ -87,6 +87,8 @@ export class AccountEmployeeList implements OnInit {
    * 选择一个员工作为子账号
    */
   onSelectAccount(employee) {
+    console.log('cur:', this.currentEmployee)
+    console.log('employee:', employee)
      if (this.currentEmployee && this.currentEmployee.id === employee.id) {
         // alert('重选吧');
         this.tipMsg = '该技师已被添加为子账号，请重新选择';

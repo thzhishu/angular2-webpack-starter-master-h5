@@ -22,11 +22,16 @@ export class SubAccountAdd {
 
 	}
 
+    ngOnInit() {
+        console.log('account add init');
+    }
+
     /**
      * 显示 员工列表层
      */
     onShowEmployeeListLayer(show) {
         console.log('form employee', show);
+        console.log(this.selectedEmployee);
         this.showEmployeeLayer = show ? true : false;
         
     }
@@ -35,7 +40,7 @@ export class SubAccountAdd {
      * 从员工列表中选来的员工
      */
     onChangeEmployee(data) {
-        this.selectedEmployee = data;
+        this.selectedEmployee = Object.assign({}, data);
         console.log('selectedEmployee', this.selectedEmployee);
         this.saf.onSetEmployeeName(data);
         this.showEmployeeLayer = false;

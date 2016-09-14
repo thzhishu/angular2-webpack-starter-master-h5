@@ -1,12 +1,33 @@
+.sub-accounts {
+    position:relative;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
 .sa-wrap {
-    position:fixed;
+    // position:fixed;
+    // left:0;
+    // top:63px;
+    // bottom:0;
+    // right:0;
+    // z-index: 1000;
+    position:absolute;
+    width:640px;
+    height:100%;
+    top:0;
     left:0;
-    top:63px;
-    bottom:0;
-    right:0;
-    z-index: 1000;
+    overflow:hidden;
+    opacity: 1;
+    transition: all .5s ease;
+    // z-index: 1000;
 
+    &.sa-wrap-list {
+        left: 640px;
+    } 
     &.opacity0 {
         opacity:0;
+    }
+    &.slideToShow {
+        left: 0;
     }
 }

@@ -98,6 +98,13 @@ export class SubAccountList implements OnInit {
     this.router.navigate(['/dashboard/account/subAccount/add']);
   }
 
+  /**
+   * 回到 账号列表页
+   */
+  goToAccountInfoPage() {
+    this.router.navigate(['/dashboard/account/info']);
+  }
+
   
 
   

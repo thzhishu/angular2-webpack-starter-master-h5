@@ -105,7 +105,7 @@
         </thead>
         <tbody *ngIf="improvements.length">
           <tr *ngFor="let im of improvements">
-            <td>{{ im.date | date:'y-MM-dd' }}</td>
+            <td>{{ im.date }}</td>
             <td>{{ im.serviceName }}</td>
             <td>{{ im.employeeName }}</td>
             <td>{{ im.model }}</td>

@@ -111,15 +111,18 @@
         width:200px;
         margin-right:24px;
         padding-left:38px;
+        line-height: 54px;
     }
     .cbk-ico {
         &:before {
             width:24px;
             height:24px;
+            top: 14px;
         }
         &:after {
             width:20px;
             height:10px;
+            top: 17px;
         }
     }
     .ipt {

@@ -20,7 +20,9 @@ const NO_MENU_URLS = [
     '/dashboard/store/list',
     '/dashboard/store/add',
     '/dashboard/store/edit',
-    '/dashboard/account/subAccount/add'
+    '/dashboard/account/subAccount/add',
+    '/dashboard/account/subAccount/edit',
+    '/dashboard/account/subAccount/list',
 ];
 const NO_TOPBAR_URLS = [
     '/dashboard/search/page'

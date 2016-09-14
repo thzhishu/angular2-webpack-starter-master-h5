@@ -181,8 +181,9 @@ export class EmployeeForm implements OnInit, OnDestroy {
         if (data.meta&&data.meta.code === 200) {
             this.router.navigate(['/dashboard/employee/list']);
         } else {
-            if (data.error && data.error.msg) {
-                console.log('employee save error: ', data.error.msg);
+            if (data.error && data.error.message) {
+                console.log('employee save error: ', data.error.message);
+                this.fieldErrMsg = data.error.message;
             }
         }
     }
