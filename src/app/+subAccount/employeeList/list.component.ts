@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {  Router, ActivatedRoute } from '@angular/router';
-import { EmployeeApi } from 'client';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { EmployeeApi, EmployeeListItem } from 'client';
 
 import * as _ from 'lodash';
 
@@ -8,14 +8,17 @@ import * as _ from 'lodash';
   selector: 'account-employee-list',
   template: require('./list.template.html'),
   styles: [require('./list.style.scss')],
-  //directives: [...ROUTER_DIRECTIVES],
   providers: [EmployeeApi]
 })
 export class AccountEmployeeList implements OnInit {
   page: any = {};
   employees: any[] = [];
-  showDelWin: boolean = false;
   delEmployee: any;
+  newSelectEmployee: EmployeeListItem;
+
+  // 显示添加新技师层
+  showAddEmployeeLayer: boolean = false;
+
   //滚动相关
   timeout: any;
   next: boolean = false;
@@ -24,6 +27,17 @@ export class AccountEmployeeList implements OnInit {
   isReturnTop: boolean = false;
   returnTop: boolean = false;
 
+  // 删除弹出层
+  showTipWin: boolean = false;
+  tipMsg: string = '';
+  tipKey: string = '';
+  tipOkeyBtnTxt: string = '确定';
+  isAlert: boolean = false;
+
+  @Input() currentEmployee: EmployeeListItem;
+  @Output() onChangeEmployee = new EventEmitter();
+  @Output() onShowEmployee = new EventEmitter();
+
   constructor(private eApi: EmployeeApi, private router: Router, private route: ActivatedRoute) {
     this.page.current = String(1);
     this.page.limit = String(20);
@@ -31,6 +45,8 @@ export class AccountEmployeeList implements OnInit {
 
   ngOnInit() {
     this.getEmployeeList(this.page.current, this.page.limit);
+    console.log('employee list init');
+    console.log(this.currentEmployee);
   }
 
   getEmployeeList(curPage, pageSize, scroll = false) {
@@ -54,13 +70,6 @@ export class AccountEmployeeList implements OnInit {
           alert(res.error.message);
         }
         this.loading = false;
-        // if (data.meta && data.meta.code === 200 && data.data) {
-        //   this.employees = data.data.length ? data.data : [];
-        // } else {
-        //   if (data.error && data.error.message) {
-        //     console.log(data.error.message);
-        //   }
-        // }
       }, err => {
         console.error(err);
         this.employees = [];
@@ -69,12 +78,38 @@ export class AccountEmployeeList implements OnInit {
   }
 
 
-  onEditEmployee(employee, e) {
-    e.stopPropagation();
-    this.router.navigate(['/dashboard/employee/edit', employee.id]);
-  }
   onAddNewEmployee() {
-    this.router.navigate(['/dashboard/employee/add']);
+    this.showAddEmployeeLayer = true;
+  }
+
+  /**
+   * 选择一个员工作为子账号
+   */
+  onSelectAccount(employee) {
+    console.log('cur:', this.currentEmployee)
+    console.log('employee:', employee)
+     if (this.currentEmployee && this.currentEmployee.id === employee.id) {
+        // alert('重选吧');
+        this.tipMsg = '该技师已被添加为子账号，请重新选择';
+        this.tipKey = 'account-has';
+        this.tipOkeyBtnTxt = '确认';
+        this.isAlert = true;
+        this.showConfirmLayer();
+     } else {
+       // this.currentEmployee = employee;
+       this.tipMsg = '确认选择该技师？';
+       this.tipKey = 'account-select';
+       this.tipOkeyBtnTxt = '确认';
+       this.isAlert = false;
+       this.newSelectEmployee = employee;
+       this.showConfirmLayer();
+     }
+  }
+  /**
+   * 关闭员工弹出层
+   */
+  onCloseEmployeeLayer() {
+    this.onShowEmployee.emit(false);
   }
 
   //无限滚动
@@ -106,31 +141,67 @@ export class AccountEmployeeList implements OnInit {
     event.target.parentNode.classList.remove('swipeleft');
   }
 
-  // onDelEmployee() {
-  //     this.capi.customerCustomerIdDeleteDelete(String(this.delCustomer.id)).subscribe( data => {
-  //         if (data.meta&&data.meta.code === 200) {
-  //             this.onCloseDelWin();
-  //             this.getCustomerList(this.page.current, this.page.limit);
-  //         } else {
-  //             if (data.error && data.error.message) {
-  //                 console.log(data.error.message);
-  //             }
-  //         }
-  //     }, err => {
-  //         console.error(err);
-  //     });
-  // }
-  // onCloseDelWin() {
-  //     this.showDelWin = false;
-  //     this.delEmployee = undefined;
-  // }
-  // onShowDelWin(employee, e) {
-  //     e.stopPropagation();
-  //     this.showDelWin = true;
-  //     this.delEmployee = employee;
-  // }
-  // onViewCustomerDetail(customer, e) {
-  //     e.stopPropagation();
-  //     this.router.navigate(['/dashboard/customer/detail', customer.id]);
-  // }
+  /**
+   * 控制 添加新技师层的显示和隐藏
+   */
+  onToggleShowLayer(evt) {
+    this.showAddEmployeeLayer = evt.hide == true ? false : true;
+    if (evt.reload) {
+      this.getEmployeeList(1, 20);
+    }
+  }
+
+  /**
+   * 显示 confirm 弹出层
+   */
+  showConfirmLayer() {
+    this.showTipWin = true;
+  }
+
+  /**
+   * 隐藏 confirm 弹出层
+   */
+  hideConfirmLayer() {
+    this.showTipWin = false;
+  }
+
+  /**
+   * 重置 confirm 弹出层
+   */
+  resetConfirmLayer() {
+    this.showTipWin = false;
+    this.tipMsg = '';
+    this.tipKey = '';
+    this.tipOkeyBtnTxt = '确定';
+    this.isAlert = false;
+  }
+
+  /**
+   * confirm 弹出层 okey
+   */
+  onOkey(key) {
+    if (key === 'account-has') {
+      this.resetConfirmLayer();
+      this.hideConfirmLayer();
+      return;
+    }
+    if ( key === 'account-select' ) {
+      this.onChangeEmployee.emit(this.newSelectEmployee);
+      this.resetConfirmLayer();
+      this.hideConfirmLayer();
+      return;
+    }
+  }
+
+  /**
+   * confirm 弹出层 cancel
+   */
+  onCancel(key) {
+    if ( key === 'account-select' ) {
+      this.newSelectEmployee = undefined;
+      this.resetConfirmLayer();
+      this.hideConfirmLayer();
+      return;
+    }
+  }
 }

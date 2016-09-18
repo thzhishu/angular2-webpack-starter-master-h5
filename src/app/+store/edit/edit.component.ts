@@ -110,6 +110,7 @@ export class StoreEditComponent implements OnInit {
         if (this.submitting) return;
         if (!this.sf.formFieldValidate()) return;
         let shops = [];
+        this.store.area = Number(this.store.area);
         shops.push(this.store);
         this.submitting = true;
         this.sApi.shopUpdatePost(this.store).subscribe(data => {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {  Router, ActivatedRoute } from '@angular/router';
 import { EmployeeApi, UserApi } from 'client';
-
+import { Cookie } from 'services';
 import * as _ from 'lodash';
 
 @Component({
@@ -9,7 +9,7 @@ import * as _ from 'lodash';
   template: require('./list.template.html'),
   styles: [require('./list.style.scss')],
   // directives: [...ROUTER_DIRECTIVES],
-  providers: [EmployeeApi, UserApi]
+  providers: [EmployeeApi, UserApi, Cookie]
 })
 export class SubAccountList implements OnInit {
   page: any = {};
@@ -34,7 +34,6 @@ export class SubAccountList implements OnInit {
   }
 
   ngOnInit() {
-    this.getEmployeeList(this.page.current, this.page.limit);
     this.getAccountList(this.page.current, this.page.limit);
   }
 
@@ -43,76 +42,70 @@ export class SubAccountList implements OnInit {
    */
   getAccountList(curPage, pageSize) {
     this.uApi.userAccountsGet(curPage, pageSize).subscribe(data => {
-
+      if (data.meta.code === 200 && data.data) {
+        this.accounts = this.formatSubAccount(data.data);
+      } else {
+        if (data.error && data.error.message) {
+          console.log(data.error.message);
+        }
+      }
     }, err => console.error(err));
   }
 
-  getEmployeeList(curPage, pageSize, scroll = false) {
-    this.loading = true;
+	/**
+	 * 格式化子账号列表
+	 */
+	formatSubAccount(data) {
+		let ret = _.cloneDeep(data);
+		let currentShopId = Cookie.load('shopId');
+		ret.forEach( list => {
+			let shopIds = [],
+				shopNames = [],
+				idx = -1;
 
-    window.clearTimeout(this.timeout);
-    this.timeout = window.setTimeout(() => {
-      if (scroll && !this.end) {
-        this.page.current++;
-      }
-      this.eApi.employeeListGet(curPage, pageSize).subscribe(res => {
-        if (res.meta && res.meta.code === 200 && res.data) {
-          if (scroll) {
-            this.employees = this.employees.concat(res.data);
-          } else {
-            this.employees = res.data;
-          }
-        } else {
-          this.employees = [];
-          this.end = true;
-          alert(res.error.message);
-        }
-        this.loading = false;
-        
-      }, err => {
-        console.error(err);
-        this.employees = [];
-      });
-    }, 500);
+			list.roleStr = list.roles.map( item => item.name).join(',');
+			list.shops.forEach( shop => {
+				shopIds.push(shop.id);
+				shopNames.push(shop.name);
+			});
+			idx = shopIds.indexOf(currentShopId);
+			list.shopStr = idx > -1 ? this.createShopNameStr(shopNames, shopNames[shopIds.indexOf(currentShopId)]) : this.createShopNameStr(shopNames);
+		});
+		return ret;
+	}
+
+  /**
+   * 创建格式化的关联门店名
+   */
+  createShopNameStr(shopNames, name = '') {
+	  let ret = '';
+	  if (shopNames.length === 1) {
+		  ret = shopNames[0];
+	  } else {
+		  ret = name === '' ? `${shopNames[0]}等${shopNames.length}家门店` : `${name}等${shopNames.length}家门店`;
+	  }
+	  return ret;
   }
 
+  
 
-  onEditEmployee(employee, e) {
+
+  onEditAccount(account, e) {
     e.stopPropagation();
-    this.router.navigate(['/dashboard/employee/edit', employee.id]);
+    this.router.navigate(['/dashboard/account/subAccount/edit', account.id]);
   }
   onAddNewAccount() {
     this.router.navigate(['/dashboard/account/subAccount/add']);
   }
 
-  // 无限滚动
-  onScrollEnd(next) {
-    this.next = next;
-    if (next && !this.loading) {
-      this.getEmployeeList(this.page.current, this.page.limit, true);
-    }
+  /**
+   * 回到 账号列表页
+   */
+  goToAccountInfoPage() {
+    this.router.navigate(['/dashboard/account/info']);
   }
-  onScrollTop(returnTop) {
-    this.isReturnTop = !returnTop;
-    this.returnTop = !!returnTop;
-  }
-  // 返回头部
-  onReturnTop() {
-    this.returnTop = true;
-  }
-  // 滑动按钮
-  onSwipeLeft(event, listTbody) {
-    event.preventDefault();
-    console.dir(listTbody.children);
-    _.forEach(listTbody.children, (val, i) => {
-        val.classList.remove('swipeleft');
-    });
-    event.target.parentNode.classList.add('swipeleft');
-  }
-  onSwipeRight(event, listTbody) {
-    event.preventDefault();
-    event.target.parentNode.classList.remove('swipeleft');
-  }
+
+  
 
   
 }

@@ -1,20 +1,21 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import {  Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
 import { EmployeeApi, ShopApi } from 'client';
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Md5 } from 'ts-md5/dist/md5';
 import * as _ from 'lodash';
+import { Cookie } from 'services';
 
 @Component({
-    selector: 'employee-form',
-    template: require('./form.template.html'),
-    styles: [require('./form.style.scss')],
+    selector: 'account-employee-add',
+    template: require('./add.template.html'),
+    styles: [require('./add.style.scss')],
     //directives: [ROUTER_DIRECTIVES],
-    providers: [EmployeeApi, ShopApi ]
+    providers: [EmployeeApi, ShopApi, Cookie ]
 })
-export class EmployeeForm implements OnInit, OnDestroy {
+export class AccountEmployeeAdd implements OnInit, OnDestroy {
     sub: any;
     submiting: boolean = false;
     oldEmployee: string = '';
@@ -56,7 +57,7 @@ export class EmployeeForm implements OnInit, OnDestroy {
     tipOkeyBtnTxt: string = '确定';
     isAlert: boolean = false;
 
-
+    @Output() onToggleShowLayer = new EventEmitter();
     constructor( private eApi: EmployeeApi, private sApi: ShopApi,  private router: Router, private route: ActivatedRoute ) {
     }
 
@@ -106,7 +107,7 @@ export class EmployeeForm implements OnInit, OnDestroy {
                 this.stores = data.data.length ? data.data : [];
                 this.stores.forEach( store => {
                     store.code = '';
-                    store.checked = false;
+                    store.checked = Cookie.load('shopId') === String(store.id) ? true : false;
                     store.hasErr = false;
                 });
                 this.initLayerStores();
@@ -160,36 +161,29 @@ export class EmployeeForm implements OnInit, OnDestroy {
         let codes = stores.map(store => store.code).join(',');
         console.log('shopIds', shopIds, codes);
         this.submiting = true;
-        if (!this.employee.id) {
-            this.eApi.employeeSavePost( this.employee.name, this.employee.code, this.employee.mobile, shopIds, codes, '1' ).subscribe(data => {
-                this.submiting = false;
-                this.employeeRequestedHandler(data);
-            }, err => console.error(err));
-        } else {
-            this.eApi.employeeUpdatePost( this.employee.id, this.employee.name, shopIds, codes, this.employee.code, this.employee.mobile ).subscribe(data => {
-                this.submiting = false;
-                this.employeeRequestedHandler(data);
-            }, err => console.error(err));
-        }
-
+        this.eApi.employeeSavePost( this.employee.name, this.employee.code, this.employee.mobile, shopIds, codes, '1' ).subscribe(data => {
+            this.submiting = false;
+            this.employeeRequestedHandler(data);
+        }, err => console.error(err));
     }
+
 
     /**
      * 处理保存员工信息后的响应
      */
     employeeRequestedHandler(data) {
-        if (data.meta&&data.meta.code === 200) {
-            this.router.navigate(['/dashboard/employee/list']);
+        if (data.meta && data.meta.code === 200) {
+            this.onToggleShowLayer.emit({
+                hide: true,
+                reload: true
+            });
         } else {
-            if (data.error && data.error.message) {
-                console.log('employee save error: ', data.error.message);
-                this.fieldErrMsg = data.error.message;
+            if (data.error && data.error.msg) {
+                console.log('employee save error: ', data.error.msg);
             }
         }
     }
 
-    
-    
 
     onSelectStore() {
         this.fieldErrMsg = '';
@@ -281,102 +275,13 @@ export class EmployeeForm implements OnInit, OnDestroy {
     }
 
     /**
-     * 返回上一页
+     * 取消新建技师
      */
-    back() {
-        window.history.back()
-    }
-
-    /**
-     * 检查表单是否有改动
-     */
-    onGoBack() {
-        let employee = Md5.hashStr(JSON.stringify(this.employee), false).toString();
-        this.oldEmployee === employee ? this.back() : this.onShowSaveLayer();
-    }
-
-    /**
-     * 显示删除员工弹出层
-     */
-    onShowSaveLayer() {
-        this.tipMsg = '您有信息未保存';
-        this.tipKey = 'save-employee';
-        this.tipOkeyBtnTxt = '保存';
-        this.showConfirmLayer();
-    }
-
-    /**
-     * 删除员工 
-     */
-    delEmployee() {
-        this.eApi.employeeDeleteDelete(this.employee.id).subscribe(data => {
-            if (data.meta.code === 200 ) {
-                this.hideConfirmLayer();
-                this.router.navigate(['/dashboard/employee/list']);
-            } else {
-                if (data.error && data.error.message) {
-                    console.log(data.error.message);
-                }
-            }
-        }, err => console.error(err));
-    }
-
-    /**
-     * 显示删除员工弹出层
-     */
-    onShowDelEmplyeeLayer() {
-        this.tipMsg = '技师删除后，其历史服务记录不会被清除！';
-        this.tipKey = 'del-employee';
-        this.tipOkeyBtnTxt = '删除';
-        this.showConfirmLayer();
-    }
-    
-    /**
-     * 显示 confirm 弹出层
-     */
-    showConfirmLayer() {
-        this.showTipWin = true;
-    }
-
-    /**
-     * 隐藏 confirm 弹出层
-     */
-    hideConfirmLayer() {
-        this.showTipWin = false;
-        this.tipMsg = '';
-        this.tipKey = '';
-        this.tipOkeyBtnTxt = '确定';
-    }
-
-    /**
-     * confirm 弹出层 点确定回调
-     */
-    onOkey(key) {
-        if (key === 'del-employee') {
-            this.delEmployee();
-            return;
-        }
-        if (key === 'save-employee') {
-            this.hideConfirmLayer();
-            this.onSave();
-            return;
-        }
-    }
-
-    /**
-     * confirm 弹出层 点取消回调
-     */
-    onCancel(key) {
-        if (key === 'del-employee') {
-            this.hideConfirmLayer();
-            return;
-        }
-        
-        if (key === 'save-employee') {
-            this.back();
-            return;
-        }
-        
+    onCancel() {
+        this.onToggleShowLayer.emit({
+            hide: true,
+            reload: false
+        });
     }
 
 }

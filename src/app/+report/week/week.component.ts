@@ -94,6 +94,9 @@ export class ReportWeek {
     this.employeeGoods = this.employeeHandler(dd.employeeGoods);
     this.employeeBads = this.employeeHandler(dd.employeeBads);
     this.improvements = this.improvements.concat(dd.improvements);
+    this.improvements.forEach( imp => {
+      imp.date = moment(imp.date).format('YYYY-MM-DD');
+    });
     this.page.current = data.meta.current;
     this.page.limit = data.meta.limit;
     this.page.total = data.meta.total;

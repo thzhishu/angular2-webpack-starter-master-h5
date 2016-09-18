@@ -1,6 +1,6 @@
 <div class="db-c-wrap">
     <div class="box box-h box-h-c db-title">
-        <div class="bw"></div>
+        <div class="bw back-ico" (click)="onCloseEmployeeLayer()"></div>
         <div class="ellipsis tc flex-1">我的技师</div>
         <div class="bw add-ico" (click)="onAddNewEmployee()" ></div>
     </div>
@@ -17,8 +17,7 @@
             </div>
             <div class="list-tbody" >
                 <div class="pr list-tds" *ngFor="let cr of employees; let idx = index;">
-                    <div class="list-edit" (click)="onEditEmployee(cr, $event)" >编辑</div>
-                    <div class="pr box box-h box-h-c list-tr "  >
+                    <div class="pr box box-h box-h-c list-tr " (click)="onSelectAccount(cr)" >
                         <div>{{ idx + 1 }}</div>
                         <div>{{ cr.name ? cr.name : '-' }}</div>
                         <div>{{ cr.code ? cr.code : '-'  }}</div>
@@ -39,13 +38,18 @@
             </div>
         </div>
     </div>
-    <div class="box box-v box-v-cc confirm" *ngIf="showDelWin">
-        <div class="box box-v confirm-c">
-            <div class="flex-1 confirm-msg">顾客删除后，其相应的服务记录不会删除，是否继续</div>
-            <div class="box box-h box-h-c confirm-op tc">
-                <div class="flex-1 confirm-ok" (click)="onDelCustomer()">确定</div>
-                <div class="flex-1 confirm-cancel" (click)="onCloseDelWin()" >取消</div>
-            </div>
+   
+</div>
+<div class="mask employee-mask" *ngIf="showAddEmployeeLayer">
+    <account-employee-add (onToggleShowLayer)="onToggleShowLayer($event)"></account-employee-add>
+</div>
+
+<div class="box box-v box-v-cc confirm" *ngIf="showTipWin">
+    <div class="box box-v confirm-c">
+        <div class="flex-1 confirm-msg">{{tipMsg}}</div>
+        <div class="box box-h box-h-c confirm-op tc">
+            <div class="flex-1 confirm-ok" (click)="onOkey(tipKey)">{{ tipOkeyBtnTxt }}</div>
+            <div class="flex-1 confirm-cancel" *ngIf="!isAlert" (click)="onCancel(tipKey)" >取消</div>
         </div>
     </div>
 </div>

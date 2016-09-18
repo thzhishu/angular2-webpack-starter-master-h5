@@ -1,11 +1,11 @@
 <div class="db-c-wrap">
     <div class="box box-h box-h-c db-title">
-        <div class="bw"></div>
+        <div class="bw back-ico" (click)="goToAccountInfoPage()" ></div>
         <div class="ellipsis tc flex-1">子账号管理</div>
         <div class="bw add-ico" (click)="onAddNewAccount()" ></div>
     </div>
     <div class="cr-list">
-        <div class="list-table"  *ngIf="employees.length">
+        <div class="list-table"  *ngIf="accounts.length">
             <div class="bh list-thead">
                 <div class="box box-h box-h-c list-tr list-ths">
                     <div>序号</div>
@@ -16,14 +16,14 @@
                 </div>
             </div>
             <div class="list-tbody" >
-                <div class="pr list-tds" *ngFor="let cr of employees; let idx = index;">
-                    <div class="list-edit" (click)="onEditEmployee(cr, $event)" >编辑</div>
+                <div class="pr list-tds" *ngFor="let cr of accounts; let idx = index;">
+                    <div class="list-edit" (click)="onEditAccount(cr, $event)" >编辑</div>
                     <div class="pr box box-h box-h-c list-tr "  >
                         <div>{{ idx + 1 }}</div>
                         <div>{{ cr.name ? cr.name : '-' }}</div>
-                        <div>{{ cr.code ? cr.code : '-'  }}</div>
+                        <div>{{ cr.roleStr ? cr.roleStr : '-'  }}</div>
                         <div>{{ cr.mobile ? cr.mobile : '-' }}</div>
-                        <div>{{ cr.serviceTimes ? cr.serviceTimes : '-' }}</div>
+                        <div>{{ cr.shopStr ? cr.shopStr : '-' }}</div>
                     </div>
                 </div>
                 <div class="btn-more" *ngIf="next">
@@ -32,7 +32,7 @@
                 </div>
             </div>
         </div>
-        <div class="list-empty box box-v box-v-cc" *ngIf="!employees.length">
+        <div class="list-empty box box-v box-v-cc" *ngIf="!accounts.length">
             <div class="list-null">
                 <div class="img"></div>
                 <div class="btn tc" (click)="onAddNewAccount()">+ 添加子账号</div>

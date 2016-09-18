@@ -120,8 +120,12 @@ export class StoreFormComponent implements OnInit {
         }
         console.log('area: ', s.area, typeof(s.area));
         if (s.area !== '') {
-            if ( !(/^\d+(\.\d+)?$/.test(s.area) && s.area >= 1 && s.area < 1000000000) ) {
+            if ( !(/^\d+(\.\d+)?$/.test(s.area) && s.area >= 1 && s.area < 10000000000) ) {
                 this.errMsg = '请输入大于0的数字';
+                let el = document.getElementById('el-store-add');
+                if (el) {
+                    el.scrollTop = 0;
+                }
                 return false;
             }
         }
@@ -170,5 +174,7 @@ export class StoreFormComponent implements OnInit {
     onFieldFocus() {
         this.errMsg = '';
     }
+
+    
 
 }

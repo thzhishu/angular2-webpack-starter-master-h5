@@ -3,19 +3,19 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { SubAccountAdd } from './add.component';
+import { SubAccountEdit } from './edit.component';
 import { AFMModule } from '../form/afm.module';
 import { AccountEmployeeListModule } from '../employeeList/list.module';
 
 // async components must be named routes for WebpackAsyncRoute
 export const routes = [
-  { path: '', component: SubAccountAdd, pathMatch: 'full' }
+  { path: '', component: SubAccountEdit, pathMatch: 'full' }
 ];
 
 @NgModule({
   declarations: [
     // Components / Directives/ Pipes
-    SubAccountAdd
+    SubAccountEdit
   ],
   imports: [
     CommonModule,
@@ -25,6 +25,6 @@ export const routes = [
     AccountEmployeeListModule
   ]
 })
-export default class SubAccountAddModule {
+export default class SubAccountEditModule {
   static routes = routes;
 }
