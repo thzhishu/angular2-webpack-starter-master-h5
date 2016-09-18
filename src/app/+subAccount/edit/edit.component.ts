@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import {  EmployeeListItem } from 'client';
 import { SubAccountForm } from '../form/form.component';
 
@@ -8,7 +8,6 @@ import { SubAccountForm } from '../form/form.component';
     selector: 'sub-account-edit',
     template: require('./edit.template.html'),
     styles: [require('./edit.style.scss')],
-    //directives: [ROUTER_DIRECTIVES]
 })
 export class SubAccountEdit {
 
@@ -22,7 +21,7 @@ export class SubAccountEdit {
 
 	}
 
-    
+
 
     /**
      * 显示 员工列表层
@@ -30,7 +29,7 @@ export class SubAccountEdit {
     onShowEmployeeListLayer(show) {
         console.log('form employee', show);
         this.showEmployeeLayer = show ? true : false;
-        
+
     }
 
     /**

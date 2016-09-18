@@ -105,7 +105,7 @@
         </thead>
         <tbody *ngIf="improvements.length">
           <tr *ngFor="let im of improvements">
-            <td>{{ im.date }}</td>
+            <td>{{ moment(im.date) }}</td>
             <td>{{ im.serviceName }}</td>
             <td>{{ im.employeeName }}</td>
             <td>{{ im.model }}</td>
@@ -113,7 +113,7 @@
           </tr>
         </tbody>
       </table>
-      <div class="btn-more" *ngIf="next">
+      <div class="btn-more" *ngIf="next&&improvements.length">
           <img  *ngIf="!end" src="/assets/img/loading-circle.gif" alt="" />
           {{endScroll?'没有更多内容了':'加载中...'}}
       </div>

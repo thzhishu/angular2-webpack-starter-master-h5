@@ -42,12 +42,17 @@ export class ReportWeek {
   ngOnInit() {
     this.getWeekReport();
   }
+
+  moment(date,format = 'YYYY-MM-DD'){
+    return  moment(date).format(format);
+  }
+
   getWeekReport(scroll = false) {
     this.loading = true;
 
     window.clearTimeout(this.timeout);
     this.timeout = window.setTimeout(() => {
-      if (scroll && !this.end) {
+      if (scroll && !this.endScroll) {
         this.page.current++;
       }
       this.page.current = this.page.current ? this.page.current : 1;
@@ -58,14 +63,8 @@ export class ReportWeek {
           } else {
             this.formatReportData(res);
           }
-        } else {
-          this.endScroll = true;
-          alert(res.error.message);
         }
         this.loading = false;
-        // if (data.meta&&data.meta.code === 200 && data.data ) {
-        // 	this.formatReportData(data);
-        // }
       }, err => console.error(err));
     }, 500);
   }
@@ -93,10 +92,15 @@ export class ReportWeek {
     // this.employeeBads = dd.employeeBads;
     this.employeeGoods = this.employeeHandler(dd.employeeGoods);
     this.employeeBads = this.employeeHandler(dd.employeeBads);
-    this.improvements = this.improvements.concat(dd.improvements);
-    this.improvements.forEach( imp => {
-      imp.date = moment(imp.date).format('YYYY-MM-DD');
-    });
+    //无数据终止请求下一页
+    if (dd.improvements.length > 1) {
+      this.improvements = this.improvements.concat(dd.improvements);
+    //   this.improvements.forEach(imp => {
+    //     imp.date = moment(imp.date).format('YYYY-MM-DD');
+    //   });
+    } else {
+      this.endScroll = true;
+    }
     this.page.current = data.meta.current;
     this.page.limit = data.meta.limit;
     this.page.total = data.meta.total;

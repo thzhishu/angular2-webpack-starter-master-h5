@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { EmployeeApi, ShopApi } from 'client';
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
@@ -12,7 +12,6 @@ import { Cookie } from 'services';
     selector: 'account-employee-add',
     template: require('./add.template.html'),
     styles: [require('./add.style.scss')],
-    //directives: [ROUTER_DIRECTIVES],
     providers: [EmployeeApi, ShopApi, Cookie ]
 })
 export class AccountEmployeeAdd implements OnInit, OnDestroy {
@@ -269,7 +268,7 @@ export class AccountEmployeeAdd implements OnInit, OnDestroy {
         });
 
     }
-    
+
     onStoreCodeBlur(store) {
         store.code = store.code.replace(/,/g, '').trim();
     }
@@ -285,5 +284,3 @@ export class AccountEmployeeAdd implements OnInit, OnDestroy {
     }
 
 }
-
-
