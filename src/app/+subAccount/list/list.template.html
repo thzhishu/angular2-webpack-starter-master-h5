@@ -5,7 +5,7 @@
         <div class="bw add-ico" (click)="onAddNewAccount()" ></div>
     </div>
     <div class="cr-list">
-        <div class="list-table"  *ngIf="accounts.length">
+        <div class="list-table" (panleft)="onSwipeLeft($event,listTbody)" (panright)="onSwipeRight($event,listTbody)" *ngIf="accounts.length">
             <div class="bh list-thead">
                 <div class="box box-h box-h-c list-tr list-ths">
                     <div>序号</div>
@@ -15,7 +15,7 @@
                     <div>关联门店</div>
                 </div>
             </div>
-            <div class="list-tbody" >
+            <div class="list-tbody" #listTbody>
                 <div class="pr list-tds" *ngFor="let cr of accounts; let idx = index;">
                     <div class="list-edit" (click)="onEditAccount(cr, $event)" >编辑</div>
                     <div class="pr box box-h box-h-c list-tr "  >

@@ -87,7 +87,7 @@ export class SubAccountList implements OnInit {
 	  return ret;
   }
 
-  
+
 
 
   onEditAccount(account, e) {
@@ -105,7 +105,18 @@ export class SubAccountList implements OnInit {
     this.router.navigate(['/dashboard/account/info']);
   }
 
-  
+  //滑动按钮
+  onSwipeLeft(event, listTbody) {
+    event.preventDefault();
+    _.forEach(listTbody.children, (val, i) => {
+      val.classList.remove('swipeleft');
+    })
+    event.target.parentNode.classList.add('swipeleft');
+  }
+  onSwipeRight(event, listTbody) {
+    event.preventDefault();
+    event.target.parentNode.classList.remove('swipeleft');
+  }
 
-  
+
 }

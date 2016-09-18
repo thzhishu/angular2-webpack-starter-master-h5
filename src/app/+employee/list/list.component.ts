@@ -8,7 +8,6 @@ import * as _ from 'lodash';
   selector: 'employee-list',
   template: require('./list.template.html'),
   styles: [require('./list.style.scss')],
-  //directives: [...ROUTER_DIRECTIVES],
   providers: [EmployeeApi]
 })
 export class EmployeeList implements OnInit {
@@ -102,7 +101,6 @@ export class EmployeeList implements OnInit {
   //滑动按钮
   onSwipeLeft(event, listTbody) {
     event.preventDefault();
-    console.dir(listTbody.children);
     _.forEach(listTbody.children, (val, i) => {
       val.classList.remove('swipeleft');
     })

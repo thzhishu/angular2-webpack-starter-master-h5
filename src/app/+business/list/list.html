@@ -1,58 +1,77 @@
 <div class="db-c-wrap">
-    <div class="box box-h box-h-c db-title">
-        <div class="bw"></div>
-        <div class="ellipsis tc flex-1">今日服务</div>
-        <div class="bw add-ico" routerLink="../../../add"></div>
-    </div>
-    <div class="time-block">
-        <a class="arrow-left arrow" (click)="onLastDate()">&lt;</a>
-        <input type="date" name="name" class="time-btn" required [max]="today" [ngModel]="date" (ngModelChange)="onPickerChange($event)">
-        <a class="arrow-right arrow" [hidden]="!isToday()" (click)="onNextDate()">&gt;</a>
-    </div>
-    <div class="title-total">
-        合计 <span class="text-warning">{{page?.total||0}}</span> 笔服务 平均 <span class="text-warning">{{list?.score||0}}</span> 分
-    </div>
-    <!-- 滑动按键 暂不需要-->
-    <!-- (panleft)="!item?.customer?.isDelete&&onSwipeLeft($event,listTbody)" (panright)="!item?.customer?.isDelete&&onSwipeRight($event,listTbody)" -->
-    <div class="cr-list"  *ngIf="!!list?.content">
-        <div class="list-table">
-            <div class="bh list-thead">
-                <div class="box box-h box-h-c list-tr list-ths">
-                    <div>序号</div>
-                    <div>时间</div>
-                    <div>车牌号</div>
-                    <div>服务项目</div>
-                    <div>主理技师</div>
-                    <div>满意度评分</div>
-                </div>
-            </div>
-            <div class="list-tbody" #listTbody scrollable [returnTop]="returnTop" (scrollEnd)="onScrollEnd($event)" (scrollTop)="onScrollTop($event)">
-                <div class="box box-h box-h-c list-tr list-tds" (click)="onGoto(item)" [class.list-disabled]="item?.customer?.isDelete" *ngFor="let item of list?.content, let i = index" >
-                    <div >{{i+1}}</div>
-                    <div>{{moment(item.date,'hh:mm')}}</div>
-                    <div>{{item.licence}}</div>
-                    <div>{{item.services}}</div>
-                    <div>{{item.employee}}</div>
-                    <div>{{item.score}}</div>
-                    <div class="list-edit" [routerLink]="['../../../edit',item.id]">编辑</div>
-                    <div class="list-del" (click)="onDelRecord(item,$event)">删除</div>
-                </div>
-                <div class="btn-more" *ngIf="next">
-                    <img  *ngIf="!end" src="/assets/img/loading-circle.gif" alt="" />
-                    {{end?'没有更多内容了':'加载中...'}}
-                </div>
-            </div>
+  <!-- 基础头部 -->
+  <div class="box box-h box-h-c db-title">
+    <div class="bw"></div>
+    <div class="ellipsis tc flex-1">今日服务</div>
+    <div class="bw add-ico" routerLink="../../../add"></div>
+  </div>
+  <!-- 基础头部 end -->
+  <!-- 时间控件 -->
+  <div class="time-block">
+    <a class="arrow-left arrow" (click)="onLastDate()">&lt;</a>
+    <input type="date" name="name" class="time-btn" required [max]="today" [ngModel]="date" (ngModelChange)="onPickerChange($event)">
+    <a class="arrow-right arrow" [hidden]="!isToday()" (click)="onNextDate()">&gt;</a>
+  </div>
+  <!-- 时间控件 end -->
+  <!-- 服务列表信息栏 -->
+  <div class="title-total">
+    合计
+    <span class="text-warning">{{page?.total||0}}</span>
+    笔服务 平均
+    <span class="text-warning">{{list?.score||0}}</span>
+    分
+  </div>
+  <!-- 服务列表信息栏 end -->
+  <!-- 滑动按键 暂不需要-->
+  <!-- (panleft)="!item?.customer?.isDelete&&onSwipeLeft($event,listTbody)" (panright)="!item?.customer?.isDelete&&onSwipeRight($event,listTbody)" -->
+  <!-- 今日服务 -->
+  <div class="cr-list" *ngIf="!!list?.content">
+    <div class="list-table">
+      <div class="bh list-thead">
+        <div class="box box-h box-h-c list-tr list-ths">
+          <div>序号</div>
+          <div>时间</div>
+          <div>车牌号</div>
+          <div>服务项目</div>
+          <div>主理技师</div>
+          <div>满意度评分</div>
         </div>
-    </div>
-    <div class="box-list box box-v box-v-cc" *ngIf="!list?.content">
-        <div class="list-null">
-            <div class="img"></div>
-            <div class="txt">您今天还没记录过服务</div>
+      </div>
+      <div class="list-tbody" #listTbody scrollable [returnTop]="returnTop" (scrollEnd)="onScrollEnd($event)" (scrollTop)="onScrollTop($event)">
+        <div class="box box-h box-h-c list-tr list-tds" (click)="onGoto(item)" [class.list-disabled]="item?.customer?.isDelete" *ngFor="let item of list?.content, let i = index">
+          <div >{{i+1}}</div>
+          <div>{{moment(item.date,'HH:mm')}}</div>
+          <div>{{item.licence}}</div>
+          <div>{{item.services}}</div>
+          <div>{{item.employee}}</div>
+          <div>{{item.score}}</div>
+          <div class="list-edit" [routerLink]="['../../../edit',item.id]">编辑</div>
+          <div class="list-del" (click)="onDelRecord(item,$event)">删除</div>
         </div>
+        <div class="btn-more" *ngIf="next">
+          <img *ngIf="!end" src="/assets/img/loading-circle.gif" alt=""/>
+          {{end?'没有更多内容了':'加载中...'}}
+        </div>
+      </div>
     </div>
+  </div>
+  <!-- 今日服务 end -->
+  <!-- 空服务  -->
+  <div class="box-list box box-v box-v-cc" *ngIf="!list?.content">
+    <div class="list-null">
+      <div class="img"></div>
+      <div class="txt">您今天还没记录过服务</div>
+    </div>
+  </div>
+  <!-- 空服务 end  -->
 </div>
-<div class="return-top" alt="回到顶部" *ngIf="isReturnTop" (click)="onReturnTop()" ></div>
+<!-- 回到顶部 -->
+<div class="return-top" alt="回到顶部" *ngIf="isReturnTop" (click)="onReturnTop()"></div>
+<!-- 回到顶部 end -->
+<!-- 服务 tab -->
 <business-tab></business-tab>
+<!-- 服务 tab end -->
+<!-- 提示窗口  -->
 <div class="box box-v box-v-cc confirm" *ngIf="showTipWin">
   <div class="box box-v confirm-c">
     <div class="flex-1 confirm-msg">{{tipMsg}}</div>
@@ -62,3 +81,4 @@
     </div>
   </div>
 </div>
+<!-- 提示窗口 end  -->

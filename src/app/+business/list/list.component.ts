@@ -10,14 +10,11 @@ import { Md5 } from 'ts-md5/dist/md5';
 
 import { BusinessApi, BusinessList, BusinessListResponse } from 'client';
 
-
-
 @Component({
   selector: 'business-list',
-  template: require('./list.html'),
-  styles: [require('./list.scss')],
+  template: './list.html',
+  styles: ['./list.scss'],
 })
-
 
 export class BusinessListComponent {
   list: BusinessList;
@@ -48,79 +45,85 @@ export class BusinessListComponent {
   ngOnInit() {
     this.getList();
   }
+
+  // 销毁
   ngOnDestroy() {
 
   }
 
-
-
-
-  onToggleDate(event) {
-    event.stopPropagation();
-    this.dateShow = !this.dateShow;
-  }
-
-  public closeDatePicker(event) {
-    event.stopPropagation();
-    this.dateShow = false;
-  }
-
+  /**
+   * 时间格式化
+   * @param  {[date]} date      [时间]
+   * @param  {[type]} format='' [格式]
+   * @return {[type]}           [需要的格式]
+   */
   moment(date, format = '') {
     return moment(date).format(format || 'YYYY-MM-DD');
   }
 
-
+  /**
+   * 选择日期时,更新列表
+   * @param  {[DOM]} event [当前input对象]
+   * @return {[type]}       [description]
+   */
   onPickerChange(event) {
     this.page.current = 1;
     this.date = event == '' ? this.today : event;
     this.getList();
   }
-
+  /**
+   * 上一天
+   * @return {[type]} [description]
+   */
   onLastDate() {
     this.page.current = 1;
     this.date = moment(this.date).subtract(1, 'days').format('YYYY-MM-DD');
     this.getList();
   }
 
+  /**
+   * 下一天
+   * @return {[type]} [description]
+   */
   onNextDate() {
     this.page.current = 1;
     this.date = moment(this.date).add(1, 'days').format('YYYY-MM-DD');
     this.getList();
   }
-
+  /**
+   * 小于今天
+   * @return {[type]} [description]
+   */
   isToday() {
     return moment(this.date).format('YYYY-MM-DD') < moment().format('YYYY-MM-DD');
   }
 
-  onOpen() {
-
-  }
-
-  onClose() {
-    this.getList();
-  }
-
-  changePage(event) {
-    this.page.current = event.page;
-    this.getList();
-  }
-
+  /**
+   * 查询今日服务
+   * @param  {bealoon} scroll=false [是否滚动加载]
+   * @return null
+   */
   getList(scroll = false) {
+     //阻止连续请求
+    if (this.loading) {
+      return false;
+    }
     this.loading = true;
-
     window.clearTimeout(this.timeout);
     this.timeout = window.setTimeout(() => {
+        // 滚条请求 未到达底部
       if (scroll && !this.end) {
-        this.page.current++;
+        this.page.current++; //下一页
       }
+      this.end = false;
       this.bApi.businessListGet(this.moment(this.date), this.page.current).subscribe(res => {
-        if (res.meta && res.meta.code === 200 && res.data) {
+        if (res.meta && res.meta.code === 200 && res.data) { // 成功有数据时
           if (scroll) {
-            this.list.content = this.list.content.concat(res.data.content);
+            this.list.content = this.list.content.concat(res.data.content); //追加记录
           } else {
             this.list = res.data;
           }
-          this.page.current = res.meta.current;
+          this.page.current = res.meta.parameters.pageNumber;
         } else {
           if (scroll) {
 
@@ -129,20 +132,23 @@ export class BusinessListComponent {
           }
           this.end = true;
         }
-        this.page.limit = res.meta.limit;
-        this.page.total = res.meta.total;
         this.loading = false;
-      })
+      });
     }, 500);
   }
 
+  /**
+   * 删除服务
+   * @param  {[object]} data [服务对象]
+   * @return {[type]}      [description]
+   */
   delete(data) {
     this.loading = true;
     //payload: models.BusinessDetail
     this.bApi.businessDeleteDelete(data.id).subscribe(res => {
       this.loading = false;
       if (res.meta.code === 200) {
-        this.router.navigate(['/dashboard/business/list']);
+        this.router.navigate(['/dashboard/business/list']); // 跳转 今日服务
         this.onCancel();
       } else {
         alert(res.error.message);
@@ -152,21 +158,42 @@ export class BusinessListComponent {
       console.error(err);
     });
   }
+
+  /**
+   * 删除服务 提示窗口
+   * @param  {[object]} item [删除的服务对象]
+   * @param  {[object]} e    [DOM对象]
+   * @return {[type]}      [description]
+   */
   onDelRecord(item, e) {
     e.stopPropagation();
     this.showTipWin = true;
     this.tipMsg = '是否删除该服务记录?';
     this.business = item;
   }
+  /**
+   * 确定删除
+   * @return {[type]} [description]
+   */
   onOkey() {
     this.delete(this.business);
   }
+  /**
+   * 取消删除
+   * @return {[type]} [description]
+   */
   onCancel() {
     this.showTipWin = false;
     this.getList();
   }
+
+  /**
+   * 跳转到选择服务的顾客单人页
+   * @param  {[object]} item [服务对象]
+   * @return {[type]}      [description]
+   */
   onGoto(item) {
-    this.router.navigate(['/dashboard/customer/detail/' + item.customerId]);
+    this.router.navigate(['/dashboard/customer/detail/' + item.customerId]); // 跳转 顾客单人页
   }
 
   //无限滚动
@@ -176,9 +203,10 @@ export class BusinessListComponent {
       this.getList(true);
     }
   }
+  //滚动判断
   onScrollTop(returnTop) {
-    this.isReturnTop = !returnTop;
-    this.returnTop = !!returnTop;
+    this.isReturnTop = !returnTop; //返回头部是否显示
+    this.returnTop = !!returnTop; //是否返回头部
   }
   //返回头部
   onReturnTop() {

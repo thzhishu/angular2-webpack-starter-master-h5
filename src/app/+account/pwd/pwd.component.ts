@@ -7,7 +7,6 @@ import { Md5 } from 'ts-md5/dist/md5';
     selector: 'account-pwd',
     styles: [require('./pwd.style.scss')],
     template: require('./pwd.template.html'),
-    //directives: [ROUTER_DIRECTIVES],
     providers: [UserApi, Md5]
 })
 
