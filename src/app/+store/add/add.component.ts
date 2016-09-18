@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
+import {  Router, ActivatedRoute } from '@angular/router';
 import { CommonApi, ShopApi, RegionApi, RegionItem, Shop,MyAcountResponse,UserApi } from 'client';
 import { Cookie } from '../../services';
 import { StoreFormComponent } from '../form/form.component';

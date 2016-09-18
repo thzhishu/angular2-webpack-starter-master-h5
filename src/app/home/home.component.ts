@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { ROUTER_DIRECTIVES, Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import {  Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 
 @Component({
 	selector: 'home',

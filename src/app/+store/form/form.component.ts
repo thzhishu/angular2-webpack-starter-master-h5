@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
+import {  Router, ActivatedRoute } from '@angular/router';
 import { Md5 } from 'ts-md5/dist/md5';
 import { CommonApi, ShopApi, RegionApi, UserApi } from 'client';
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ROUTER_DIRECTIVES, Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import {  Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { UserApi, ShopApi, Shop, MyAcountResponse } from 'client';
 import { Cookie} from 'services';
 

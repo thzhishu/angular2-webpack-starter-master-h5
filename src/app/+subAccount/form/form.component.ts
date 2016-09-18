@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
+import {  Router, ActivatedRoute } from '@angular/router';
 import { EmployeeApi, ShopApi, RoleApi, EmployeeItem } from 'client';
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';

@@ -44,7 +44,7 @@ module.exports = {
    *
    * See: http://webpack.github.io/docs/configuration.html#cache
    */
-   //cache: false,
+  //cache: false,
 
   /*
    * The entry point for the bundle
@@ -55,8 +55,8 @@ module.exports = {
   entry: {
 
     'polyfills': './src/polyfills.browser.ts',
-    'vendor':    './src/vendor.browser.ts',
-    'main':      './src/main.browser.ts'
+    'vendor': './src/vendor.browser.ts',
+    'main': './src/main.browser.ts'
 
   },
 
@@ -81,9 +81,9 @@ module.exports = {
     modulesDirectories: ['node_modules'],
 
     alias: {
-        'client': helpers.root('src/client'),
-        'assets': helpers.root('src/assets'),
-        'services': helpers.root('src/app/services'),
+      'client': helpers.root('src/client'),
+      'assets': helpers.root('src/assets'),
+      'services': helpers.root('src/app/services'),
     },
 
   },
@@ -100,8 +100,7 @@ module.exports = {
      *
      * See: http://webpack.github.io/docs/configuration.html#module-preloaders-module-postloaders
      */
-    preLoaders: [
-      {
+    preLoaders: [{
         test: /\.ts$/,
         loader: 'string-replace-loader',
         query: {
@@ -173,14 +172,14 @@ module.exports = {
       },
 
       /* File loader for supporting images, for example, in CSS files.
-      */
+       */
       {
-          test: /\.(png|jpg|ttf|woff|svg|eot|gif)$/,
-          loader: 'url-loader?limit=10000'
+        test: /\.(png|jpg|ttf|woff|svg|eot|gif)$/,
+        loader: 'url-loader?limit=10000'
       }, // inline base64 URLs for <=10k images, direct URLs for the rest
       {
-          test: /\.(scss|sass)$/,
-          loader: 'raw-loader!autoprefixer-loader!sass-loader?sourceMap'
+        test: /\.(scss|sass)$/,
+        loader: 'raw-loader!autoprefixer-loader!sass-loader?sourceMap'
       },
     ]
 
@@ -192,6 +191,11 @@ module.exports = {
    * See: http://webpack.github.io/docs/configuration.html#plugins
    */
   plugins: [
+
+    new webpack.ContextReplacementPlugin(
+      /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
+      __dirname
+    ),
 
     /*
      * Plugin: ForkCheckerPlugin

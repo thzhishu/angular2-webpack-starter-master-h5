@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
+import {  Router, ActivatedRoute } from '@angular/router';
 import { CustomerApi, Customer, BusinessApi } from 'client';
 import { Md5 } from 'ts-md5/dist/md5';
 import * as moment from 'moment';
