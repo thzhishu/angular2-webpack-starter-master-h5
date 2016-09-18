@@ -12,8 +12,8 @@ import { BusinessApi, BusinessList, BusinessListResponse } from 'client';
 
 @Component({
   selector: 'business-list',
-  template: './list.html',
-  styles: ['./list.scss'],
+  template: require('./list.html'),
+  styles: [require('./list.scss')],
 })
 
 export class BusinessListComponent {
