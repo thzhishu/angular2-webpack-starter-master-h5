@@ -59,6 +59,36 @@ export class CustomerDetail implements OnInit {
     });
 
   }
+
+  /**
+   * 无限加载 逻辑判断
+   * @param  {[type]} scroll [是否滚动加载]
+   * @param  {[type]} input  [输入]
+   * @param  {[type]} output [输出]
+   * @param  {[type]} cur    [当前页]
+   * @param  {[type]} limit  [分页大小]
+   * @return {[type]}        [description]
+   */
+  scrollLoading(scroll, input, output, cur, limit) {
+    if (input && input.length > 0) {
+      if (input.length < limit) {
+        this.end = true;
+      }
+      if (scroll) {
+        _.assign(output,output.splice(((cur - 1) * limit), input.length, input)); //替换当前页面记录
+      } else {
+        _.assign(output , input);
+      }
+    } else {
+      if (scroll) {
+
+      } else {
+        output = [];
+      }
+      this.end = true;
+    }
+  }
+
   getCustomerById(id, scroll = false) {
     this.loading = true;
     window.clearTimeout(this.timeout);
@@ -79,20 +109,11 @@ export class CustomerDetail implements OnInit {
           this.page.limit = data.meta.limit;
           this.page.total = data.meta.total;
           this.page.pageTotal = Math.ceil(this.page.total / this.page.limit);
-          if (this.customerDetail.histories && this.customerDetail.histories.length > 0) {
-            if (scroll) {
-              this.histories = this.histories.concat(this.customerDetail.histories || []);
-            } else {
-              this.histories = this.customerDetail.histories;
-            }
-          } else {
-            this.end = true;
-          }
+          this.scrollLoading(scroll,this.customerDetail.histories,this.histories,this.page.current,this.page.limit);
         } else {
           //啥都没有
           this.customerDetail = {};
           this.end = true;
-
         }
         this.loading = false;
       }, err => {

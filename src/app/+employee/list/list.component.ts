@@ -32,41 +32,57 @@ export class EmployeeList implements OnInit {
     this.getEmployeeList(this.page.current, this.page.limit);
   }
 
-  getEmployeeList(curPage, pageSize, scroll = false) {
-    this.loading = true;
+  /**
+   * 无限加载 逻辑判断
+   * @param  {[type]} scroll [是否滚动加载]
+   * @param  {[type]} input  [输入]
+   * @param  {[type]} output [输出]
+   * @param  {[type]} cur    [当前页]
+   * @param  {[type]} limit  [分页大小]
+   * @return {[type]}        [description]
+   */
+  scrollLoading(scroll, input, output, cur, limit) {
+    if (input && input.length > 0) {
+      if (input.length < limit) {
+        this.end = true;
+      }
+      if (scroll) {
+        _.assign(output, output.splice(((cur - 1) * limit), input.length, input)); //替换当前页面记录
+      } else {
+        _.assign(output, input);
+      }
+    } else {
+      if (scroll) {
 
+      } else {
+        output = [];
+      }
+      this.end = true;
+    }
+  }
+
+  getEmployeeList(curPage, pageSize, scroll = false) {
     window.clearTimeout(this.timeout);
     this.timeout = window.setTimeout(() => {
-      if (scroll && !this.end) {
-        this.page.current++;
-      }
-      this.eApi.employeeListGet(curPage, pageSize).subscribe(res => {
-        if (res.meta && res.meta.code === 200 && res.data) {
-          if (scroll) {
-            this.employees = this.employees.concat(res.data);
-          } else {
-            this.employees = res.data;
-          }
-          this.page.current = res.meta.current;
-          this.page.limit = res.meta.limit;
-          this.page.total = res.meta.total;
-        } else {
-          if (scroll) {
 
-          } else {
-            this.employees = [];
-          }
+      // 阻止连续请求
+      if (this.loading) {
+        return false;
+      }
+      this.loading = true;
+      // 滚条请求 到达底部
+      if (scroll && !this.end) {
+        this.page.current++; //下一页
+      }
+      this.eApi.employeeListGet(this.page.current, pageSize).subscribe(res => {
+        this.loading = false;
+        if (res.meta && res.meta.code === 200) {
+          this.scrollLoading(scroll, res.data, this.employees, this.page.current, this.page.limit);
+        } else {
+          this.employees = [];
           this.end = true;
           alert(res.error.message);
         }
-        this.loading = false;
-        // if (data.meta && data.meta.code === 200 && data.data) {
-        //   this.employees = data.data.length ? data.data : [];
-        // } else {
-        //   if (data.error && data.error.message) {
-        //     console.log(data.error.message);
-        //   }
-        // }
       }, err => {
         console.error(err);
         this.employees = [];

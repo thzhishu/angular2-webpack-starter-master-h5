@@ -49,6 +49,35 @@ export class AccountEmployeeList implements OnInit {
     console.log(this.currentEmployee);
   }
 
+  /**
+   * 无限加载 逻辑判断
+   * @param  {[type]} scroll [是否滚动加载]
+   * @param  {[type]} input  [输入]
+   * @param  {[type]} output [输出]
+   * @param  {[type]} cur    [当前页]
+   * @param  {[type]} limit  [分页大小]
+   * @return {[type]}        [description]
+   */
+  scrollLoading(scroll, input, output, cur, limit) {
+    if (input && input.length > 0) {
+      if (input.length < limit) {
+        this.end = true;
+      }
+      if (scroll) {
+        _.assign(output,output.splice(((cur - 1) * limit), input.length, input)); //替换当前页面记录
+      } else {
+        _.assign(output , input);
+      }
+    } else {
+      if (scroll) {
+
+      } else {
+        output = [];
+      }
+      this.end = true;
+    }
+  }
+
   getEmployeeList(curPage, pageSize, scroll = false) {
     this.loading = true;
 
@@ -59,11 +88,7 @@ export class AccountEmployeeList implements OnInit {
       }
       this.eApi.employeeListGet(curPage, pageSize).subscribe(res => {
         if (res.meta && res.meta.code === 200 && res.data) {
-          if (scroll) {
-            this.employees = this.employees.concat(res.data);
-          } else {
-            this.employees = res.data;
-          }
+          this.scrollLoading(scroll, res.data, this.employees, this.page.current, this.page.limit);
         } else {
           this.employees = [];
           this.end = true;

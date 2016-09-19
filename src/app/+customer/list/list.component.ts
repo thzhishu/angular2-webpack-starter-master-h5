@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {  Router, ActivatedRoute } from '@angular/router';
 import { CustomerApi, Customer } from 'client';
 
+import * as _ from 'lodash';
+
 
 @Component({
   selector: 'cutomer-list',
@@ -32,6 +34,35 @@ export class CustomerList implements OnInit {
     this.getCustomerList(this.page.current, this.page.limit);
   }
 
+  /**
+   * 无限加载 逻辑判断
+   * @param  {[type]} scroll [是否滚动加载]
+   * @param  {[type]} input  [输入]
+   * @param  {[type]} output [输出]
+   * @param  {[type]} cur    [当前页]
+   * @param  {[type]} limit  [分页大小]
+   * @return {[type]}        [description]
+   */
+  scrollLoading(scroll, input, output, cur, limit) {
+    if (input && input.length > 0) {
+      if (input.length < limit) {
+        this.end = true;
+      }
+      if (scroll) {
+        _.assign(output,output.splice(((cur - 1) * limit), input.length, input)); //替换当前页面记录
+      } else {
+        _.assign(output , input);
+      }
+    } else {
+      if (scroll) {
+
+      } else {
+        output = [];
+      }
+      this.end = true;
+    }
+  }
+
   getCustomerList(curPage, pageSize, scroll = false) {
     this.loading = true;
 
@@ -41,26 +72,7 @@ export class CustomerList implements OnInit {
         this.page.current++;
       }
       this.capi.customerListGet(this.page.current, pageSize).subscribe(res => {
-        if (res.meta && res.meta.code === 200) {
-          if (res.data&&res.data.length>0) {
-            if (scroll) {
-              this.customers = this.customers.concat(res.data);
-            } else {
-              this.customers = res.data;
-            }
-            this.page.current = res.meta.current;
-          } else {
-            if (scroll) {
-              this.end = true;
-            } else {
-              this.customers = [];
-            }
-          }
-        } else {
-          alert(res.error.message);
-        }
-        this.page.limit = res.meta.limit;
-        this.page.total = res.meta.total;
+        this.scrollLoading(scroll,res.data,this.customers,this.page.current,this.page.limit);
         this.loading = false;
       }, err => {
         console.error(err);

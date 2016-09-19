@@ -17,7 +17,7 @@ import { BusinessApi, BusinessList, BusinessListResponse } from 'client';
 })
 
 export class BusinessListComponent {
-  list: BusinessList;
+  list: BusinessList = {score:0,content:[]};
   today: string = moment().format('YYYY-MM-DD');
   date: string = moment().format('YYYY-MM-DD');
   page: any = { current: 1 };
@@ -61,13 +61,19 @@ export class BusinessListComponent {
     return moment(date).format(format || 'YYYY-MM-DD');
   }
 
+  //重置列表参数
+  initListParams() {
+    this.page.current = 1;
+    this.end = false;
+  }
+
   /**
    * 选择日期时,更新列表
    * @param  {[DOM]} event [当前input对象]
    * @return {[type]}       [description]
    */
   onPickerChange(event) {
-    this.page.current = 1;
+    this.initListParams();
     this.date = event == '' ? this.today : event;
     this.getList();
   }
@@ -76,7 +82,7 @@ export class BusinessListComponent {
    * @return {[type]} [description]
    */
   onLastDate() {
-    this.page.current = 1;
+    this.initListParams();
     this.date = moment(this.date).subtract(1, 'days').format('YYYY-MM-DD');
     this.getList();
   }
@@ -86,7 +92,7 @@ export class BusinessListComponent {
    * @return {[type]} [description]
    */
   onNextDate() {
-    this.page.current = 1;
+    this.initListParams();
     this.date = moment(this.date).add(1, 'days').format('YYYY-MM-DD');
     this.getList();
   }
@@ -99,40 +105,59 @@ export class BusinessListComponent {
   }
 
   /**
+   * 无限加载 逻辑判断
+   * @param  {[type]} scroll [是否滚动加载]
+   * @param  {[type]} input  [输入]
+   * @param  {[type]} output [输出]
+   * @param  {[type]} cur    [当前页]
+   * @param  {[type]} limit  [分页大小]
+   * @return {[type]}        [description]
+   */
+  scrollLoading(scroll, input, output, cur, limit) {
+    if (input && input.length > 0) {
+      if (input.length < limit) {
+        this.end = true;
+      }
+      if (scroll) {
+        _.assign(output,output.splice(((cur - 1) * limit), input.length, input)); //替换当前页面记录
+      } else {
+        _.assign(output , input);
+      }
+    } else {
+      if (scroll) {
+
+      } else {
+        output = [];
+      }
+      this.end = true;
+    }
+  }
+
+  /**
    * 查询今日服务
    * @param  {bealoon} scroll=false [是否滚动加载]
    * @return null
    */
   getList(scroll = false) {
-     //阻止连续请求
+    // 阻止连续请求
     if (this.loading) {
       return false;
     }
     this.loading = true;
     window.clearTimeout(this.timeout);
     this.timeout = window.setTimeout(() => {
-        // 滚条请求 未到达底部
+      // 滚条请求 到达底部
       if (scroll && !this.end) {
         this.page.current++; //下一页
       }
-      this.end = false;
       this.bApi.businessListGet(this.moment(this.date), this.page.current).subscribe(res => {
-        if (res.meta && res.meta.code === 200 && res.data) { // 成功有数据时
-          if (scroll) {
-            this.list.content = this.list.content.concat(res.data.content); //追加记录
-          } else {
-            this.list = res.data;
-          }
-          this.page.current = res.meta.parameters.pageNumber;
-        } else {
-          if (scroll) {
-
-          } else {
-            this.list = {};
-          }
-          this.end = true;
-        }
         this.loading = false;
+        if (res.meta && res.meta.code === 200) { // 成功有数据时
+            this.list.score = res.data.score;
+            this.scrollLoading(scroll,res.data.content,this.list.content,this.page.current,this.page.limit);
+        } else {
+          alert(res.error.message);
+        }
       });
     }, 500);
   }
