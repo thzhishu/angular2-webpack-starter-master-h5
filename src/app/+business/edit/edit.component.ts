@@ -111,6 +111,7 @@ export class BusinessEditComponent implements OnInit {
       this.loading = 0;
       if (res.meta.code === 200) {
         this.business = res.data;
+        this.oldFeildString = Md5.hashStr(JSON.stringify(this.business), false).toString();
       } else {
         alert(res.error.message);
       }
@@ -334,7 +335,7 @@ export class BusinessEditComponent implements OnInit {
     this.showTipWin = false;
   }
   checkFormChange() {
-    const current = Md5.hashStr(JSON.stringify(this.customer), false).toString();
+    const current = Md5.hashStr(JSON.stringify(this.business), false).toString();
     return this.oldFeildString === current ? true : false;
   }
   back() {

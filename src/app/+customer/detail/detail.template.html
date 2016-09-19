@@ -110,7 +110,9 @@
     </div>
     <div class="return-top" alt="回到顶部" *ngIf="isReturnTop" (click)="onReturnTop()" ></div>
   </div>
-
+<div class="box box-v box-v-cc confirm" *ngIf="loading">
+loading...
+</div>
   <!--<div class="box box-v box-v-cc confirm" *ngIf="showDelWin">
         <div class="box box-v confirm-c">
             <div class="flex-1 confirm-msg">顾客删除后，其相应的服务记录不会删除，是否继续</div>
