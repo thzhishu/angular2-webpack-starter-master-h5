@@ -136,16 +136,32 @@ export class SubAccountList implements OnInit {
   }
 
   //滑动按钮
-  onSwipeLeft(event, listTbody) {
-    event.preventDefault();
-    _.forEach(listTbody.children, (val, i) => {
-      val.classList.remove('swipeleft');
-    })
-    event.target.parentNode.classList.add('swipeleft');
+  onSwipeLeft(index, items) {
+    _.forEach(items, (val, i) => {
+      val.swipeleft = 0;
+    });
+    items[index].swipeleft = 1;
+
   }
-  onSwipeRight(event, listTbody) {
-    event.preventDefault();
-    event.target.parentNode.classList.remove('swipeleft');
+  onSwipeRight(index, items) {
+    items[index].swipeleft = 0;
+  }
+
+  //无限滚动
+  onScrollEnd(next) {
+    this.next = next;
+    if (next && !this.loading) {
+      this.getAccountList(this.page.current, this.page.limit,true);
+    }
+  }
+  //滚动判断
+  onScrollTop(returnTop) {
+    this.isReturnTop = !returnTop; //返回头部是否显示
+    this.returnTop = !!returnTop; //是否返回头部
+  }
+  //返回头部
+  onReturnTop() {
+    this.returnTop = true;
   }
 
 

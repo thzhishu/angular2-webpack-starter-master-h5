@@ -1,13 +1,13 @@
-<div class="db-c-wrap store" (panleft)="onSwipeLeft($event,listTbody)" (panright)="onSwipeRight($event,listTbody)">
-    <div class="box box-h box-h-c db-title">
-        <div class="bw back-ico" (click)="back()"></div>
-        <div class="ellipsis tc flex-1">门店列表</div>
-        <div class="bw add-ico" (click)="onAddStore()" ></div>
-    </div>
-    <div class="store-list" #listTbody >
-        <div class="pr sl-item"  *ngFor="let store of stores">
-            <div class="pa sl-edit" (click)="onEditStore(store.id)">编辑</div>
-            <div class="pr sl-txt ellipsis">{{store.name}}</div>
-        </div>
-    </div>
+<div class="db-c-wrap store" >
+  <div class="box box-h box-h-c db-title">
+    <div class="bw back-ico" (click)="back()"></div>
+    <div class="ellipsis tc flex-1">门店列表</div>
+    <div class="bw add-ico" (click)="onAddStore()"></div>
+  </div>
+  <div class="store-list" #listTbody >
+      <div class="pr sl-item" *ngFor="let i = index;let store of stores">
+        <div class="pa sl-edit" (click)="onEditStore(store.id)" >编辑</div>
+        <div class="pr sl-txt ellipsis" [class.swipeleft]="store.swipeleft" (swipeleft)="onSwipeLeft(i,stores)" (swiperight)="onSwipeRight(i,stores)">{{store.name}}{{store.swipeleft}}</div>
+      </div>
+  </div>
 </div>

@@ -51,17 +51,17 @@ export class StoreListComponent implements OnInit {
   }
 
   //滑动按钮
-  onSwipeLeft(event, listTbody) {
-    event.preventDefault();
-    _.forEach(listTbody.children, (val, i) => {
-      val.children[1].classList.remove('swipeleft');
-    })
-    event.target.classList.add('swipeleft');
+  onSwipeLeft(index, items) {
+    _.forEach(items, (val, i) => {
+      val.swipeleft = 0;
+    });
+    items[index].swipeleft = 1;
+
   }
-  onSwipeRight(event, listTbody) {
-    event.preventDefault();
-    event.target.classList.remove('swipeleft');
+  onSwipeRight(index, items) {
+    items[index].swipeleft = 0;
   }
+
   /**
    * 返回上一页
    */

@@ -241,27 +241,14 @@ export class BusinessListComponent {
   }
 
   //滑动按钮
-  onSwipeLeft(event, listTbody) {
-    event.preventDefault();
-    _.forEach(listTbody.children, (val, i) => {
-      val.classList.remove('swipeleft');
-    })
-    event.target.parentNode.classList.add('swipeleft');
+  onSwipeLeft(index, items) {
+    _.forEach(items, (val, i) => {
+      val.swipeleft = 0;
+    });
+    items[index].swipeleft = 1;
+
   }
-  onSwipeRight(event, listTbody) {
-    event.preventDefault();
-    event.target.parentNode.classList.remove('swipeleft');
+  onSwipeRight(index, items) {
+    items[index].swipeleft = 0;
   }
-  // onPanUp(event, listTbody) {
-  //   event.preventDefault();
-  //   if (listTbody.scrollHeight == listTbody.scrollTop + listTbody.clientHeight) {
-  //
-  //     event.target.parentNode.parentNode.classList.add('panup');
-  //     window.setTimeout(() => {
-  //       event.target.parentNode.parentNode.classList.remove('panup');
-  //     }, 1800);
-  //   } else {
-  //     event.target.parentNode.parentNode.classList.remove('panup');
-  //   }
-  // }
 }

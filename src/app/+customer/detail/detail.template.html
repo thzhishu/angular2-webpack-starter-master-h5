@@ -10,8 +10,8 @@
       <div class="flex-1 tr">满意度平均分<span>{{customerDetail?.totalAvgScore}}</span>分</div>
     </div>
     <div class="cd-base" [class.acitve]="isUnfold">
-      <div class="cd-slide" (swipeleft)="!isUnfold&&onSwipeLeft($event,listTbody)" (swipesright)="!isUnfold&&onSwipeRight($event,listTbody)">
-        <div class="list-tbody ">
+      <div class="cd-slide"  >
+        <div class="list-tbody " [class.swipeleft]="customer.swipeleft" (swipeleft)="!isUnfold&&onListSwipeLeft(customer)" (swiperight)="!isUnfold&&onListSwipeRight(customer)">
           <div class="box box-h box-h-c">
             <div class="bw">车主</div>
             <div class="flex-1">{{customer?.name}}</div>
@@ -73,10 +73,10 @@
       </div>
       <div class="cd-hs-list" #listTbody>
         <!-- 历史服务列表 -->
-        <div class="cd-hs-item " *ngFor="let hs of histories">
-          <div class="cd-slide " (swipeleft)="hs.score === null&&onListSwipeLeft($event,listTbody)" (swiperight)="hs.score === null&&onListSwipeRight($event,listTbody)">
+        <div class="cd-hs-item " *ngFor="let hs of histories;let i = index">
+          <div class="cd-slide "  >
             <a class="list-edit cd-slide-eidt" [routerLink]="['/dashboard/business/edit', hs.id,customer.id]">编辑</a>
-            <div class="list-tbody "  >
+            <div class="list-tbody "  [class.swipeleft]="hs.swipeleft" (swipeleft)="hs.score === null&&onSwipeLeft(i,histories)" (swiperight)="hs.score === null&&onSwipeRight(i,histories)">
               <div class="box box-h box-h-c hs-tr tc">
                 <div>结账日期</div>
                 <div>服务项目</div>
