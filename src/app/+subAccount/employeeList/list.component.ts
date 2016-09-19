@@ -11,7 +11,7 @@ import * as _ from 'lodash';
   providers: [EmployeeApi]
 })
 export class AccountEmployeeList implements OnInit {
-  page: any = {};
+  page: any = { current: 1,limit:20,total:0 };
   employees: any[] = [];
   delEmployee: any;
   newSelectEmployee: EmployeeListItem;

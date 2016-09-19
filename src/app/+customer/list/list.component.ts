@@ -13,7 +13,7 @@ import * as _ from 'lodash';
   providers: [CustomerApi]
 })
 export class CustomerList implements OnInit {
-  page: any = {};
+  page: any = { current: 1,limit:20,total:0 };
   customers: Customer[] = [];
   showDelWin: boolean = false;
   delCustomer: any;

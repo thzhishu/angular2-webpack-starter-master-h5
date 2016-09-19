@@ -12,7 +12,7 @@ import * as _ from 'lodash';
   providers: [EmployeeApi, UserApi, Cookie]
 })
 export class SubAccountList implements OnInit {
-  page: any = {};
+  page: any = { current: 1,limit:20,total:0 };
   employees: any[] = [];
   showDelWin: boolean = false;
   delEmployee: any;

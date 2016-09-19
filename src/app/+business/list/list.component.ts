@@ -17,10 +17,10 @@ import { BusinessApi, BusinessList, BusinessListResponse } from 'client';
 })
 
 export class BusinessListComponent {
-  list: BusinessList = {score:0,content:[]};
+  list: BusinessList = { score: 0, content: [] };
   today: string = moment().format('YYYY-MM-DD');
   date: string = moment().format('YYYY-MM-DD');
-  page: any = { current: 1 };
+  page: any = { current: 1,limit:20,total:0 };
   dateShow: boolean = false;
   timeout: any;
   shopChangeSub: Subscription;
@@ -119,9 +119,9 @@ export class BusinessListComponent {
         this.end = true;
       }
       if (scroll) {
-        _.assign(output,output.splice(((cur - 1) * limit), input.length, input)); //替换当前页面记录
+        _.assign(output, output.splice(((cur - 1) * limit), input.length, input)); //替换当前页面记录
       } else {
-        _.assign(output , input);
+        _.assign(output, input);
       }
     } else {
       if (scroll) {
@@ -139,24 +139,26 @@ export class BusinessListComponent {
    * @return null
    */
   getList(scroll = false) {
-    // 阻止连续请求
-    if (this.loading) {
-      return false;
-    }
-    this.loading = true;
     window.clearTimeout(this.timeout);
     this.timeout = window.setTimeout(() => {
+      // 阻止连续请求
+      if (this.loading) {
+        return false;
+      }
+      this.loading = true;
       // 滚条请求 到达底部
       if (scroll && !this.end) {
         this.page.current++; //下一页
       }
       this.bApi.businessListGet(this.moment(this.date), this.page.current).subscribe(res => {
         this.loading = false;
-        if (res.meta && res.meta.code === 200) { // 成功有数据时
-            this.list.score = res.data.score;
-            this.scrollLoading(scroll,res.data.content,this.list.content,this.page.current,this.page.limit);
+        if (res.meta && res.meta.code === 200 && res.data) { // 成功有数据时
+          this.list.score = res.data.score;
+          this.scrollLoading(scroll, res.data.content, this.list.content, this.page.current, this.page.limit);
         } else {
-          alert(res.error.message);
+          if (res.error) {
+            alert(res.error.message);
+          }
         }
       });
     }, 500);

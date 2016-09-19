@@ -27,7 +27,7 @@ export class CustomerDetail implements OnInit {
   sendTimes: number = 0;
   tempMobile: string = '';
   sub: any;
-  page: any = {};
+  page: any = { current: 1,limit:20,total:0 };
   commentUrl = {
     qrCode: '',
     url: ''

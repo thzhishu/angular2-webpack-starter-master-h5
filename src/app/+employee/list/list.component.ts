@@ -11,7 +11,7 @@ import * as _ from 'lodash';
   providers: [EmployeeApi]
 })
 export class EmployeeList implements OnInit {
-  page: any = {};
+  page: any = { current: 1,limit:20,total:0 };
   employees: any[] = [];
   showDelWin: boolean = false;
   delEmployee: any;
