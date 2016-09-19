@@ -7,7 +7,7 @@
   <div class="store-list" #listTbody >
       <div class="pr sl-item" *ngFor="let i = index;let store of stores">
         <div class="pa sl-edit" (click)="onEditStore(store.id)" >编辑</div>
-        <div class="pr sl-txt ellipsis" [class.swipeleft]="store.swipeleft" (swipeleft)="onSwipeLeft(i,stores)" (swiperight)="onSwipeRight(i,stores)">{{store.name}}{{store.swipeleft}}</div>
+        <div class="pr sl-txt ellipsis" [class.swipeleft]="store.swipeleft" (swipeleft)="onSwipeLeft(i,stores)" (swiperight)="onSwipeRight(i,stores)">{{store.name}}</div>
       </div>
   </div>
 </div>

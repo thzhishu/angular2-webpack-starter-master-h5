@@ -1,9 +1,9 @@
 import { HammerGestureConfig } from '@angular/platform-browser';
 
 export class MyHammerConfig extends HammerGestureConfig {
-    overrides: {
-        pan: { domEvents: true };
-        swipe: { domEvents: true };
+    overrides = {
+        pan: { domEvents:true },
+        swipe: { domEvents:true },
     };
   // buildHammer(element: HTMLElement): HammerInstance {
   //   var mc = new Hammer(element);
