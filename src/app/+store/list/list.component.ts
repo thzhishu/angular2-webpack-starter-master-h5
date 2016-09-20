@@ -14,6 +14,8 @@ import * as _ from 'lodash';
 export class StoreListComponent implements OnInit {
 
   stores = [];
+  isReturnTop: boolean = false;
+  returnTop: boolean = false;
 
   constructor(private router: Router, private sApi: ShopApi) { }
 
@@ -60,6 +62,16 @@ export class StoreListComponent implements OnInit {
   }
   onSwipeRight(index, items) {
     items[index].swipeleft = 0;
+  }
+
+  //滚动判断
+  onScrollTop(returnTop) {
+    this.isReturnTop = !returnTop; //返回头部是否显示
+    this.returnTop = !!returnTop; //是否返回头部
+  }
+  //返回头部
+  onReturnTop() {
+    this.returnTop = true;
   }
 
   /**
