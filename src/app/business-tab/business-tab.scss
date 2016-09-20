@@ -1,12 +1,11 @@
 .buniness-tab {
-    z-index: 100;
+  z-index: 100;
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
   border-top: 1px solid #e5e5e5;
-
-  background:#fff;
+  background: #fff;
   padding: 3px 0;
 
   .today-business {
@@ -18,23 +17,26 @@
     background: #fff;
     color: #343434;
     float: left;
+
     &:before {
-        content: "";
-        background: url(/assets/img/dashboard/menu_ico.png) no-repeat;
-        background-position:  -4px -307px;
-        width: 50px;
-        height: 50px;
-        display: inline-block;
-        vertical-align: middle;
+      content: "";
+      background: url("/assets/img/dashboard/menu_ico.png") no-repeat;
+      background-position: -4px -307px;
+      width: 50px;
+      height: 50px;
+      display: inline-block;
+      vertical-align: middle;
     }
-    &.active{
-        &:before {
-            background-position:  -4px -7px;
-        }
-        background: #e3f5ca;
-        color: #2a5026;
+
+    &.active {
+      &:before {
+        background-position: -4px -7px;
+      }
+      background: #e3f5ca;
+      color: #2a5026;
     }
   }
+
   .report-week {
     line-height: 92px;
     font-size: 18px;
@@ -44,21 +46,51 @@
     background: #fff;
     color: #343434;
     float: right;
+
     &:before {
-        content: "";
-        background: url(/assets/img/dashboard/menu_ico.png) no-repeat;
-        background-position:  -4px -105px;
-        width: 50px;
-        height: 50px;
-        display: inline-block;
-        vertical-align: middle;
+      content: "";
+      background: url("/assets/img/dashboard/menu_ico.png") no-repeat;
+      background-position: -4px -105px;
+      width: 50px;
+      height: 50px;
+      display: inline-block;
+      vertical-align: middle;
     }
-    &.active{
-        &:before {
-            background-position:  -4px -207px;
-        }
-        background: #e3f5ca;
-        color: #2a5026;
+
+    &.active {
+      &:before {
+        background-position: -4px -207px;
+      }
+      background: #e3f5ca;
+      color: #2a5026;
     }
+  }
+}
+
+.add-business {
+  z-index: 100;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  color: #3fb648;
+  border: 1px solid #3fb648;
+  text-align: center;
+  /* padding: 12px 20px; */
+  font-size: 22px;
+  width: 180px;
+  height: 50px;
+  margin-left: -90px;
+  border-radius: 4px;
+
+  &:before {
+    content: "+";
+    width: 40px;
+    height: 50px;
+    display: inline-block;
+    vertical-align: middle;
+    color: #3fb648;
+    font-size: 50px;
+    line-height: 37px;
+    font-weight: normal;
   }
 }

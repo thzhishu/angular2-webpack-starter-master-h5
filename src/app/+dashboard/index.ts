@@ -19,7 +19,7 @@ export const routes = [
       StoreData: StoreResolver,
     },
     children: [
-      { path: '', redirectTo: 'business/list', pathMatch: 'full' },
+    //   { path: '', redirectTo: 'business/list', pathMatch: 'full' },
       {
         path: 'customer',
         children: [

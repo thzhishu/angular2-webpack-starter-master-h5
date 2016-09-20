@@ -1,8 +1,11 @@
-<nav class="buniness-tab">
-  <a class="today-business" routerLinkActive="active"  routerLink="/dashboard/business/list">
-      今日服务
+<nav class="buniness-tab" *ngIf="sub!=='0002'">
+  <a class="today-business" routerLinkActive="active" routerLink="/dashboard/business/list">
+    今日服务
   </a>
   <a class="report-week" routerLinkActive="active" routerLink="/dashboard/report/week">
-      我的周报
+    我的周报
   </a>
 </nav>
+<a class="add-business" *ngIf="sub==='0002'" routerLinkActive="active" title="新增服务" routerLink="/dashboard/business/add">
+    添加新服务
+</a>

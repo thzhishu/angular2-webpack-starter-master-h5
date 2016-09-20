@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {  Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'business-tab',
@@ -7,10 +8,11 @@ import { Component } from '@angular/core';
 })
 
 export class BusinessTab {
-    constructor() {
+    sub:string = '0002';
+    constructor(private route: ActivatedRoute) {
 
     }
     ngOnInit() {
-      console.log('hello `BusinessTab` component');
+        // this.sub = this.route.snapshot.data['MeData'].data.roles[0].code;
     }
 }
