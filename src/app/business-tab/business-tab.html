@@ -1,4 +1,4 @@
-<nav class="buniness-tab" *ngIf="sub!=='0002'">
+<nav class="buniness-tab" *ngIf="code!=='0002'">
   <a class="today-business" routerLinkActive="active" routerLink="/dashboard/business/list">
     今日服务
   </a>
@@ -6,6 +6,6 @@
     我的周报
   </a>
 </nav>
-<a class="add-business" *ngIf="sub==='0002'" routerLinkActive="active" title="新增服务" routerLink="/dashboard/business/add">
+<a class="add-business" *ngIf="code==='0002'" routerLinkActive="active" title="新增服务" routerLink="/dashboard/business/add">
     添加新服务
 </a>

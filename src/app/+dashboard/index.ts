@@ -6,8 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { Dashboard } from './dashboard.component';
 import { ROLES_RESOLVER_PROVIDERS } from './dashboard.resolver';
 import { BTModule } from '../business-tab/bt.module';
-import { AuthGuard } from '../auth.guard';
-import { MeResolver,StoreResolver } from '../app.resolver';
+import { SubGuard, AuthGuard, ThzsUtil } from 'services';
+import { MeResolver, StoreResolver } from '../app.resolver';
 
 // async components must be named routes for WebpackAsyncRoute
 export const routes = [
@@ -19,7 +19,7 @@ export const routes = [
       StoreData: StoreResolver,
     },
     children: [
-    //   { path: '', redirectTo: 'business/list', pathMatch: 'full' },
+      //   { path: '', redirectTo: 'business/list', pathMatch: 'full' },
       {
         path: 'customer',
         children: [
@@ -34,7 +34,9 @@ export const routes = [
         path: 'employee',
         children: [
           { path: '', redirectTo: 'list', pathMatch: 'full' },
-          { path: 'list', loadChildren: () => System.import('../+employee/list') },
+          {
+            path: 'list', loadChildren: () => System.import('../+employee/list')
+          },
           { path: 'add', loadChildren: () => System.import('../+employee/add') },
           { path: 'edit/:id', loadChildren: () => System.import('../+employee/edit') },
         ]
@@ -68,17 +70,19 @@ export const routes = [
           { path: 'info', loadChildren: () => System.import('../+account/info') },
           { path: 'pwd', loadChildren: () => System.import('../+account/pwd') },
           {
-              path: 'subAccount',
-              children: [
-                  { path: 'list', loadChildren: () => System.import('../+subAccount/list') },
-                  { path: 'add', loadChildren: () => System.import('../+subAccount/add') },
-                  { path: 'edit/:id', loadChildren: () => System.import('../+subAccount/edit') },
-              ]
+            path: 'subAccount',
+            canActivate: [SubGuard],
+            children: [
+              { path: 'list', loadChildren: () => System.import('../+subAccount/list') },
+              { path: 'add', loadChildren: () => System.import('../+subAccount/add') },
+              { path: 'edit/:id', loadChildren: () => System.import('../+subAccount/edit') },
+            ]
           },
         ]
       },
       {
         path: 'store',
+        canActivate: [SubGuard],
         children: [
           { path: 'list', loadChildren: () => System.import('../+store/list') },
           { path: 'init', loadChildren: () => System.import('../+store/init') },

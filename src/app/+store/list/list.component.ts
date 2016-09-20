@@ -16,11 +16,21 @@ export class StoreListComponent implements OnInit {
   stores = [];
   isReturnTop: boolean = false;
   returnTop: boolean = false;
+  code: any;
 
-  constructor(private router: Router, private sApi: ShopApi) { }
+  constructor(private router: Router, private sApi: ShopApi, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.getStores();
+    if (this.route.snapshot.data['MeData']) {
+      if (!this.route.snapshot.data['MeData'].error) {
+        this.code = this.route.snapshot.data['MeData'].data.roles[0].code;
+      } else if (this.route.snapshot.data['MeData'].error.code === 401) {
+        alert(this.route.snapshot.data['MeData'].error.message);
+        this.router.navigate(['/login']);
+        return false;
+      }
+    }
   }
 
   /**

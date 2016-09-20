@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {  Router, ActivatedRoute } from '@angular/router';
+import { UserApi, MyAcountResponse } from 'client';
 
 @Component({
   selector: 'business-tab',
@@ -8,11 +9,17 @@ import {  Router, ActivatedRoute } from '@angular/router';
 })
 
 export class BusinessTab {
-    sub:string = '0002';
-    constructor(private route: ActivatedRoute) {
+  code: string = '0002';
+  constructor(private router: Router, private route: ActivatedRoute,private uApi: UserApi) {
 
-    }
-    ngOnInit() {
-        // this.sub = this.route.snapshot.data['MeData'].data.roles[0].code;
-    }
+  }
+  ngOnInit() {
+      this.getMe();
+  }
+
+  getMe() {
+    this.uApi.userMeGet().subscribe((res:MyAcountResponse) => {
+      this.code = res.data.roles[0].code;
+    })
+  }
 }

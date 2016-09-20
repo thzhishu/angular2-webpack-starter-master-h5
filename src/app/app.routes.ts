@@ -22,8 +22,10 @@ export const ROUTES: Routes = [
   {
     path: 'dashboard',
     loadChildren: () => System.import('./+dashboard'),
-    
-
+    resolve: {
+      MeData: MeResolver,
+      StoreData: StoreResolver,
+    },
   },
   {
     path: 'init', loadChildren: () => System.import('./+store/init')

@@ -17,7 +17,7 @@ import { AppState } from './app.service';
 
 
 import { AuthService }     from './auth.service';
-import { AuthGuard, ThzsUtil } from 'services';
+import { SubGuard ,AuthGuard, ThzsUtil } from 'services';
 import { UserApi, ShopApi } from 'client';
 
 
@@ -33,6 +33,7 @@ const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
   AppState,
   AuthGuard,
+  SubGuard,
   ThzsUtil,
   AuthService,
   UserApi,
