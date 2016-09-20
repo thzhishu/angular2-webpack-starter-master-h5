@@ -64,6 +64,14 @@
             line-height: 50px;
             color:#fff;
 
+            &.onlyOne {
+                background:none;
+
+                .ico-arrow-d {
+                    opacity:0;
+                }
+            }
+
             .ico-map {
                 width:18px;
                 height:24px;

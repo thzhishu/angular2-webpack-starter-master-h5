@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {  Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { UserApi, ShopApi, Shop, MyAcountResponse } from 'client';
-import { Cookie } from 'services';
+import { Cookie, ThzsUtil } from '../services';
 
 import * as moment from 'moment';
 import * as _ from 'lodash';
@@ -45,8 +45,9 @@ export class Dashboard {
     routeSub: any;
     noMenu: boolean = false;
     noTopbar: boolean = false;
+    shopCount: number = 0;
 
-    constructor(private router: Router, private uApi: UserApi, private sApi: ShopApi) {
+    constructor(private router: Router, private uApi: UserApi, private sApi: ShopApi, private thzsUtil: ThzsUtil) {
         console.log('dashboard constructor...');
         this.routeSub = this.router.events.filter( event => event instanceof NavigationEnd)
                                           .map(event => event.url)
@@ -60,7 +61,12 @@ export class Dashboard {
                                               this.noTopbar = _.includes(NO_TOPBAR_URLS,data) ? true : false;
                                           });
 
-        
+        this.thzsUtil.refreshShopList$.subscribe(data => {
+          console.log('fresh...');
+          if (data) {
+            this.getList();
+          }
+        });
 
     }
 
@@ -83,6 +89,7 @@ export class Dashboard {
     }
     onToggleStoreLayer(e) {
         e.stopPropagation();
+        if (this.shopCount <= 1) return;
         this.showStoreLayer = !this.showStoreLayer;
     }
 
@@ -96,6 +103,7 @@ export class Dashboard {
     getList() {
       this.sApi.shopMyshopGet().subscribe((data) => {
         this.list = data.data;
+        this.shopCount = this.list.length;
         _.forEach(this.list, (val, i) => {
           if (this.shopId === val.id) {
             this.storeName = val.name;

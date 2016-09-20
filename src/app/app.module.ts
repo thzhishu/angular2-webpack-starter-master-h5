@@ -18,7 +18,7 @@ import { AppState } from './app.service';
 // import { AuthGuard } from './auth.guard';
 import { AuthService }     from './auth.service';
 import { UserApi } from 'client';
-import { AuthGuard } from 'services';
+import { AuthGuard, ThzsUtil } from 'services';
 
 import { Home } from './home';
 import { NoContent } from './no-content';
@@ -32,6 +32,7 @@ const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
   AppState,
   AuthGuard,
+  ThzsUtil
   // AuthService,
   // UserApi
 ];
@@ -44,7 +45,7 @@ const APP_PROVIDERS = [
   declarations: [
     App,
     Home,
-    NoContent
+    NoContent,
   ],
   imports: [ // import Angular's modules
     BrowserModule,
