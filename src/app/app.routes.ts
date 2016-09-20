@@ -2,9 +2,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { Home } from './home';
 import { NoContent } from './no-content';
 
-import { DataResolver } from './app.resolver';
+import { MeResolver,StoreResolver } from './app.resolver';
 // import { AuthGuard } from './auth.guard';
-import { AuthGuard } from 'services';
+// import { AuthGuard } from 'services';
 
 
 export const ROUTES: Routes = [
@@ -22,10 +22,11 @@ export const ROUTES: Routes = [
   {
     path: 'dashboard',
     loadChildren: () => System.import('./+dashboard'),
-    canActivate: [AuthGuard]
+    
+
   },
   {
     path: 'init', loadChildren: () => System.import('./+store/init')
   },
-  { path: '**',    component: NoContent },
+  { path: '**', component: NoContent },
 ];

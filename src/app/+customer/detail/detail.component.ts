@@ -70,14 +70,19 @@ export class CustomerDetail implements OnInit {
    * @return {[type]}        [description]
    */
   scrollLoading(scroll, input, output, cur, limit) {
+    let start = 0, end = 0;
+
     if (input && input.length > 0) {
       if (input.length < limit) {
+        end = limit * (cur - 1);
         this.end = true;
+      } else {
+        end = limit * (cur - 1);
       }
       if (scroll) {
-        _.assign(output,output.splice(((cur - 1) * limit), input.length, input)); //替换当前页面记录
+        _.assign(output, output.slice(start, end).concat(input)); // 替换当前页面记录
       } else {
-        _.assign(output , input);
+        _.assign(output, input);
       }
     } else {
       if (scroll) {
@@ -88,7 +93,6 @@ export class CustomerDetail implements OnInit {
       this.end = true;
     }
   }
-
   getCustomerById(id, scroll = false) {
     this.loading = true;
     window.clearTimeout(this.timeout);

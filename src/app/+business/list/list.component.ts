@@ -20,7 +20,7 @@ export class BusinessListComponent {
   list: BusinessList = { score: 0, content: [] };
   today: string = moment().format('YYYY-MM-DD');
   date: string = moment().format('YYYY-MM-DD');
-  page: any = { current: 1,limit:20,total:0 };
+  page: any = { current: 1, limit: 20, total: 0 };
   dateShow: boolean = false;
   timeout: any;
   shopChangeSub: Subscription;
@@ -114,12 +114,17 @@ export class BusinessListComponent {
    * @return {[type]}        [description]
    */
   scrollLoading(scroll, input, output, cur, limit) {
+    let start = 0, end = 0;
+
     if (input && input.length > 0) {
       if (input.length < limit) {
+        end = limit * (cur - 1);
         this.end = true;
+      } else {
+        end = limit * (cur - 1);
       }
       if (scroll) {
-        _.assign(output, output.splice(((cur - 1) * limit), input.length, input)); //替换当前页面记录
+        _.assign(output, output.slice(start, end).concat(input)); // 替换当前页面记录
       } else {
         _.assign(output, input);
       }
@@ -154,6 +159,7 @@ export class BusinessListComponent {
         this.loading = false;
         if (res.meta && res.meta.code === 200 && res.data) { // 成功有数据时
           this.list.score = res.data.score;
+          this.page.total = res.meta.total;
           this.scrollLoading(scroll, res.data.content, this.list.content, this.page.current, this.page.limit);
         } else {
           if (res.error) {

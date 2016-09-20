@@ -29,7 +29,7 @@ export class App {
   }
 
   ngOnInit() {
-
+      console.log('appState',this.appState);
   }
 
 }
