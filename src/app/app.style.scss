@@ -1,6 +1,14 @@
-input {
-  border: 0;
+* {
+  -webkit-transform:translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
 }
+
+input,
+textarea {
+  border: 0;
+  -webkit-appearance: none;
+}
+
 
 .header {
   width: 100%;
@@ -128,9 +136,8 @@ input {
 .alert-error {
   color: #f16557;
   font-size: 24px;
-  padding: 0 20px;
-  height: 70px;
-  line-height: 70px;
+  padding: 24px 30px;
+  height: 79px;
 }
 
 .content {

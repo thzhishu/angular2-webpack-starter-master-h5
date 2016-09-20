@@ -1,5 +1,5 @@
 import { NgModule, ApplicationRef } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
@@ -22,9 +22,13 @@ import { AuthGuard } from 'services';
 
 import { Home } from './home';
 import { NoContent } from './no-content';
+import { MyHammerConfig } from './MyHammerConfig';
+
+
 
 // Application wide providers
 const APP_PROVIDERS = [
+  { provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig },
   ...APP_RESOLVER_PROVIDERS,
   AppState,
   AuthGuard,
@@ -36,7 +40,7 @@ const APP_PROVIDERS = [
  * `AppModule` is the main entry point into Angular2's bootstraping process
  */
 @NgModule({
-  bootstrap: [ App ],
+  bootstrap: [App],
   declarations: [
     App,
     Home,
@@ -54,7 +58,7 @@ const APP_PROVIDERS = [
   ]
 })
 export class AppModule {
-  constructor(public appRef: ApplicationRef, public appState: AppState) {}
+  constructor(public appRef: ApplicationRef, public appState: AppState) { }
   hmrOnInit(store) {
     if (!store || !store.state) return;
     console.log('HMR store', store);

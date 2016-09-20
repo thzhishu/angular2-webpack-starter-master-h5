@@ -5,7 +5,7 @@
         <div class="bw add-ico" (click)="onAddNewAccount()" ></div>
     </div>
     <div class="cr-list">
-        <div class="list-table" (panleft)="onSwipeLeft($event,listTbody)" (panright)="onSwipeRight($event,listTbody)" *ngIf="accounts.length">
+        <div class="list-table" *ngIf="accounts.length">
             <div class="bh list-thead">
                 <div class="box box-h box-h-c list-tr list-ths">
                     <div>序号</div>
@@ -15,10 +15,10 @@
                     <div>关联门店</div>
                 </div>
             </div>
-            <div class="list-tbody" #listTbody>
+            <div class="list-tbody" #listTbody scrollable [returnTop]="returnTop" (scrollEnd)="onScrollEnd($event)" (scrollTop)="onScrollTop($event)">
                 <div class="pr list-tds" *ngFor="let cr of accounts; let idx = index;">
                     <div class="list-edit" (click)="onEditAccount(cr, $event)" >编辑</div>
-                    <div class="pr box box-h box-h-c list-tr "  >
+                    <div class="pr box box-h box-h-c list-tr "  [class.swipeleft]="cr.swipeleft" (swipeleft)="onSwipeLeft(idx,accounts)" (swiperight)="onSwipeRight(idx,accounts)">
                         <div>{{ idx + 1 }}</div>
                         <div>{{ cr.name ? cr.name : '-' }}</div>
                         <div>{{ cr.roleStr ? cr.roleStr : '-'  }}</div>
@@ -32,6 +32,7 @@
                 </div>
             </div>
         </div>
+
         <div class="list-empty box box-v box-v-cc" *ngIf="!accounts.length">
             <div class="list-null">
                 <div class="img"></div>
@@ -39,6 +40,9 @@
             </div>
         </div>
     </div>
+    <!-- 回到顶部 -->
+    <div class="return-top" alt="回到顶部" *ngIf="isReturnTop" (click)="onReturnTop()"></div>
+    <!-- 回到顶部 end -->
     <div class="box box-v box-v-cc confirm" *ngIf="showDelWin">
         <div class="box box-v confirm-c">
             <div class="flex-1 confirm-msg">顾客删除后，其相应的服务记录不会删除，是否继续</div>
@@ -49,4 +53,3 @@
         </div>
     </div>
 </div>
-<!--<div class="return-top" alt="回到顶部" *ngIf="isReturnTop" (click)="onReturnTop()" ></div>-->
