@@ -6,13 +6,20 @@ import { FormsModule } from '@angular/forms';
 import { Dashboard } from './dashboard.component';
 import { ROLES_RESOLVER_PROVIDERS } from './dashboard.resolver';
 import { BTModule } from '../business-tab/bt.module';
+import { AuthGuard } from '../auth.guard';
+import { MeResolver,StoreResolver } from '../app.resolver';
 
 // async components must be named routes for WebpackAsyncRoute
 export const routes = [
   {
     path: '', component: Dashboard,
+    canActivate: [AuthGuard],
+    resolve: {
+      MeData: MeResolver,
+      StoreData: StoreResolver,
+    },
     children: [
-      // { path: '', redirectTo: 'customer/list', pathMatch: 'full' },
+      { path: '', redirectTo: 'business/list', pathMatch: 'full' },
       {
         path: 'customer',
         children: [
@@ -95,7 +102,7 @@ export const routes = [
     BTModule,
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
-    ROLES_RESOLVER_PROVIDERS
+    // ROLES_RESOLVER_PROVIDERS
   ]
 })
 export default class DashboardModule {

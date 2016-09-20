@@ -32,8 +32,6 @@ const NO_TOPBAR_URLS = [
     selector: 'dashboard',
     template: require('./dashboard.template.html'),
     styles: [require('./dashboard.style.scss')],
-    //directives: [ROUTER_DIRECTIVES],
-    providers: [UserApi, ShopApi, Cookie]
 })
 export class Dashboard {
     showMenu: boolean = false;
@@ -47,7 +45,8 @@ export class Dashboard {
     noTopbar: boolean = false;
     shopCount: number = 0;
 
-    constructor(private router: Router, private uApi: UserApi, private sApi: ShopApi, private thzsUtil: ThzsUtil) {
+
+    constructor(private router: Router,private route: ActivatedRoute, private uApi: UserApi, private sApi: ShopApi, private thzsUtil: ThzsUtil) {
         console.log('dashboard constructor...');
         this.routeSub = this.router.events.filter( event => event instanceof NavigationEnd)
                                           .map(event => event.url)
@@ -68,11 +67,17 @@ export class Dashboard {
           }
         });
 
+
     }
 
     ngOnInit() {
-      console.log('dashboard init...');
-      this.getMe();
+     this.shopId = this.route.snapshot.data['MeData'].data.user.lastShopId;
+     this.list = this.route.snapshot.data['StoreData'].data;
+     _.forEach(this.list, (val, i) => {
+       if (this.shopId === val.id) {
+         this.storeName = val.name;
+       }
+     })
     }
     ngOnDestroy() {
       this.routeSub.unsubscribe();

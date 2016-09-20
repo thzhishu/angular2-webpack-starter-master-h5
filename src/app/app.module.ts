@@ -15,10 +15,11 @@ import { App } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState } from './app.service';
 
-// import { AuthGuard } from './auth.guard';
+
 import { AuthService }     from './auth.service';
-import { UserApi } from 'client';
 import { AuthGuard, ThzsUtil } from 'services';
+import { UserApi, ShopApi } from 'client';
+
 
 import { Home } from './home';
 import { NoContent } from './no-content';
@@ -32,9 +33,10 @@ const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
   AppState,
   AuthGuard,
-  ThzsUtil
-  // AuthService,
-  // UserApi
+  ThzsUtil,
+  AuthService,
+  UserApi,
+  ShopApi,
 ];
 
 /**
@@ -62,7 +64,6 @@ export class AppModule {
   constructor(public appRef: ApplicationRef, public appState: AppState) { }
   hmrOnInit(store) {
     if (!store || !store.state) return;
-    console.log('HMR store', store);
     this.appState._state = store.state;
     this.appRef.tick();
     delete store.state;
