@@ -2,6 +2,10 @@ html {
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
+html {
+   -ms-touch-action: manipulation; /* IE10 */
+    touch-action: manipulation;     /* IE11 */
+}
 
 body {
   font-family: "Microsoft YaHei", Helvetica, Arial, "Lucida Grande", sans-serif, 华文细黑, STHeiti, SimHei;

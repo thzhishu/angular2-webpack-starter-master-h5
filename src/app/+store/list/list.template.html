@@ -4,10 +4,13 @@
     <div class="ellipsis tc flex-1">门店列表</div>
     <div class="bw add-ico" (click)="onAddStore()"></div>
   </div>
-  <div class="store-list" #listTbody >
+  <div class="store-list" scrollable [returnTop]="returnTop" (scrollTop)="onScrollTop($event)">
       <div class="pr sl-item" *ngFor="let i = index;let store of stores">
         <div class="pa sl-edit" (click)="onEditStore(store.id)" >编辑</div>
         <div class="pr sl-txt ellipsis" [class.swipeleft]="store.swipeleft" (swipeleft)="onSwipeLeft(i,stores)" (swiperight)="onSwipeRight(i,stores)">{{store.name}}</div>
       </div>
   </div>
+  <!-- 回到顶部 -->
+  <div class="return-top" alt="回到顶部" *ngIf="isReturnTop" (click)="onReturnTop()"></div>
+  <!-- 回到顶部 end -->
 </div>
