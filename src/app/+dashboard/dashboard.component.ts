@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {  Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { UserApi, ShopApi, Shop, MyAcountResponse } from 'client';
-import { Cookie} from 'services';
+import { Cookie } from 'services';
 
 import * as moment from 'moment';
 import * as _ from 'lodash';
@@ -47,7 +47,7 @@ export class Dashboard {
     noTopbar: boolean = false;
 
     constructor(private router: Router, private uApi: UserApi, private sApi: ShopApi) {
-        console.log(this.router);
+        console.log('dashboard constructor...');
         this.routeSub = this.router.events.filter( event => event instanceof NavigationEnd)
                                           .map(event => event.url)
                                           .subscribe( data => {
@@ -59,9 +59,13 @@ export class Dashboard {
                                               this.noMenu = _.includes(NO_MENU_URLS,data) ? true : false;
                                               this.noTopbar = _.includes(NO_TOPBAR_URLS,data) ? true : false;
                                           });
-                                    }
+
+        
+
+    }
 
     ngOnInit() {
+      console.log('dashboard init...');
       this.getMe();
     }
     ngOnDestroy() {
@@ -115,6 +119,14 @@ export class Dashboard {
 
     gotoSearchPage() {
         this.router.navigate(['/dashboard/search/page']);
+    }
+
+    /**
+     * 退出系统并返回登录
+     */
+    onExit() {
+      Cookie.remove('token');
+      this.router.navigate(['/login']);
     }
 
 }

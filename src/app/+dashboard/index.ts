@@ -12,7 +12,7 @@ export const routes = [
   {
     path: '', component: Dashboard,
     children: [
-      { path: '', redirectTo: 'customer/list', pathMatch: 'full' },
+      // { path: '', redirectTo: 'customer/list', pathMatch: 'full' },
       {
         path: 'customer',
         children: [

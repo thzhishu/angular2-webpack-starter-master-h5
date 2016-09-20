@@ -1,10 +1,12 @@
 import { Component, NgZone } from '@angular/core';
 import {  Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Cookie } from 'services';
 
 @Component({
 	selector: 'home',
 	styleUrls: [ './home.style.scss' ],
 	template: require('./home.template.html'),
+	providers: [Cookie]
 	//directives: [ROUTER_DIRECTIVES]
 })
 export class Home {
@@ -45,12 +47,20 @@ export class Home {
 		e.preventDefault();
 	}
 	gotoRegister() {
-		this.body.removeEventListener('touchmove', this.preventScroll)
+		this.body.removeEventListener('touchmove', this.preventScroll);
 		this.router.navigate(['/register']);
 	}
 	gotoLogin() {
-		this.body.removeEventListener('touchmove', this.preventScroll)
-		this.router.navigate(['/login']);
+		this.body.removeEventListener('touchmove', this.preventScroll);
+		if (Cookie.load('token')) {
+			if (Cookie.load('shopId')) {
+				this.router.navigate(['/dashboard/business/list']);
+			} else {
+				this.router.navigate(['/init']);
+			}
+		} else {
+			this.router.navigate(['/login']);
+		}
 	}
 
 }

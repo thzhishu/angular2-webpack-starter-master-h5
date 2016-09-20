@@ -794,11 +794,11 @@ td, th {
   position: absolute;
   display: block;
   content: '';
-  width: 224px;
+  width: 244px;
   height: 163px;
   top: -149px;
   left: 50%;
-  margin-left: -112px;
+  margin-left: -122px;
   background: url(/assets/img/dashboard/alert_head.png) no-repeat bottom center;
 }
 

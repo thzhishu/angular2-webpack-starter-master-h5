@@ -44,8 +44,8 @@
             <a class="flex-1 box box-h box-h-c subnav" routerLink="./employee/list"><span>我的技师</span></a>
         </nav>
         <div class="bw">
-            <div class="box box-h box-h-c"><i class="navico ico-new"></i><span>新手引导</span></div>
-            <div class="box box-h box-h-c" routerLink="/login"><i class="navico ico-exit"></i><span>退出</span></div>
+            <!--<div class="box box-h box-h-c"><i class="navico ico-new"></i><span>新手引导</span></div>-->
+            <div class="box box-h box-h-c" (click)="onExit()" ><i class="navico ico-exit"></i><span>退出</span></div>
         </div>
     </div>
 </div>
