@@ -78,6 +78,7 @@ export class StoreListComponent implements OnInit {
    * 返回上一页
    */
   back() {
-    window.history.back();
+    // window.history.back();
+    this.router.navigate(['/dashboard/account/info']);
   }
 }

@@ -12,12 +12,12 @@
 
                 <div class="flex-1">
                     <div class="store-wrap active" [class.active]="showStoreLayer" (click)="onCloseStoreLayer($event)">
-                        <div class="box box-h box-h-c store" (click)="onToggleStoreLayer($event)">
+                        <div class="box box-h box-h-c store" [class.onlyOne]="shopCount === 1" (click)="onToggleStoreLayer($event)">
                             <div class="ico-map"></div>
                             <div class="ellipsis tc flex-1">{{storeName}}</div>
                             <div class="ico-arrow-d"></div>
                         </div>
-                        <div class="tc store-list" >
+                        <div class="tc store-list" *ngIf="shopCount" >
                             <div [class.current]="item.id==shopId" *ngFor="let item of list, let i = index"><div class="ellipsis" (click)="changeCurrentStore(item)">{{item.name}}</div></div>
                         </div>
                     </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
 import {  Router, ActivatedRoute } from '@angular/router';
 import { CommonApi, ShopApi, RegionApi, RegionItem, Shop, MyAcountResponse, UserApi } from 'client';
-import { Cookie } from '../../services';
+import { Cookie, ThzsUtil } from '../../services';
 import { StoreFormComponent } from '../form/form.component';
 import { Md5 } from 'ts-md5/dist/md5';
 
@@ -43,7 +43,7 @@ export class StoreEditComponent implements OnInit {
 
     @ViewChild(StoreFormComponent) sf: StoreFormComponent;
 
-    constructor(private router: Router, private route: ActivatedRoute, private sApi: ShopApi, private uApi: UserApi) {
+    constructor(private router: Router, private route: ActivatedRoute, private sApi: ShopApi, private uApi: UserApi, private thzsUtil: ThzsUtil) {
         this.zone = new NgZone({ enableLongStackTrace: false });
     }
     ngOnInit() {
@@ -288,6 +288,7 @@ export class StoreEditComponent implements OnInit {
                 this.onCloseDelWin();
                 // 刷新导航中的门店列表
                 //this.thzsUtil.refreshShopList(true);
+                this.thzsUtil.refreshShopList('delete');
                 this.router.navigate(['/dashboard/store/list']);
             } else {
                 if (this.showDelWin) {

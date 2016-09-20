@@ -741,6 +741,7 @@ td, th {
   border-radius: 1px 0 0 1px;
   transform-origin: 1px 1px;
   background: #343434;
+  z-index:1;
 }
 
 .cr-form .fm-sel:before {

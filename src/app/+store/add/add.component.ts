@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {  Router, ActivatedRoute } from '@angular/router';
 import { CommonApi, ShopApi, RegionApi, RegionItem, Shop,MyAcountResponse,UserApi } from 'client';
-import { Cookie } from '../../services';
+import { Cookie, ThzsUtil } from '../../services';
 import { StoreFormComponent } from '../form/form.component';
 import { Md5 } from 'ts-md5/dist/md5';
 
@@ -28,7 +28,7 @@ export class StoreAddComponent implements OnInit {
 
     @ViewChild(StoreFormComponent) sf: StoreFormComponent;
 
-    constructor(private router: Router, private sApi: ShopApi) {
+    constructor(private router: Router, private sApi: ShopApi, private thzsUtil: ThzsUtil) {
 
     }
     ngOnInit() {
@@ -64,6 +64,7 @@ export class StoreAddComponent implements OnInit {
         this.sApi.shopBatchSavePost(shops).subscribe(data => {
             this.submitting = false;
             if (data.meta.code === 200) {
+                this.thzsUtil.refreshShopList(true);
                 this.isLeaveSave ? window.history.back() : this.router.navigate(['/dashboard/store/list']);
                 this.isLeaveSave = false;
             } else {
@@ -82,7 +83,8 @@ export class StoreAddComponent implements OnInit {
      */
     onBack() {
         if (this.checkFormChange()) {
-            window.history.back();
+            //window.history.back();
+            this.router.navigate(['/dashboard/store/list']);
         } else {
             this.showTipWin = true;
             this.tipMsg = '您有信息未保存';
@@ -124,7 +126,8 @@ export class StoreAddComponent implements OnInit {
      * 点取消 直接离开
      */
     onLeave() {
-        window.history.back();
+        // window.history.back();
+        this.router.navigate(['/dashboard/store/list']);
     }
 
     
