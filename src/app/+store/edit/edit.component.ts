@@ -81,7 +81,9 @@ export class StoreEditComponent implements OnInit {
         this.sApi.shopShopIdGet('', id).subscribe(data => {
             if (data.meta.code === 200 && data.data) {
                 this.store = this.formatStoreInfo(data.data);
+                console.log('edit store', this.store);
                 this.sf.getCities(this.store.provinceId);
+                this.sf.serviceListsHandle(this.store.serviceIds.split(','));
                 this.oldFeildString = Md5.hashStr(JSON.stringify(this.store), false).toString();
             } else {
                 if (data.error && data.error.message) {
@@ -245,7 +247,8 @@ export class StoreEditComponent implements OnInit {
      * 点取消 直接离开
      */
     onLeave() {
-        window.history.back();
+        // window.history.back();
+        this.router.navigate(['/dashboard/store/list']);
     }
 
     /**

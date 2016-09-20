@@ -51,6 +51,19 @@ export class StoreFormComponent implements OnInit {
     initServiceLists() {
         this.serviceLists = SERVICE_LIST;
         this.serviceLists.forEach( item => item.checked = false );
+        console.log('list server: ', this.storePage,  this.store);
+    }
+
+    /**
+     * 编辑时，处理选中的 服务类型
+     */
+    serviceListsHandle(serviceArr = []) {
+        console.log('serviceListsHandle called: ', serviceArr);
+        this.serviceLists.forEach( item => {
+            let ix = serviceArr.indexOf(String(item.id));
+            item.checked = ix > -1 ? true : false;
+        } );
+        console.log('serviceListsHandle server: ', this.serviceLists);
     }
     
     /**
