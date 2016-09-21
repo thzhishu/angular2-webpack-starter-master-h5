@@ -17,12 +17,16 @@
         form {
             background:#fff;
         }
+        .fm-sel {
+            border:none;
+        }
         select {
             background:#fff;
             appearance:none;
             -moz-appearance:none;
             -webkit-appearance:none;
             padding: 30px 0;
+            border:none;
         }
     }
     .cr-delete {
