@@ -26,7 +26,7 @@ export class StoreListComponent implements OnInit {
       if (!this.route.snapshot.data['MeData'].error) {
         this.code = this.route.snapshot.data['MeData'].data.roles[0].code;
       } else if (this.route.snapshot.data['MeData'].error.code === 401) {
-        alert(this.route.snapshot.data['MeData'].error.message);
+        
         this.router.navigate(['/login']);
         return false;
       }

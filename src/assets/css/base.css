@@ -151,6 +151,7 @@ input[type="checkbox"], input[type="radio"] {
   padding: 0;
   width: 21px;
   height: 21px;
+  /*background-color: #fff;*/
 }
 
 input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button {

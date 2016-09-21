@@ -58,6 +58,7 @@ export class BusinessEditComponent implements OnInit {
   errorMsg: string = '';
   employeeName: string = '';
   employeeCode: string = '';
+  code: string = '';
 
   private searchVehicleCode = new Subject<CustomerSearchResponse>();
 
@@ -97,6 +98,15 @@ export class BusinessEditComponent implements OnInit {
       }
       this.showLoading = false;
     });
+    if (this.route.snapshot.data['MeData']) {
+      if (!this.route.snapshot.data['MeData'].error) {
+        this.code = this.route.snapshot.data['MeData'].data.roles[0].code;
+      } else if (this.route.snapshot.data['MeData'].error.code === 401) {
+
+        this.router.navigate(['/login']);
+        return false;
+      }
+    }
   }
 
   ngOnDestroy() {

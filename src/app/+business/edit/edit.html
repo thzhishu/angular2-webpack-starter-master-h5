@@ -35,7 +35,7 @@
           <select id="employeeId" required name="employeeId" [ngModel]="business.employeeId" (ngModelChange)="selectEmployee($event)" #employeeId="ngModel">
             <option value="null">请选择主理技师</option>
             <option [value]="e.id" *ngFor="let e of employeeList">{{e.name||e.code}}</option>
-            <option value="-1">其他</option>
+            <option value="-1" *ngIf="code!=='0002'">其他</option>
           </select>
         </div>
         <div class="fm-field" *ngIf="business.employeeId==-1">

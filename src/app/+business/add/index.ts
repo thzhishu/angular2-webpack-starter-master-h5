@@ -4,10 +4,16 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { BusinessAddComponent } from './add.component';
+import { MeResolver, StoreResolver } from '../../app.resolver';
 
 // async components must be named routes for WebpackAsyncRoute
 export const routes = [
-  { path: '', component: BusinessAddComponent }
+  {
+    path: '', component: BusinessAddComponent,
+    resolve: {
+      MeData: MeResolver,
+    },
+  }
 ];
 
 @NgModule({
