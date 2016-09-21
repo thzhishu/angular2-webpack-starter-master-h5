@@ -84,6 +84,7 @@ export class Dashboard {
     }
     if (!this.route.snapshot.data['StoreData'].error) {
       this.list = this.route.snapshot.data['StoreData'].data;
+      this.shopCount = this.list.length;
       _.forEach(this.list, (val, i) => {
         if (this.shopId === val.id) {
           this.storeName = val.name;

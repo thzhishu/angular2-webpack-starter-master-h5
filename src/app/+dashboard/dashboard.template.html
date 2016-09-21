@@ -17,7 +17,7 @@
                             <div class="ellipsis tc flex-1">{{storeName}}</div>
                             <div class="ico-arrow-d"></div>
                         </div>
-                        <div class="tc store-list" *ngIf="shopCount" >
+                        <div class="tc store-list" *ngIf="shopCount > 1" >
                             <div [class.current]="item.id==shopId" *ngFor="let item of list, let i = index"><div class="ellipsis" (click)="changeCurrentStore(item)">{{item.name}}</div></div>
                         </div>
                     </div>
