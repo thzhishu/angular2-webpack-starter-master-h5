@@ -5,10 +5,17 @@ import { FormsModule } from '@angular/forms';
 
 import { EmployeeEdit } from './edit.component';
 import { EFMModule } from '../form/efm.module';
+import { MeResolver, StoreResolver } from '../../app.resolver';
 
 // async components must be named routes for WebpackAsyncRoute
 export const routes = [
-  { path: '', component: EmployeeEdit, pathMatch: 'full' }
+  {
+    path: '', component: EmployeeEdit, pathMatch: 'full',
+    resolve: {
+      MeData: MeResolver,
+      StoreData: StoreResolver,
+    },
+  }
 ];
 
 @NgModule({

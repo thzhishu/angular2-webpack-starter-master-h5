@@ -5,21 +5,28 @@ import { FormsModule } from '@angular/forms';
 
 import { StoreEditComponent } from './edit.component';
 import { SFMModule } from '../form/sfm.module';
+import { MeResolver, StoreResolver } from '../../app.resolver';
 
 export const routes = [
-    { path: '', component: StoreEditComponent, pathMatch: 'full' }
+  {
+    path: '', component: StoreEditComponent, pathMatch: 'full',
+    resolve: {
+      MeData: MeResolver,
+      StoreData: StoreResolver,
+    },
+  }
 ];
 
 @NgModule({
-    declarations: [ StoreEditComponent ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        RouterModule.forChild(routes),
-        SFMModule
-    ]
+  declarations: [StoreEditComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule.forChild(routes),
+    SFMModule
+  ]
 })
 
 export default class StoreEditModule {
-    static routes = routes;
+  static routes = routes;
 }

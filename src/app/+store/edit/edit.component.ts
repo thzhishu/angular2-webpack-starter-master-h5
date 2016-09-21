@@ -40,6 +40,7 @@ export class StoreEditComponent implements OnInit {
     seekBtnTitle: any = '获取验证码';
     phoneErrMsg: string = '';
     phoneCode: string = '';
+    code: string = '';
 
     @ViewChild(StoreFormComponent) sf: StoreFormComponent;
 
@@ -71,7 +72,14 @@ export class StoreEditComponent implements OnInit {
                 this.getMe();
             }
         });
-       
+        if (this.route.snapshot.data['MeData']) {
+          if (!this.route.snapshot.data['MeData'].error) {
+            this.code = this.route.snapshot.data['MeData'].data.roles[0].code;
+          } else if (this.route.snapshot.data['MeData'].error.code === 401) {
+            this.router.navigate(['/login']);
+            return false;
+          }
+        }
     }
 
     /**
@@ -209,7 +217,7 @@ export class StoreEditComponent implements OnInit {
     }
 
     /**
-     * 获取当前用户信息 
+     * 获取当前用户信息
      */
     getMe() {
         this.uApi.userMeGet().subscribe( data => {
@@ -231,7 +239,7 @@ export class StoreEditComponent implements OnInit {
             this.onSaveStore();
             return;
         }
-        
+
     }
     /**
      * 关闭弹出层
@@ -302,5 +310,5 @@ export class StoreEditComponent implements OnInit {
 
     }
 
-    
+
 }
