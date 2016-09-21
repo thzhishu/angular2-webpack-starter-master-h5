@@ -12,37 +12,37 @@
         <div class="sf-fields">
             <div class="box box-h box-h-c fm-field">
                 <label class="fm-label" for="sname" >门店名称:</label>
-                <input class="flex-1 fm-ipt" id="sname" name="sname" type="text" placeholder="必填项" maxlength="20" required [(ngModel)]="store.name" (focus)="onFieldFocus()" >
+                <input class="flex-1 fm-ipt" id="sname" name="sname" [disabled]="code==='0002'" type="text" placeholder="必填项" maxlength="20" required [(ngModel)]="store.name" (focus)="onFieldFocus()" >
             </div>
             <div class="box box-h box-h-c fm-field">
                 <label class="fm-label" for="sprovince">门店地址:</label>
                 <div class="flex-1 fm-sel">
-                    <select name="" class="fm-ipt" id="sprovince" name="sprovince" [ngModel]="store.provinceId" (ngModelChange)="onChangeProvince(store, $event)">
+                    <select name="" class="fm-ipt" id="sprovince" name="sprovince" [disabled]="code==='0002'" [ngModel]="store.provinceId" (ngModelChange)="onChangeProvince(store, $event)">
                         <option value="">请选择省市</option>
                         <option *ngFor="let province of provinceList;" [value]="province.id">{{province.name}}</option>
                     </select>
                 </div>
-                    
+
             </div>
             <div class="box box-h box-h-c fm-field">
                 <label class="fm-label" ></label>
                 <div class="flex-1 fm-sel">
-                    <select name="" class="fm-ipt" id="scity" name="scity" [ngModel]="store.cityId" (ngModelChange)="onChangeCity(store, $event)" >
+                    <select name="" class="fm-ipt" id="scity" name="scity" [disabled]="code==='0002'" [ngModel]="store.cityId" (ngModelChange)="onChangeCity(store, $event)" >
                         <option value="">请选择城市</option>
                         <option *ngFor="let city of cityList;" [value]="city.id">{{city.name}}</option>
                     </select>
                 </div>
-                    
+
             </div>
             <div class="box box-h box-h-c fm-field">
                 <label class="fm-label" for="saddr" >详细地址:</label>
-                <input class="flex-1 fm-ipt" id="saddr" name="saddr" type="text" placeholder="必填项" maxlength="50" required [(ngModel)]="store.address" (focus)="onFieldFocus()">
+                <input class="flex-1 fm-ipt" id="saddr" name="saddr" type="text" [disabled]="code==='0002'" placeholder="必填项" maxlength="50" required [(ngModel)]="store.address" (focus)="onFieldFocus()">
             </div>
             <div class="box box-h s-type">
                 <label class="fm-label" for="stype" >服务类型:</label>
                 <div class="flex-1">
                     <div *ngFor="let item of serviceLists;">
-                        <label [class.active]="item.checked" ><input type="checkbox" name="stype" [ngModel]="item.checked" (ngModelChange)="onChangeService(item, $event)" ><span>&radic;</span>{{ item.name }}</label>
+                        <label [class.active]="item.checked" ><input type="checkbox" [disabled]="code==='0002'" name="stype" [ngModel]="item.checked" (ngModelChange)="onChangeService(item, $event)" ><span>&radic;</span>{{ item.name }}</label>
                     </div>
                 </div>
             </div>
@@ -58,39 +58,39 @@
         <div class="sf-fields">
             <div class="box box-h box-h-c fm-field">
                 <label class="fm-label" for="sperson" >负责人:</label>
-                <input class="flex-1 fm-ipt" id="sperson" name="sperson" type="text" maxlength="20" [(ngModel)]="store.ownerName" >
+                <input class="flex-1 fm-ipt" id="sperson" [disabled]="code==='0002'" name="sperson" type="text" maxlength="20" [(ngModel)]="store.ownerName" >
             </div>
             <div class="box box-h box-h-c fm-field">
                 <label class="fm-label" for="smobile" >联系方式:</label>
-                <input class="flex-1 fm-ipt" id="smobile" name="smobile" type="text"  maxlength="20" [(ngModel)]="store.phone" >
+                <input class="flex-1 fm-ipt" id="smobile" [disabled]="code==='0002'" name="smobile" type="text"  maxlength="20" [(ngModel)]="store.phone" >
             </div>
             <div class="box box-h box-h-c fm-field">
                 <label class="fm-label" for="syear">开店年份:</label>
                 <div class="flex-1 fm-sel">
-                    <select name="" class="fm-ipt" id="syear" name="syear" [(ngModel)]="store.openingDate" >
+                    <select name="" class="fm-ipt" id="syear" [disabled]="code==='0002'" name="syear" [(ngModel)]="store.openingDate" >
                         <option value="">请选择</option>
                         <option *ngFor="let year of openYears;" [value]="year">{{ year }}</option>
                     </select>
                 </div>
-                    
+
             </div>
             <div class="box box-h box-h-c fm-field fm-area">
                 <label class="fm-label" for="sarea" >门店面积:</label>
-                <input class="flex-1 fm-ipt" id="sarea" name="sarea" type="text" maxlength="10" [(ngModel)]="store.area" (focus)="onFieldFocus()">
+                <input class="flex-1 fm-ipt" id="sarea" name="sarea" [disabled]="code==='0002'" type="text" maxlength="10" [(ngModel)]="store.area" (focus)="onFieldFocus()">
                 <div>平米</div>
             </div>
             <div class="box box-h box-h-c fm-field">
                 <label class="fm-label" for="sposition" >汽修工位:</label>
                 <div class="flex-1 fm-sel">
-                    <select name="" class="fm-ipt" id="sposition" name="sposition" [(ngModel)]="store.station">
+                    <select name="" class="fm-ipt" id="sposition" [disabled]="code==='0002'" name="sposition" [(ngModel)]="store.station">
                         <option value="">请选择</option>
                         <option *ngFor="let station of stations;" [value]="station">{{ station }}</option>
                     </select>
                 </div>
-                    
+
             </div>
-            
-            
+
+
         </div>
 
     </form>

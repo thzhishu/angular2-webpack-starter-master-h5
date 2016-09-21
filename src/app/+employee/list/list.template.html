@@ -18,7 +18,7 @@
             <div class="list-tbody" #listTbody scrollable [returnTop]="returnTop" (scrollEnd)="onScrollEnd($event)" (scrollTop)="onScrollTop($event)">
                 <div class="pr list-tds" *ngFor="let cr of employees; let idx = index;">
                     <div class="list-edit" (click)="onEditEmployee(cr, $event)" >编辑</div>
-                    <div class="pr box box-h box-h-c list-tr "  [class.swipeleft]="cr.swipeleft" (swipeleft)="code!=='0002'&&onSwipeLeft(idx,employees)" (swiperight)="onSwipeRight(idx,employees)">
+                    <div class="pr box box-h box-h-c list-tr " (click)="code==='0002'&&onEditEmployee(cr, $event)"  [class.swipeleft]="cr.swipeleft" (swipeleft)="code!=='0002'&&onSwipeLeft(idx,employees)" (swiperight)="onSwipeRight(idx,employees)">
                         <div>{{ idx + 1 }}</div>
                         <div>{{ cr.name ? cr.name : '-' }}</div>
                         <div>{{ cr.code ? cr.code : '-'  }}</div>

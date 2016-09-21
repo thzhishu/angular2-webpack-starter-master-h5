@@ -28,13 +28,15 @@ export class StoreFormComponent implements OnInit {
     openYears = [];
     stations = [];
     errMsg: string = '';
+    code: string;
 
     constructor(
         private router: Router,
         private rApi: RegionApi,
         private cApi: CommonApi,
         private sApi: ShopApi,
-        private uApi: UserApi
+        private uApi: UserApi,
+        private route: ActivatedRoute
     ) {}
 
     ngOnInit() {
@@ -42,7 +44,14 @@ export class StoreFormComponent implements OnInit {
         this.stations = this.rangeArr(1, 30);
         this.initServiceLists();
         this.getProvinces();
-        console.log('form init');
+        if (this.route.snapshot.data['MeData']) {
+          if (!this.route.snapshot.data['MeData'].error) {
+            this.code = this.route.snapshot.data['MeData'].data.roles[0].code;
+          } else if (this.route.snapshot.data['MeData'].error.code === 401) {
+            this.router.navigate(['/login']);
+            return false;
+          }
+        }
     }
 
     /**
@@ -51,7 +60,6 @@ export class StoreFormComponent implements OnInit {
     initServiceLists() {
         this.serviceLists = SERVICE_LIST;
         this.serviceLists.forEach( item => item.checked = false );
-        console.log('list server: ', this.storePage,  this.store);
     }
 
     /**
@@ -65,9 +73,9 @@ export class StoreFormComponent implements OnInit {
         } );
         console.log('serviceListsHandle server: ', this.serviceLists);
     }
-    
+
     /**
-     * 初始化开店年份 
+     * 初始化开店年份
      */
     initOpenYears() {
         const currentYear = +(new Date()).getFullYear();
@@ -142,7 +150,7 @@ export class StoreFormComponent implements OnInit {
                 return false;
             }
         }
-            
+
         return true;
     }
 
@@ -188,6 +196,6 @@ export class StoreFormComponent implements OnInit {
         this.errMsg = '';
     }
 
-    
+
 
 }

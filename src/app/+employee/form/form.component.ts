@@ -55,6 +55,7 @@ export class EmployeeForm implements OnInit, OnDestroy {
     tipKey: string = '';
     tipOkeyBtnTxt: string = '确定';
     isAlert: boolean = false;
+    code: string;
 
 
     constructor( private eApi: EmployeeApi, private sApi: ShopApi,  private router: Router, private route: ActivatedRoute ) {
@@ -62,6 +63,15 @@ export class EmployeeForm implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.getAllStores();
+        if (this.route.snapshot.data['MeData']) {
+          if (!this.route.snapshot.data['MeData'].error) {
+            this.code = this.route.snapshot.data['MeData'].data.roles[0].code;
+          } else if (this.route.snapshot.data['MeData'].error.code === 401) {
+
+            this.router.navigate(['/login']);
+            return false;
+          }
+        }
     }
 
     ngOnDestroy() {
@@ -188,8 +198,8 @@ export class EmployeeForm implements OnInit, OnDestroy {
         }
     }
 
-    
-    
+
+
 
     onSelectStore() {
         this.fieldErrMsg = '';
@@ -275,7 +285,7 @@ export class EmployeeForm implements OnInit, OnDestroy {
         });
 
     }
-    
+
     onStoreCodeBlur(store) {
         store.code = store.code.replace(/,/g, '').trim();
     }
@@ -306,7 +316,7 @@ export class EmployeeForm implements OnInit, OnDestroy {
     }
 
     /**
-     * 删除员工 
+     * 删除员工
      */
     delEmployee() {
         this.eApi.employeeDeleteDelete(this.employee.id).subscribe(data => {
@@ -330,7 +340,7 @@ export class EmployeeForm implements OnInit, OnDestroy {
         this.tipOkeyBtnTxt = '删除';
         this.showConfirmLayer();
     }
-    
+
     /**
      * 显示 confirm 弹出层
      */
@@ -371,14 +381,12 @@ export class EmployeeForm implements OnInit, OnDestroy {
             this.hideConfirmLayer();
             return;
         }
-        
+
         if (key === 'save-employee') {
             this.back();
             return;
         }
-        
+
     }
 
 }
-
-

@@ -7,7 +7,7 @@
   <div class="store-list" scrollable [returnTop]="returnTop" (scrollTop)="onScrollTop($event)">
       <div class="pr sl-item" *ngFor="let i = index;let store of stores">
         <div class="pa sl-edit" (click)="onEditStore(store.id)" >编辑</div>
-        <div class="pr sl-txt ellipsis" [class.swipeleft]="store.swipeleft" (swipeleft)="code!=='0002'&&onSwipeLeft(i,stores)" (swiperight)="onSwipeRight(i,stores)">{{store.name}}</div>
+        <div class="pr sl-txt ellipsis" (click)="code==='0002'&&onEditStore(store.id)" [class.swipeleft]="store.swipeleft" (swipeleft)="code!=='0002'&&onSwipeLeft(i,stores)" (swiperight)="onSwipeRight(i,stores)">{{store.name}}</div>
       </div>
   </div>
   <!-- 回到顶部 -->
