@@ -54,6 +54,7 @@ export class CustomerDetail implements OnInit {
     this.sub = this.route.params.subscribe(params => {
       this.customerId = +params['id'];
       this.businessId = +params['bid'];
+
       this.getCustomerById(this.customerId);
       if (!this.customerId) {
         this.router.navigate(['/dashbroad/customer-list']);
@@ -186,6 +187,7 @@ export class CustomerDetail implements OnInit {
     this.commentUrl.qrCode = '';
     this.commentUrl.url = '';
     this.sendBtnTxt = '立即发送';
+    this.router.navigate(['/dashboard/customer/detail/'+this.customerId]);
   }
 
   onSend() {

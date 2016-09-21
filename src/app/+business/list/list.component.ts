@@ -130,14 +130,12 @@ export class BusinessListComponent {
         _.assign(output, output.slice(start, end).concat(input)); // 替换当前页面记录
       } else {
         _.assign(output, input);
-        console.log('true');
       }
     } else {
       if (scroll) {
 
       } else {
         _.assign(output, []);
-        console.log('false');
       }
       this.end = true;
     }

@@ -279,8 +279,9 @@ td, th {
 }
 
 .box-block {
-  display: block;
-  margin-left: 175px;
+    display: block;
+    padding-left: 175px;
+    border-bottom: 1px solid #e5e5e9;
 }
 
 .box-h {
@@ -702,7 +703,7 @@ td, th {
   -webkit-appearance: none;
   appearance: none;
   outline: none;
-  padding: 20px;
+  padding: 20px 20px 20px 0;
   resize: none;
   overflow-y: auto;
   _overflow-y: visible;
@@ -945,9 +946,10 @@ td, th {
 
 .inner-tip {
   color: #b5b5b5;
+  padding: 10px 0;
 }
 
-.inner-tip b {
+.inner-tip>span {
   color: #f16557;
 }
 

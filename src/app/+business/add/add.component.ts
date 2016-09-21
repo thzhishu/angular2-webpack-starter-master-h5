@@ -207,7 +207,7 @@ export class BusinessAddComponent implements OnInit {
     this.bApi.businessSaveOrUpdatePost(data).subscribe(res => {
       this.loading = 0;
       if (res.meta.code === 200) {
-        this.router.navigate(['/dashboard/customer/detail/' + res.data.customerId+'/'+res.data.id]);
+        this.router.navigate(['/dashboard/customer/detail/' + res.data.customerId,{bid:res.data.id}]);
         this.onClose();
       } else {
         alert(res.error.message);

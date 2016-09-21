@@ -38,9 +38,11 @@
           </select>
         </div>
         <div class="fm-field" *ngIf="business.employeeId==-1">
+            <div class="box-block">
+              <div class="inner-tip"><span>*至少填一项</span></div>
+            </div>
           <div class="box-block">
             <input class="flex-1 fm-ipt-block" placeholder="请输入员工姓名" maxlength="20" name="employeeName" type="text" [(ngModel)]="employeeName">
-            <span class="inner-tip"><b>*</b>至少填一项</span>
           </div>
           <div class="box-block">
               <input class="flex-1 fm-ipt-block" placeholder="请输入员工编号" maxlength="20" name="employeeCode" type="text" [(ngModel)]="employeeCode">
