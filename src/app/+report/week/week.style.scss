@@ -163,6 +163,7 @@
                     width:100%;
                     font-size:22px;
                     line-height: 70px;
+                    table-layout:fixed;
 
                     tr {
                         border-top: 1px solid #e5e5e9;
@@ -177,6 +178,7 @@
                         overflow:hidden; 
                         white-space:nowrap; 
                         text-overflow:ellipsis;
+                        white-space:nowrap;
                     }
 
                     tbody {
