@@ -28,6 +28,7 @@ export const routes = [
           { path: 'add', loadChildren: () => System.import('../+customer/add') },
           { path: 'edit/:id', loadChildren: () => System.import('../+customer/edit') },
           { path: 'detail/:id', loadChildren: () => System.import('../+customer/detail') },
+          { path: 'detail/:id/:bid', loadChildren: () => System.import('../+customer/detail') },
         ]
       },
       {
