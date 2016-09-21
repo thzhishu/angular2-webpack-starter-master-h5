@@ -72,13 +72,12 @@ export class Dashboard {
   }
 
   ngOnInit() {
-      console.log(this.route.snapshot,'dash');
     if (this.route.snapshot.data['MeData']) {
       if (!this.route.snapshot.data['MeData'].error) {
         this.shopId = this.route.snapshot.data['MeData'].data.user.lastShopId;
         this.code = this.route.snapshot.data['MeData'].data.roles[0].code;
       } else if (this.route.snapshot.data['MeData'].error.code === 401) {
-        alert(this.route.snapshot.data['MeData'].error.message);
+
         this.router.navigate(['/login']);
         return false;
       }
@@ -93,7 +92,7 @@ export class Dashboard {
       })
     } else if (this.route.snapshot.data['StoreData'].error.code === 401) {
       this.router.navigate(['/login']);
-      alert(this.route.snapshot.data['StoreData'].error.message);
+
       return false;
     }
 
@@ -158,7 +157,7 @@ export class Dashboard {
    */
   onExit() {
     Cookie.remove('token');
-    this.router.navigate(['/login']);
+    this.router.navigate(['/']);
   }
 
 }

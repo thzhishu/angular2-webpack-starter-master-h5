@@ -25,8 +25,10 @@
                 <input type="password" class="input" name="pwd" [(ngModel)]="user.pwd" maxlength="20"  #pwd="ngModel" required placeholder="请设置您的密码">
             </div>
             <div class="text-group">
-                <label class="text-default"><input type="checkbox" name="protocol" [(ngModel)]="user.protocol">
-                    我已接受</label><span class="text-primary">《<a class="protocol text-primary" (click)="onOpenProtocol($event)">天会智数隐私协议</a>》</span>
+                <div class="box box-h box-h-c" >
+                    <label class="cbk-large-ico ellipsis" [class.active]="user.protocol"><input type="checkbox" name="estore" [(ngModel)]="user.protocol" >&nbsp;&nbsp;我已接受</label>
+                    <span class="text-primary">《<a class="protocol text-primary" (click)="onOpenProtocol($event)">天会智数隐私协议</a>》</span>
+                </div>
             </div>
         </div>
         <div class="alert-error">

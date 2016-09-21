@@ -29,10 +29,13 @@ export class BusinessListComponent {
   end: boolean = false;
   isReturnTop: boolean = false;
   returnTop: boolean = false;
+
   showTipWin: boolean = false;
   tipMsg: string = '';
   tipKey: string = 'back';
   tipOkeyBtnTxt: string = '确定';
+  isAlert: boolean = false;
+
   oldFeildString: string = '';
   business: string = '';
   zone: any;
@@ -127,12 +130,14 @@ export class BusinessListComponent {
         _.assign(output, output.slice(start, end).concat(input)); // 替换当前页面记录
       } else {
         _.assign(output, input);
+        console.log('true');
       }
     } else {
       if (scroll) {
 
       } else {
-        output = [];
+        _.assign(output, []);
+        console.log('false');
       }
       this.end = true;
     }
@@ -162,6 +167,9 @@ export class BusinessListComponent {
           this.page.total = res.meta.total;
           this.scrollLoading(scroll, res.data.content, this.list.content, this.page.current, this.page.limit);
         } else {
+          this.list.score = 0;
+          this.page.total = 0;
+          this.list.content = [];
           if (res.error) {
             alert(res.error.message);
           }
@@ -202,17 +210,23 @@ export class BusinessListComponent {
     e.stopPropagation();
     this.showTipWin = true;
     this.tipMsg = '是否删除该服务记录?';
+    this.tipKey = 'delete';
     this.business = item;
   }
   /**
-   * 确定删除
+   * 确定按键
    * @return {[type]} [description]
    */
-  onOkey() {
-    this.delete(this.business);
+  onOkey(tipkey) {
+    if (tipkey === 'delete') {
+      this.delete(this.business);
+    }
+    if (tipkey === 'alert') {
+      this.showTipWin = false;
+    }
   }
   /**
-   * 取消删除
+   * 取消按键
    * @return {[type]} [description]
    */
   onCancel() {
@@ -226,7 +240,14 @@ export class BusinessListComponent {
    * @return {[type]}      [description]
    */
   onGoto(item) {
-    this.router.navigate(['/dashboard/customer/detail/' + item.customerId]); // 跳转 顾客单人页
+    if (item.customerStatus!==1) {
+      this.router.navigate(['/dashboard/customer/detail/' + item.customerId]); // 跳转 顾客单人页
+    } else {
+      this.isAlert = true;
+      this.tipMsg = '顾客已删除,无法查看';
+      this.showTipWin = !0;
+      this.tipKey = 'alert';
+    }
   }
 
   //无限滚动

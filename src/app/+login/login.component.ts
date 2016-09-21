@@ -81,7 +81,7 @@ export class Login {
         return true;
     }
     if(f.controls.pwd.errors&&f.controls.pwd.errors.required){
-        this.errorMsg = '账户密码不能为空';
+        this.errorMsg = '密码不能为空';
         return true;
     }
     if(f.controls.rnd.errors&&f.controls.rnd.errors.required){
