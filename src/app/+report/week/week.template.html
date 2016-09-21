@@ -70,20 +70,20 @@
       <div class="tc rwe-h">技师排行榜</div>
       <div class="box box-h box-h-c">
         <div class="flex-1 rwe-good">
-          <div class="rwe-t">供了优质服务的技师</div>
+          <div class="rwe-t tc">提供了优质服务的技师</div>
           <div class="rwe-c">
             <div class="box box-h box-h-c" *ngFor="let eg of employeeGoods">
               <div class="flex-1 tl ellipsis">{{eg.name || '--'}}</div>
-              <div class="flex-1 tr ellipsis">{{ eg.score ? eg.score + '分' : '-' }}</div>
+              <div class="flex-1 tr ellipsis">{{ eg.score ? eg.score + '分' : '--' }}</div>
             </div>
           </div>
         </div>
         <div class="flex-1 rwe-bad">
-          <div class="rwe-t">供了优质服务的技师</div>
+          <div class="rwe-t tc">服务需提升的技师</div>
           <div class="rwe-c">
             <div class="box box-h box-h-c" *ngFor="let eg of employeeBads">
               <div class="flex-1 tl ellipsis">{{eg.name || '--'}}</div>
-              <div class="flex-1 tr ellipsis">{{ eg.score ? eg.score + '分' : '-' }}</div>
+              <div class="flex-1 tr ellipsis">{{ eg.score ? eg.score + '分' : '--' }}</div>
             </div>
 
           </div>
