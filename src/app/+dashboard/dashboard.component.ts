@@ -72,6 +72,7 @@ export class Dashboard {
   }
 
   ngOnInit() {
+    console.log('dashbaord init...');
     if (this.route.snapshot.data['MeData']) {
       if (!this.route.snapshot.data['MeData'].error) {
         this.shopId = this.route.snapshot.data['MeData'].data.user.lastShopId;
@@ -142,6 +143,7 @@ export class Dashboard {
       if (this.router.url === '/dashboard/business/list') {
         window.location.reload();
       } else {
+        this.shopId = item.id;
         this.router.navigate(['/dashboard/business/list']);
       }
 
