@@ -60,7 +60,6 @@ export class Dashboard {
       });
 
     this.thzsUtil.refreshShopList$.subscribe(data => {
-      console.log('fresh...');
       if (data) {
         this.getList();
       }
@@ -136,7 +135,8 @@ export class Dashboard {
       localStorage.setItem('shopId', item.id);
       this.shopId = item.id;
       if (this.router.url === '/dashboard/business/list') {
-        window.location.reload();
+        // window.location.reload();
+        this.thzsUtil.refreshBusinessList('refresh');
       } else {
         this.router.navigate(['/dashboard/business/list']);
       }

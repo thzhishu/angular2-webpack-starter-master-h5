@@ -54,7 +54,6 @@ export const routes = [
         children: [
           { path: '', redirectTo: 'list', pathMatch: 'full' },
           { path: 'list', loadChildren: () => System.import('../+business/list') },
-          { path: 'list/:id', loadChildren: () => System.import('../+business/list') },
           { path: 'add', loadChildren: () => System.import('../+business/add') },
           { path: 'add/:vl', loadChildren: () => System.import('../+business/add') },
           { path: 'edit/:id/:cid', loadChildren: () => System.import('../+business/edit') },

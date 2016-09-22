@@ -9,6 +9,7 @@ import * as _ from 'lodash';
 import { Md5 } from 'ts-md5/dist/md5';
 
 import { BusinessApi, BusinessList, BusinessListResponse } from 'client';
+import { ThzsUtil } from '../../services';
 
 @Component({
   selector: 'business-list',
@@ -40,8 +41,14 @@ export class BusinessListComponent {
   business: string = '';
   zone: any;
 
-  constructor(private router: Router, private route: ActivatedRoute, private bApi: BusinessApi) {
+  constructor(private router: Router, private route: ActivatedRoute, private bApi: BusinessApi, private thzsUtil: ThzsUtil) {
     this.zone = new NgZone({ enableLongStackTrace: false }); //事务控制器
+
+    this.thzsUtil.refreshBusinessList$.subscribe(data => {
+      if (data) {
+        this.getList();
+      }
+    });
   }
 
   // 初始化
@@ -147,7 +154,6 @@ export class BusinessListComponent {
    * @return null
    */
   getList(scroll = false) {
-      console.log(localStorage.getItem('token'));
     window.clearTimeout(this.timeout);
     this.timeout = window.setTimeout(() => {
       // 阻止连续请求
@@ -164,6 +170,9 @@ export class BusinessListComponent {
         if (res.meta && res.meta.code === 200 && res.data) { // 成功有数据时
           this.list.score = res.data.score;
           this.page.total = res.meta.total;
+          if (!scroll) {
+            this.list.content = [];
+          }
           this.scrollLoading(scroll, res.data.content, this.list.content, this.page.current, this.page.limit);
         } else {
           this.list.score = 0;
@@ -239,7 +248,7 @@ export class BusinessListComponent {
    * @return {[type]}      [description]
    */
   onGoto(item) {
-    if (item.customerStatus!==1) {
+    if (item.customerStatus !== 1) {
       this.router.navigate(['/dashboard/customer/detail/' + item.customerId]); // 跳转 顾客单人页
     } else {
       this.isAlert = true;

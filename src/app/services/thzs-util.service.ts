@@ -8,16 +8,19 @@ export class ThzsUtil {
     // public shopChanged$: Observable<number>;
     // public customerInfo$: Observable<any>;
     public refreshShopList$: Observable<any>;
+    public refreshBusinessList$: Observable<any>;
     // public currentShopInfo: any;
     // public currentCustomerInfo: any;
     // private shopChangedSource = new Subject<number>();
     // private customerInfoSource = new Subject<any>();
     private refreshShopListSource = new Subject<any>();
+    private refreshBusinessListSource = new Subject<any>();
 
     constructor () {
     //    this.shopChanged$ = this.shopChangedSource.asObservable();
     //    this.customerInfo$ = this.customerInfoSource.asObservable();
        this.refreshShopList$ = this.refreshShopListSource.asObservable();
+       this.refreshBusinessList$ = this.refreshBusinessListSource.asObservable();
     }
     // changeShop(id) {
     //     console.log('changeShop: ', id);
@@ -28,7 +31,9 @@ export class ThzsUtil {
     //     this.customerInfoSource.next(info);
     // }
     refreshShopList(op: any) {
-        console.log('op: ', op);
         this.refreshShopListSource.next(op);
+    }
+    refreshBusinessList(op: any) {
+        this.refreshBusinessListSource.next(op);
     }
 }
