@@ -104,8 +104,8 @@ export class Login {
         this.loading = 0;
         if (data.meta&&data.meta.code === 200) {
           Cookie.save('token', data.data.token, 14);
-          Cookie.save('shopId', data.data.lastShopId);
-          Cookie.save('clientType', 'h5');
+          Cookie.save('shopId', data.data.lastShopId, 10000);
+          Cookie.save('clientType', 'h5', 10000);
           this.sApi.defaultHeaders.set('token', data.data.token);
           if (data.data.lastShopId === null) {
             this.router.navigate(['/init']);

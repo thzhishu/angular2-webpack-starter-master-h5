@@ -139,7 +139,7 @@ export class Dashboard {
   changeCurrentStore(item) {
     this.uApi.userShopCurrentPost(item.id).subscribe((data) => {
       this.storeName = item.name;
-      Cookie.save('shopId', item.id);
+      Cookie.save('shopId', item.id, 10000);
       if (this.router.url === '/dashboard/business/list') {
         window.location.reload();
       } else {

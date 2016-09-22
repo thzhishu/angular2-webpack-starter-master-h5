@@ -53,7 +53,7 @@ export class StoreInitComponent implements OnInit {
         this.sApi.shopBatchSavePost(shops).subscribe(data => {
             this.submitting = false;
             if (data.meta.code === 200) {
-                Cookie.save('shopId', data.data && data.data[0].id);
+                Cookie.save('shopId', data.data && data.data[0].id, 10000);
                 this.bindStoreTip();
             } else {
                 alert(data.error.message);
