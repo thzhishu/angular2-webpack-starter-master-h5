@@ -36,7 +36,7 @@ export class CustomerDetail implements OnInit {
   delRecord: any;
   next: number;
   isUnfold: boolean = false;
-  pcHost: string = 'http://192.168.1.82:4444/#/survey-mobile;url=';
+  pcHost: string = 'http://car.thzhishu.com/#/survey-mobile;url=';
   sendBtnTxt: string = '立即发送';
 
   test: any;
