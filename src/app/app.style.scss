@@ -142,6 +142,13 @@ textarea {
   height: 79px;
 }
 
+.alert-top-error {
+  color: #f16557;
+  font-size: 24px;
+  padding: 0 24px 30px;
+  height: 55px;
+}
+
 .content {
   margin-top: 25px;
 }
@@ -292,7 +299,8 @@ textarea {
     display: none;
   }
 
-  &:after,&:before {
+  &:after,
+  &:before {
     display: block;
     position: absolute;
     content: '';

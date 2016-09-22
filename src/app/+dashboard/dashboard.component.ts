@@ -66,20 +66,22 @@ export class Dashboard {
       }
     });
 
-
   }
 
   ngOnInit() {
     if (this.route.snapshot.data['MeData']) {
-      if (!this.route.snapshot.data['MeData'].meta) {
-        this.shopId = this.route.snapshot.data['MeData'].data.user.lastShopId;
-        this.code = this.route.snapshot.data['MeData'].data.roles[0].code;
-      } else if (this.route.snapshot.data['MeData'].meta.code === 401) {
+      if (this.route.snapshot.data['MeData'].meta.code === 401) {
         this.router.navigate(['/login']);
         return false;
+      } else {
+        this.shopId = this.route.snapshot.data['MeData'].data.user.lastShopId;
+        this.code = this.route.snapshot.data['MeData'].data.roles[0].code;
       }
     }
-    if (!this.route.snapshot.data['StoreData'].meta) {
+    if (this.route.snapshot.data['StoreData'].meta.code === 401) {
+      this.router.navigate(['/login']);
+      return false;
+    } else {
       this.list = this.route.snapshot.data['StoreData'].data;
       this.shopCount = this.list.length;
       _.forEach(this.list, (val, i) => {
@@ -87,9 +89,6 @@ export class Dashboard {
           this.storeName = val.name;
         }
       })
-    } else if (this.route.snapshot.data['StoreData'].meta.code === 401) {
-      this.router.navigate(['/login']);
-      return false;
     }
 
   }
@@ -135,10 +134,10 @@ export class Dashboard {
     this.uApi.userShopCurrentPost(item.id).subscribe((data) => {
       this.storeName = item.name;
       localStorage.setItem('shopId', item.id);
+      this.shopId = item.id;
       if (this.router.url === '/dashboard/business/list') {
         window.location.reload();
       } else {
-        this.shopId = item.id;
         this.router.navigate(['/dashboard/business/list']);
       }
 

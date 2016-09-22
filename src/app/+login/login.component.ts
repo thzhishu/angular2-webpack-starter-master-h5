@@ -103,6 +103,7 @@ export class Login {
       .subscribe((data: UserLoginResponse) => {
         this.loading = 0;
         if (data.meta && data.meta.code === 200) {
+          Cookie.save('token', data.data.token,14);
           localStorage.setItem('token', data.data.token);
           localStorage.setItem('shopId', String(data.data.lastShopId));
           localStorage.setItem('clientType', 'h5');

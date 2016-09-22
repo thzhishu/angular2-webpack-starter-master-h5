@@ -187,7 +187,7 @@ export class CustomerDetail implements OnInit {
     this.commentUrl.qrCode = '';
     this.commentUrl.url = '';
     this.sendBtnTxt = '立即发送';
-    this.router.navigate(['/dashboard/customer/detail/'+this.customerId]);
+    this.router.navigate(['/dashboard/customer/detail/'+this.customerId],{ skipLocationChange: true });
   }
 
   onSend() {

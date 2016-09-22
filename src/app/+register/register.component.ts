@@ -180,7 +180,9 @@ export class Register {
         this.loading = 0;
         if (data.meta&&data.meta.code == 200) {
           Cookie.save('token', data.data.token, 14);
-          Cookie.save('clientType', 'h5');
+          localStorage.setItem('token', data.data.token);
+          localStorage.setItem('shopId', String(data.data.lastShopId));
+          localStorage.setItem('clientType', 'h5');
           this.router.navigate(['/init']);
           //查询门店列表
         //   this.sApi.shopMyshopGet(data.data.token).subscribe(data => {

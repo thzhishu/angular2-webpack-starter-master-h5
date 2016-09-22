@@ -147,6 +147,7 @@ export class BusinessListComponent {
    * @return null
    */
   getList(scroll = false) {
+      console.log(localStorage.getItem('token'));
     window.clearTimeout(this.timeout);
     this.timeout = window.setTimeout(() => {
       // 阻止连续请求

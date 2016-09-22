@@ -45,11 +45,12 @@ export class StoreFormComponent implements OnInit {
         this.initServiceLists();
         this.getProvinces();
         if (this.route.snapshot.data['MeData']) {
-          if (!this.route.snapshot.data['MeData'].meta) {
-            this.code = this.route.snapshot.data['MeData'].data.roles[0].code;
-          } else if (this.route.snapshot.data['MeData'].meta.code === 401) {
+          if (this.route.snapshot.data['MeData'].meta.code === 401) {
             this.router.navigate(['/login']);
             return false;
+          } else {
+            
+            this.code = this.route.snapshot.data['MeData'].data.roles[0].code;
           }
         }
     }

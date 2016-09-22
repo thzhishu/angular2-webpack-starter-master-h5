@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-        <div class="alert-error">
+        <div class="alert-top-error">
             <!-- 临时解决 -->
             <span *ngIf="errorMsg=='手机号已被注册'||errorMsg=='该手机号码已注册，请登录'">该手机号码已注册,请<a class="btn-link" routerLink="/login">登录</a></span>
             <span *ngIf="!(errorMsg=='手机号已被注册'||errorMsg=='该手机号码已注册，请登录')">{{errorMsg}}</span>

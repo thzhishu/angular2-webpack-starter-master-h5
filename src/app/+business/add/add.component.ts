@@ -94,12 +94,12 @@ export class BusinessAddComponent implements OnInit {
       this.showLoading = false;
     });
     if (this.route.snapshot.data['MeData']) {
-      if (!this.route.snapshot.data['MeData'].meta) {
-        this.code = this.route.snapshot.data['MeData'].data.roles[0].code;
-      } else if (this.route.snapshot.data['MeData'].meta.code === 401) {
-
+      if (this.route.snapshot.data['MeData'].meta.code === 401) {
         this.router.navigate(['/login']);
         return false;
+      } else {
+
+        this.code = this.route.snapshot.data['MeData'].data.roles[0].code;
       }
     }
   }
@@ -207,7 +207,7 @@ export class BusinessAddComponent implements OnInit {
     this.bApi.businessSaveOrUpdatePost(data).subscribe(res => {
       this.loading = 0;
       if (res.meta.code === 200) {
-        this.router.navigate(['/dashboard/customer/detail/' + res.data.customerId,{bid:res.data.id}]);
+        this.router.navigate(['/dashboard/customer/detail/' + res.data.customerId,{bid:res.data.id}],{ skipLocationChange: true });
         this.onClose();
       } else {
         alert(res.error.message);
