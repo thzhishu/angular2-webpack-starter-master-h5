@@ -2,9 +2,9 @@
   <div class="box box-h box-h-c db-title">
     <div class="bw"></div>
     <div class="ellipsis tc flex-1">{{ customer?.vehicleLicence }}</div>
-    <div class="bw add-ico" (click)="onAddNewCustomer()"></div>
+    <div class="bw add-ico" (click)="!loading&&onAddNewCustomer()" ></div>
   </div>
-  <div class="flex-1 cd" scrollable [returnTop]="returnTop" (scrollEnd)="onScrollEnd($event)" (scrollTop)="onScrollTop($event)">
+  <div class="flex-1 cd" scrollable [returnTop]="returnTop" (test)="onTest($event)" (scrollEnd)="onScrollEnd($event)" (scrollTop)="onScrollTop($event)">
     <div class="box box-h box-h-c cd-name">
       <div class="bw cd-plate tc">{{customer?.vehicleLicence}}</div>
       <div class="flex-1 tr">满意度平均分<span>{{customerDetail?.totalAvgScore}}</span>分</div>

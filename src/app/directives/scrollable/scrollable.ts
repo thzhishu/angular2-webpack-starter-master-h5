@@ -8,10 +8,9 @@ import {Directive, ElementRef, Input, Output, EventEmitter} from '@angular/core'
 })
 
 export class ScrollableDirective {
-  // @Output('scrollEnd') _scrollEnd: boolean;
   @Output('scrollEnd') _scrollEnd: EventEmitter<any> = new EventEmitter();
   @Output('scrollTop') _scrollTop: EventEmitter<any> = new EventEmitter();
-  // @Input('returnTop') returnTop;
+  // @Output('test') test: EventEmitter<any> = new EventEmitter();
   _el: HTMLElement;
 
   constructor(el: ElementRef) {
@@ -24,7 +23,8 @@ export class ScrollableDirective {
   }
 
   onScroll() {
-    if (this._el.scrollHeight == this._el.scrollTop + this._el.clientHeight) {
+    // this.test.next({h:this._el.scrollHeight,t:this._el.scrollTop,ch:this._el.clientHeight});
+    if (this._el.scrollHeight-150 < this._el.scrollTop + this._el.clientHeight) {
       this._scrollEnd.next(true);
     } else {
       this._scrollEnd.next(false);
@@ -35,5 +35,4 @@ export class ScrollableDirective {
       this._scrollTop.next(false);
     }
   }
-
 }

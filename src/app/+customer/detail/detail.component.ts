@@ -28,7 +28,7 @@ export class CustomerDetail implements OnInit {
   sendTimes: number = 0;
   tempMobile: string = '';
   sub: any;
-  page: any = { current: 1,limit:20,total:0 };
+  page: any = { current: 1, limit: 20, total: 0 };
   commentUrl = {
     qrCode: '',
     url: ''
@@ -39,6 +39,7 @@ export class CustomerDetail implements OnInit {
   pcHost: string = 'http://192.168.1.82:4444/#/survey-mobile;url=';
   sendBtnTxt: string = '立即发送';
 
+  test: any;
   timeout: any;
   nextPage: boolean = false;
   loading: boolean = false;
@@ -116,13 +117,13 @@ export class CustomerDetail implements OnInit {
           this.page.limit = data.meta.limit;
           this.page.total = data.meta.total;
           this.page.pageTotal = Math.ceil(this.page.total / this.page.limit);
-          this.scrollLoading(scroll,this.customerDetail.histories,this.histories,this.page.current,this.page.limit);
-          if(!isNaN(this.businessId)){
-              _.forEach(this.customerDetail.histories,(item,i)=>{
-                  if(item.id === this.businessId){
-                      this.onShowCommentWin(item);
-                  }
-              })
+          this.scrollLoading(scroll, this.customerDetail.histories, this.histories, this.page.current, this.page.limit);
+          if (!isNaN(this.businessId)) {
+            _.forEach(this.customerDetail.histories, (item, i) => {
+              if (item.id === this.businessId) {
+                this.onShowCommentWin(item);
+              }
+            })
           }
         } else {
           //啥都没有
@@ -151,6 +152,8 @@ export class CustomerDetail implements OnInit {
   onToggleUnfold() {
     this.isUnfold = !this.isUnfold;
   }
+
+
 
   // 显示评价弹出层
   onShowCommentWin(record) {
@@ -187,7 +190,7 @@ export class CustomerDetail implements OnInit {
     this.commentUrl.qrCode = '';
     this.commentUrl.url = '';
     this.sendBtnTxt = '立即发送';
-    this.router.navigate(['/dashboard/customer/detail/'+this.customerId],{ skipLocationChange: true });
+    this.router.navigate(['/dashboard/customer/detail/' + this.customerId], { skipLocationChange: true });
   }
 
   onSend() {
@@ -235,7 +238,7 @@ export class CustomerDetail implements OnInit {
   }
 
   onAddNewCustomer() {
-    this.router.navigate(['/dashboard/business/add',this.customer.vehicleLicence]);
+    this.router.navigate(['/dashboard/business/add', this.customer.vehicleLicence]);
   }
 
   //无限滚动
@@ -254,6 +257,10 @@ export class CustomerDetail implements OnInit {
   onReturnTop() {
     this.returnTop = true;
   }
+
+  // onTest(e) {
+  //   this.test = e;
+  // }
 
   //滑动按钮
   onSwipeLeft(index, items) {
