@@ -128,6 +128,7 @@ export class StoreEditComponent implements OnInit {
         this.sApi.shopUpdatePost(this.store).subscribe(data => {
             this.submitting = false;
             if (data.meta.code === 200) {
+                this.thzsUtil.refreshShopList(true);
                 this.isLeaveSave ? window.history.back() : this.router.navigate(['/dashboard/store/list']);
                 this.isLeaveSave = false;
             } else {
