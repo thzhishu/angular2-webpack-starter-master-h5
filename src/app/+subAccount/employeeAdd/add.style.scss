@@ -112,6 +112,14 @@
         margin-right:24px;
         padding-left:38px;
         line-height: 54px;
+
+        &.flexfull {
+            width: auto;
+            -webkit-box-flex: 1;
+            box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+        }
     }
     .cbk-ico {
         &:before {
