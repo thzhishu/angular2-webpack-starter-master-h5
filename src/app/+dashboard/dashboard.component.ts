@@ -152,8 +152,14 @@ export class Dashboard {
    * 退出系统并返回登录
    */
   onExit() {
-    localStorage.removeItem('token');
-    this.router.navigate(['/']);
+    this.uApi.userLogoutPost().subscribe((data) => {
+      if (data.meta && data.meta.code === 200) {
+        localStorage.removeItem('token');
+        this.router.navigate(['/']);
+      } else {
+        alert(data.error.message);
+      }
+    })
   }
 
 }
