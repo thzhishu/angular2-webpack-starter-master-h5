@@ -62,9 +62,10 @@ export class UserApi {
     let queryParameters = new URLSearchParams();
     let headerParams = this.defaultHeaders;
 
-    // headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-    // headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    // headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('token', localStorage.getItem('token')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('shopId', localStorage.getItem('shopId')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('clientType', localStorage.getItem('clientType')); //tobeplus 缓存注入 header
+
 
 
 
@@ -122,9 +123,10 @@ export class UserApi {
     let queryParameters = new URLSearchParams();
     let headerParams = this.defaultHeaders;
 
-    // headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-    // headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    // headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('token', localStorage.getItem('token')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('shopId', localStorage.getItem('shopId')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('clientType', localStorage.getItem('clientType')); //tobeplus 缓存注入 header
+
 
 
     // verify required parameter 'id' is not null or undefined
@@ -165,9 +167,10 @@ export class UserApi {
     let queryParameters = new URLSearchParams();
     let headerParams = this.defaultHeaders;
 
-    // headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-    // headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    // headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('token', localStorage.getItem('token')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('shopId', localStorage.getItem('shopId')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('clientType', localStorage.getItem('clientType')); //tobeplus 缓存注入 header
+
 
 
 
@@ -214,9 +217,10 @@ export class UserApi {
     let queryParameters = new URLSearchParams();
     let headerParams = this.defaultHeaders;
 
-    // headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-    // headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    // headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('token', localStorage.getItem('token')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('shopId', localStorage.getItem('shopId')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('clientType', localStorage.getItem('clientType')); //tobeplus 缓存注入 header
+
 
 
     let formParams = new URLSearchParams();
@@ -273,9 +277,10 @@ export class UserApi {
     let queryParameters = new URLSearchParams();
     let headerParams = this.defaultHeaders;
 
-    // headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-    // headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    // headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('token', localStorage.getItem('token')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('shopId', localStorage.getItem('shopId')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('clientType', localStorage.getItem('clientType')); //tobeplus 缓存注入 header
+
 
 
 
@@ -322,9 +327,10 @@ export class UserApi {
     let queryParameters = new URLSearchParams();
     let headerParams = this.defaultHeaders;
 
-    // headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-    // headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    // headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('token', localStorage.getItem('token')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('shopId', localStorage.getItem('shopId')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('clientType', localStorage.getItem('clientType')); //tobeplus 缓存注入 header
+
 
 
 
@@ -383,9 +389,10 @@ export class UserApi {
     let queryParameters = new URLSearchParams();
     let headerParams = this.defaultHeaders;
 
-    // headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-    // headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    // headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('token', localStorage.getItem('token')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('shopId', localStorage.getItem('shopId')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('clientType', localStorage.getItem('clientType')); //tobeplus 缓存注入 header
+
 
 
 
@@ -441,9 +448,10 @@ export class UserApi {
     let queryParameters = new URLSearchParams();
     let headerParams = this.defaultHeaders;
 
-    // headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-    // headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    // headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('token', localStorage.getItem('token')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('shopId', localStorage.getItem('shopId')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('clientType', localStorage.getItem('clientType')); //tobeplus 缓存注入 header
+
 
 
 
@@ -486,9 +494,10 @@ export class UserApi {
     this.defaultHeaders.set('shopId', localStorage.getItem('shopId')); //tobeplus 缓存注入 header
     this.defaultHeaders.set('clientType', localStorage.getItem('clientType')); //tobeplus 缓存注入 header
 
-    // headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-    // headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    // headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('token', localStorage.getItem('token')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('shopId', localStorage.getItem('shopId')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('clientType', localStorage.getItem('clientType')); //tobeplus 缓存注入 header
+
 
 
     // verify required parameter 'token' is not null or undefined
@@ -533,9 +542,10 @@ export class UserApi {
     let queryParameters = new URLSearchParams();
     let headerParams = this.defaultHeaders;
 
-    // headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-    // headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    // headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('token', localStorage.getItem('token')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('shopId', localStorage.getItem('shopId')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('clientType', localStorage.getItem('clientType')); //tobeplus 缓存注入 header
+
 
 
     let formParams = new URLSearchParams();
@@ -596,9 +606,10 @@ export class UserApi {
     let queryParameters = new URLSearchParams();
     let headerParams = this.defaultHeaders;
 
-    // headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-    // headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    // headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('token', localStorage.getItem('token')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('shopId', localStorage.getItem('shopId')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('clientType', localStorage.getItem('clientType')); //tobeplus 缓存注入 header
+
 
 
 
@@ -662,9 +673,10 @@ export class UserApi {
     let queryParameters = new URLSearchParams();
     let headerParams = this.defaultHeaders;
 
-    // headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-    // headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    // headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('token', localStorage.getItem('token')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('shopId', localStorage.getItem('shopId')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('clientType', localStorage.getItem('clientType')); //tobeplus 缓存注入 header
+
 
 
 
@@ -721,9 +733,10 @@ export class UserApi {
     let queryParameters = new URLSearchParams();
     let headerParams = this.defaultHeaders;
 
-    // headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-    // headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    // headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('token', localStorage.getItem('token')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('shopId', localStorage.getItem('shopId')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('clientType', localStorage.getItem('clientType')); //tobeplus 缓存注入 header
+
 
 
 
@@ -772,9 +785,10 @@ export class UserApi {
     let queryParameters = new URLSearchParams();
     let headerParams = this.defaultHeaders;
 
-    // headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-    // headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    // headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('token', localStorage.getItem('token')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('shopId', localStorage.getItem('shopId')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('clientType', localStorage.getItem('clientType')); //tobeplus 缓存注入 header
+
 
 
 
