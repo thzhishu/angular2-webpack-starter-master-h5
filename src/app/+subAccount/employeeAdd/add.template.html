@@ -39,11 +39,11 @@
         <div class="box box-v mask-main">
             <div class="rs-err-tip">{{layerStore.storeTipMsg}}</div>
             <div class="box box-h box-h-c rs-all">
-                <label class="cbk-ico ellipsis" [class.active]="layerStore.storeAll"><input type="checkbox" name="storeAll" [ngModel]="layerStore.storeAll" (ngModelChange)="onToggleStoreAll($event)">所有门店</label>
+                <label class="cbk-ico ellipsis flexfull" [class.active]="layerStore.storeAll"><input type="checkbox" name="storeAll" [ngModel]="layerStore.storeAll" (ngModelChange)="onToggleStoreAll($event)">所有门店</label>
             </div>
             <div class="flex-1 mask-cont">
                 <div class="box box-h box-h-c" *ngFor="let store of layerStore.stores;">
-                    <label class="cbk-ico ellipsis" [class.active]="store.checked"><input type="checkbox" name="estore" [ngModel]="store.checked" (ngModelChange)="onCheckStore(store, $event)">{{store.name}}</label>
+                    <label class="cbk-ico ellipsis" [class.active]="store.checked" [class.flexfull]="!store.checked"><input type="checkbox" name="estore" [ngModel]="store.checked" (ngModelChange)="onCheckStore(store, $event)">{{store.name}}</label>
                     <input type="text" class="flex-1 ipt" maxlength="20" placeholder="员工编号" *ngIf="store.checked" [(ngModel)]="store.code" (blur)="onStoreCodeBlur(store)" (focus)="onStoreCodeFocus()">
                 </div>
             </div>
