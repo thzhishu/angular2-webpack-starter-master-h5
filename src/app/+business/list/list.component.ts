@@ -186,7 +186,7 @@ export class BusinessListComponent {
     //payload: models.BusinessDetail
     this.bApi.businessDeleteDelete(data.id).subscribe(res => {
       this.loading = false;
-      if (res.meta.code === 200) {
+      if (res.meta && res.meta.code === 200) {
         this.router.navigate(['/dashboard/business/list']); // 跳转 今日服务
         this.onCancel();
       } else {

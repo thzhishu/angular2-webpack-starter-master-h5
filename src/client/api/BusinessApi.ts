@@ -60,9 +60,9 @@ export class BusinessApi {
     let queryParameters = new URLSearchParams();
     let headerParams = this.defaultHeaders;
 
-    headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('token', localStorage.getItem('token')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('shopId', localStorage.getItem('shopId')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('clientType', localStorage.getItem('clientType')); //tobeplus 缓存注入 header
 
     let formParams = new URLSearchParams();
 
@@ -96,10 +96,10 @@ export class BusinessApi {
 
     return this.http.request(path, requestOptions)
       .map((response: Response) => {
-        if (response.status === 401 || response.status === 403) { window.location.href = '/#/login'; return undefined; } else if (response.status === 204) {
-          return undefined;
+        if (response.status === 401 || response.status === 403) { window.location.href = '/#/login'; return response.json(); } else if (response.status === 204) {
+          return response.json();
         } else {
-          if (response.json().meta && response.json().meta.code === 401) { alert('您离开时间过长,需要重新登录'); window.location.href = '/#/login'; return undefined; } return response.json();
+          if (response.json().meta && response.json().meta.code === 401) {  window.location.href = '/#/login'; return response.json(); } return response.json();
         }
       });
   }
@@ -116,9 +116,9 @@ export class BusinessApi {
     let queryParameters = new URLSearchParams();
     let headerParams = this.defaultHeaders;
 
-    headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('token', localStorage.getItem('token')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('shopId', localStorage.getItem('shopId')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('clientType', localStorage.getItem('clientType')); //tobeplus 缓存注入 header
 
     // verify required parameter 'businessId' is not null or undefined
     if (businessId === null || businessId === undefined) {
@@ -132,10 +132,10 @@ export class BusinessApi {
 
     return this.http.request(path, requestOptions)
       .map((response: Response) => {
-        if (response.status === 401 || response.status === 403) { window.location.href = '/#/login'; return undefined; } else if (response.status === 204) {
-          return undefined;
+        if (response.status === 401 || response.status === 403) { window.location.href = '/#/login'; return response.json(); } else if (response.status === 204) {
+          return response.json();
         } else {
-          if (response.json().meta && response.json().meta.code === 401) { alert('您离开时间过长,需要重新登录'); window.location.href = '/#/login'; return undefined; } return response.json();
+          if (response.json().meta && response.json().meta.code === 401) {  window.location.href = '/#/login'; return response.json(); } return response.json();
         }
       });
   }
@@ -152,9 +152,9 @@ export class BusinessApi {
     let queryParameters = new URLSearchParams();
     let headerParams = this.defaultHeaders;
 
-    headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('token', localStorage.getItem('token')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('shopId', localStorage.getItem('shopId')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('clientType', localStorage.getItem('clientType')); //tobeplus 缓存注入 header
     headerParams.set('Content-Type', null);
 
     // verify required parameter 'businessId' is not null or undefined
@@ -170,14 +170,14 @@ export class BusinessApi {
 
     return this.http.request(path, requestOptions)
       .map((response: Response) => {
-        if (response.status === 401 || response.status === 403) { window.location.href = '/#/login'; return undefined; } else if (response.status === 204) {
+        if (response.status === 401 || response.status === 403) { window.location.href = '/#/login'; return response.json(); } else if (response.status === 204) {
 
-          return undefined;
+          return response.json();
         } else {
           if (response.json().meta && response.json().meta.code === 401) {
-            alert('您离开时间过长,需要重新登录');
+
             window.location.href = '/#/login';
-            return undefined;
+            return response.json();
           }
           return response.json();
         }
@@ -196,9 +196,9 @@ export class BusinessApi {
     let queryParameters = new URLSearchParams();
     let headerParams = this.defaultHeaders;
 
-    headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('token', localStorage.getItem('token')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('shopId', localStorage.getItem('shopId')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('clientType', localStorage.getItem('clientType')); //tobeplus 缓存注入 header
 
     // verify required parameter 'id' is not null or undefined
     if (id === null || id === undefined) {
@@ -216,10 +216,10 @@ export class BusinessApi {
 
     return this.http.request(path, requestOptions)
       .map((response: Response) => {
-        if (response.status === 401 || response.status === 403) { window.location.href = '/#/login'; return undefined; } else if (response.status === 204) {
-          return undefined;
+        if (response.status === 401 || response.status === 403) { window.location.href = '/#/login'; return response.json(); } else if (response.status === 204) {
+          return response.json();
         } else {
-          if (response.json().meta && response.json().meta.code === 401) { alert('您离开时间过长,需要重新登录'); window.location.href = '/#/login'; return undefined; } return response.json();
+          if (response.json().meta && response.json().meta.code === 401) {  window.location.href = '/#/login'; return response.json(); } return response.json();
         }
       });
   }
@@ -237,9 +237,9 @@ export class BusinessApi {
     let queryParameters = new URLSearchParams();
     let headerParams = this.defaultHeaders;
 
-    headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('token', localStorage.getItem('token')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('shopId', localStorage.getItem('shopId')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('clientType', localStorage.getItem('clientType')); //tobeplus 缓存注入 header
     headerParams.set('Content-Type', null);
 
     // verify required parameter 'date' is not null or undefined
@@ -266,10 +266,16 @@ export class BusinessApi {
 
     return this.http.request(path, requestOptions)
       .map((response: Response) => {
-        if (response.status === 401 || response.status === 403) { window.location.href = '/#/login'; return undefined; } else if (response.status === 204) {
-          return undefined;
+        if (response.status === 401 || response.status === 403) {
+            window.location.href = '/#/login';
+            return response.json();
+        } else if (response.status === 204) {
+          return response.json();
         } else {
-          if (response.json().meta && response.json().meta.code === 401) { alert('您离开时间过长,需要重新登录'); window.location.href = '/#/login'; return undefined; } return response.json();
+          if (response.json().meta && response.json().meta.code === 401) {
+              window.location.href = '/#/login';
+          }
+          return response.json();
         }
       });
   }
@@ -285,9 +291,9 @@ export class BusinessApi {
     let queryParameters = new URLSearchParams();
     let headerParams = this.defaultHeaders;
 
-    headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('token', localStorage.getItem('token')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('shopId', localStorage.getItem('shopId')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('clientType', localStorage.getItem('clientType')); //tobeplus 缓存注入 header
     headerParams.set('Content-Type', 'application/json');
 
     // verify required parameter 'payload' is not null or undefined
@@ -303,10 +309,10 @@ export class BusinessApi {
 
     return this.http.request(path, requestOptions)
       .map((response: Response) => {
-        if (response.status === 401 || response.status === 403) { window.location.href = '/#/login'; return undefined; } else if (response.status === 204) {
-          return undefined;
+        if (response.status === 401 || response.status === 403) { window.location.href = '/#/login'; return response.json(); } else if (response.status === 204) {
+          return response.json();
         } else {
-          if (response.json().meta && response.json().meta.code === 401) { alert('您离开时间过长,需要重新登录'); window.location.href = '/#/login'; return undefined; } return response.json();
+          if (response.json().meta && response.json().meta.code === 401) {  window.location.href = '/#/login'; return response.json(); } return response.json();
         }
       });
   }

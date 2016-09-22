@@ -8,11 +8,11 @@ import { Cookie } from 'services';
 export class AuthGuard implements CanActivate {
   constructor(private router: Router) {}
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (!Cookie.load('token')) {
+    if (!localStorage.getItem('token')) {
       this.router.navigate(['/login']);
       return false;
     }
-    if (!Cookie.load('shopId')) {
+    if (!localStorage.getItem('shopId')) {
       this.router.navigate(['/init']);
       return false;
     }

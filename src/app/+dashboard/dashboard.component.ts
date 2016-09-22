@@ -48,12 +48,10 @@ export class Dashboard {
 
 
   constructor(private router: Router, private route: ActivatedRoute, private uApi: UserApi, private sApi: ShopApi, private thzsUtil: ThzsUtil) {
-    console.log('dashboard constructor...');
     this.routeSub = this.router.events.filter(event => event instanceof NavigationEnd)
       .map(event => event.url)
       .subscribe(data => {
 
-        console.log('NavigationEnd URL: ', data);
         if (_.includes(data, '/edit/')) {
           data = data.slice(0, data.indexOf('/edit/') + 5);
         }
@@ -72,18 +70,16 @@ export class Dashboard {
   }
 
   ngOnInit() {
-    console.log('dashbaord init...');
     if (this.route.snapshot.data['MeData']) {
-      if (!this.route.snapshot.data['MeData'].error) {
+      if (!this.route.snapshot.data['MeData'].meta) {
         this.shopId = this.route.snapshot.data['MeData'].data.user.lastShopId;
         this.code = this.route.snapshot.data['MeData'].data.roles[0].code;
-      } else if (this.route.snapshot.data['MeData'].error.code === 401) {
-
+      } else if (this.route.snapshot.data['MeData'].meta.code === 401) {
         this.router.navigate(['/login']);
         return false;
       }
     }
-    if (!this.route.snapshot.data['StoreData'].error) {
+    if (!this.route.snapshot.data['StoreData'].meta) {
       this.list = this.route.snapshot.data['StoreData'].data;
       this.shopCount = this.list.length;
       _.forEach(this.list, (val, i) => {
@@ -91,9 +87,8 @@ export class Dashboard {
           this.storeName = val.name;
         }
       })
-    } else if (this.route.snapshot.data['StoreData'].error.code === 401) {
+    } else if (this.route.snapshot.data['StoreData'].meta.code === 401) {
       this.router.navigate(['/login']);
-
       return false;
     }
 
@@ -139,7 +134,7 @@ export class Dashboard {
   changeCurrentStore(item) {
     this.uApi.userShopCurrentPost(item.id).subscribe((data) => {
       this.storeName = item.name;
-      Cookie.save('shopId', item.id);
+      localStorage.setItem('shopId', item.id);
       if (this.router.url === '/dashboard/business/list') {
         window.location.reload();
       } else {
@@ -158,7 +153,7 @@ export class Dashboard {
    * 退出系统并返回登录
    */
   onExit() {
-    Cookie.remove('token');
+    localStorage.removeItem('token');
     this.router.navigate(['/']);
   }
 

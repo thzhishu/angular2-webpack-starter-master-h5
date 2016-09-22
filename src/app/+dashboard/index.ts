@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
+import { HttpModule,RequestOptions } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 
 import { Dashboard } from './dashboard.component';
@@ -104,9 +105,9 @@ export const routes = [
     FormsModule,
     RouterModule.forChild(routes),
     BTModule,
+    HttpModule,
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
-    // ROLES_RESOLVER_PROVIDERS
   ]
 })
 export default class DashboardModule {

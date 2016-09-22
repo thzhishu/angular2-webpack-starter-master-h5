@@ -28,7 +28,7 @@ import {Observable} from 'rxjs/Observable';
 import * as models from '../model/models';
 import 'rxjs/Rx';
 
-import { Cookie } from 'services';  //tobeplus 缓存注入 header
+// import { Cookie } from 'services';  //tobeplus 缓存注入 header
 
 /* tslint:disable:no-unused-variable member-ordering */
 
@@ -57,9 +57,9 @@ export class SurveyApi {
     let queryParameters = new URLSearchParams();
     let headerParams = this.defaultHeaders;
 
-    headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('token', localStorage.getItem('token')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('shopId', localStorage.getItem('shopId')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('clientType', localStorage.getItem('clientType')); //tobeplus 缓存注入 header
 
 
     // verify required parameter 'url' is not null or undefined
@@ -73,13 +73,19 @@ export class SurveyApi {
     };
 
     return this.http.request(path, requestOptions)
-      .map((response: Response) => {
-        if (response.status === 204) {
-          return undefined;
-        } else {
+    .map((response: Response) => {
+      if (response.status === 401 || response.status === 403) {
+          window.location.href = '/#/login';
           return response.json();
+      } else if (response.status === 204) {
+        return response.json();
+      } else {
+        if (response.json().meta && response.json().meta.code === 401) {
+            window.location.href = '/#/login';
         }
-      });
+        return response.json();
+      }
+    });
   }
 
   /**
@@ -95,9 +101,9 @@ export class SurveyApi {
     let queryParameters = new URLSearchParams();
     let headerParams = this.defaultHeaders;
 
-    headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
-    headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('token', localStorage.getItem('token')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('shopId', localStorage.getItem('shopId')); //tobeplus 缓存注入 header
+    this.defaultHeaders.set('clientType', localStorage.getItem('clientType')); //tobeplus 缓存注入 header
 
     headerParams.set('Content-Type', 'application/json');
 
@@ -117,13 +123,19 @@ export class SurveyApi {
     requestOptions.body = JSON.stringify(payload);
 
     return this.http.request(path, requestOptions)
-      .map((response: Response) => {
-        if (response.status === 204) {
-          return undefined;
-        } else {
+    .map((response: Response) => {
+      if (response.status === 401 || response.status === 403) {
+          window.location.href = '/#/login';
           return response.json();
+      } else if (response.status === 204) {
+        return response.json();
+      } else {
+        if (response.json().meta && response.json().meta.code === 401) {
+            window.location.href = '/#/login';
         }
-      });
+        return response.json();
+      }
+    });
   }
 
 }
