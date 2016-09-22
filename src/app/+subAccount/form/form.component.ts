@@ -96,6 +96,9 @@ export class SubAccountForm implements OnInit, OnDestroy {
         this.rApi.roleListGet(1, 1000).subscribe(data => {
             if (data.meta.code === 200 && data.data) {
                 this.roles = data.data.length > 0 ? data.data : [];
+                if(this.roles.length===1){
+                    this.account.roleIds = this.roles[0].id;
+                }
             } else {
                 if (data.error && data.error.message) {
                     console.log(data.error.message);
@@ -140,7 +143,7 @@ export class SubAccountForm implements OnInit, OnDestroy {
         }
 
         console.log('save account', this.account)
-        
+
         this.fieldErrMsg = '';
         this.account.shopIds = stores.map(store => store.id).join(',');
         this.submiting = true;
@@ -180,9 +183,9 @@ export class SubAccountForm implements OnInit, OnDestroy {
         }
     }
 
-    
 
-    
+
+
 
     /**
      * 获取所有门店
@@ -203,7 +206,7 @@ export class SubAccountForm implements OnInit, OnDestroy {
                     if (params['id']) {
                         this.accountId = +params['id'];
                         this.getAccountbyId(this.accountId);
-                        
+
                     }
                 });
             }
@@ -248,7 +251,7 @@ export class SubAccountForm implements OnInit, OnDestroy {
             this.currentSelectEmployee.name = this.account.name;
             this.currentSelectEmployee.mobile = this.account.mobile;
         }
-        
+
         this.accountShopStr = storeNames.length > 1 ? `${storeNames[0]}等${storeNames.length}家门店` : `${storeNames}`;
     }
 
@@ -265,9 +268,9 @@ export class SubAccountForm implements OnInit, OnDestroy {
         };
     }
 
-    
 
-    
+
+
 
 
 
@@ -520,7 +523,7 @@ export class SubAccountForm implements OnInit, OnDestroy {
         } else {
             this.account.name = evt;
         }
-        
+
     }
 
     /**
@@ -557,7 +560,7 @@ export class SubAccountForm implements OnInit, OnDestroy {
         this.currentSelectEmployee = undefined;
         this.initLayerStores();
         console.log('after clear account', this.account);
-        
+
     }
 
 
