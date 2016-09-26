@@ -16,3 +16,4 @@
 * **1146:** 搜索结果为空时,添加服务 404 ([f93a58f](https://github.com/thzhishu/angular2-webpack-starter-master-h5/commit/f93a58f))
 * **1144:** 进入服务 新增/编辑 页面 样式错乱问题 ([f93a58f](https://github.com/thzhishu/angular2-webpack-starter-master-h5/commit/f93a58f))
 * **1148:** 新增/修改 子账号页面中; 从技师列表添加的 员工姓名/手机号码 样式应用下划线 ([cc2f8da](https://github.com/thzhishu/angular2-webpack-starter-master-h5/commit/f93a58f))
+* **1149:** 新增顾客完成 跳转到 顾客单人页 id为空 ([67e3486](https://github.com/thzhishu/angular2-webpack-starter-master-h5/commit/67e3486))
