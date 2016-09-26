@@ -53,7 +53,7 @@ export class Home {
 	gotoLogin() {
 		this.body.removeEventListener('touchmove', this.preventScroll);
 		if (Cookie.load('token')) {
-			if (Cookie.load('shopId')) {
+			if (localStorage.getItem('shopId')) {
 				this.router.navigate(['/dashboard/business/list']);
 			} else {
 				this.router.navigate(['/init']);

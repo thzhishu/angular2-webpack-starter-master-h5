@@ -2,7 +2,7 @@
   <div class="box box-h box-h-c db-title">
     <div class="bw back-ico" (click)="back()"></div>
     <div class="ellipsis tc flex-1">门店列表</div>
-    <div class="bw add-ico" (click)="onAddStore()" *ngIf="code=='0000'"></div>
+    <div class="bw add-ico" (click)="onAddStore()" *ngIf="code==='0000'"></div>
     <div class="bw" *ngIf="code!=='0000'"></div>
   </div>
   <div class="store-list" scrollable [returnTop]="returnTop" (scrollTop)="onScrollTop($event)">

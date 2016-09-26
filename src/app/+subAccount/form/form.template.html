@@ -15,7 +15,7 @@
                     <input class="flex-1 fm-ipt" id="ename" name="ename" placeholder="必填项" type="text" maxlength="20" [ngModel]="account.name" (ngModelChange)="onAccountNameChange($event)" (focus)="onFieldFocus()" >
                 </div>
                 <div class="box box-h box-h-c fm-field op-list">
-                    <a href="javascript:;" (click)="onAddFromEmployee()">+从技师列表中添加</a>
+                    <a href="javascript:;" (click)="onAddFromEmployee()">+从技师列表中添加</a>``
                 </div>
                 <div class="box box-h box-h-c fm-field">
                     <label class="fm-label" for="erole">账户角色:</label>
@@ -26,7 +26,7 @@
                         </select>
                     </div>
                     <div class="role-des tc" (click)="onToggleRoleFieldTip()">?</div>
-                        
+
                 </div>
                 <div class="box box-h box-h-c fm-field r-store" (click)="onSelectStore()">
                     <label class="fm-label"  >关联门店:</label>
@@ -52,9 +52,9 @@
                 <div class="f-del-btn" (click)="onShowDelAccountLayer()" >删除该子账号</div>
             </div>
         </div>
-            
+
     </div>
-    
+
 </div>
 <div class="mask rs-mask" *ngIf="layerStore.showStoresLayer">
     <div class="mask-win">
