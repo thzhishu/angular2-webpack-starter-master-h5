@@ -77,7 +77,7 @@ export class StoreEditComponent implements OnInit {
             this.router.navigate(['/login']);
             return false;
           } else {
-            
+
             this.code = this.route.snapshot.data['MeData'].data.roles[0].code;
           }
         }
@@ -160,6 +160,9 @@ export class StoreEditComponent implements OnInit {
      * 检测表单有没有改动过
      */
     checkFormChange() {
+        if(this.code==='0002'){
+            return true;
+        }
         return this.oldFeildString === Md5.hashStr(JSON.stringify(this.store), false).toString();
     }
 

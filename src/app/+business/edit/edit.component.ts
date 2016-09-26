@@ -103,7 +103,7 @@ export class BusinessEditComponent implements OnInit {
         this.router.navigate(['/login']);
         return false;
       } else {
-        
+
         this.code = this.route.snapshot.data['MeData'].data.roles[0].code;
       }
     }

@@ -42,7 +42,7 @@
                 <label class="fm-label" for="stype" >服务类型:</label>
                 <div class="flex-1">
                     <div *ngFor="let item of serviceLists;">
-                        <label [class.active]="item.checked" ><input type="checkbox" [disabled]="code==='0002'" name="stype" [ngModel]="item.checked" (ngModelChange)="onChangeService(item, $event)" ><span>&radic;</span>{{ item.name }}</label>
+                        <label [class.active]="item.checked" ><input type="checkbox" *ngIf="code!=='0002'" name="stype" [ngModel]="item.checked" (ngModelChange)="onChangeService(item, $event)" ><span>&radic;</span>{{ item.name }}</label>
                     </div>
                 </div>
             </div>

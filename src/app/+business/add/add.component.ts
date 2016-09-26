@@ -76,6 +76,7 @@ export class BusinessAddComponent implements OnInit {
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       this.business.vehicleLicence = params['vl'];
+      this.oldFeildString = Md5.hashStr(JSON.stringify(this.business), false).toString();
     });
     this.getEmployeeList();
     this.VehicleCode.subscribe(data => {
@@ -338,7 +339,7 @@ export class BusinessAddComponent implements OnInit {
     this.showTipWin = false;
   }
   checkFormChange() {
-    const current = Md5.hashStr(JSON.stringify(this.customer), false).toString();
+    const current = Md5.hashStr(JSON.stringify(this.business), false).toString();
     return this.oldFeildString === current ? true : false;
   }
   back() {

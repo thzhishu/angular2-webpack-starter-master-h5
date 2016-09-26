@@ -56,7 +56,7 @@ export class CustomerForm implements OnInit {
     tipOkeyBtnTxt: string = '确定';
     isAlert: boolean = false;
     oldFeildString: string = '';
-    
+
     constructor( private capi: CustomerApi, private router: Router, private route: ActivatedRoute ) {
         const currentYear = +(new Date()).getFullYear();
 		this.birthdayYearArr = this.rangeArr(currentYear - 60, currentYear - 16).reverse();
@@ -104,7 +104,7 @@ export class CustomerForm implements OnInit {
                     this.onPlateExist(this.customer.vehicleLicence);
                 }
             }
-                
+
         }, err => {
             console.error(err);
         } );
@@ -180,7 +180,7 @@ export class CustomerForm implements OnInit {
     }
 
     goToListPage() {
-        this.router.navigate(['/dashboard/customer/list']);
+        this.router.navigate(['/dashboard/customer/detail/'+this.customer.id]);
     }
 
     onSave() {
@@ -211,7 +211,7 @@ export class CustomerForm implements OnInit {
                 console.error(err);
             });
         } else {
-            
+
             if (valid.plateNull !== true || valid.plateExist !== false) {
                 this.customer.validShowTip.plate = true;
                 return;
@@ -230,7 +230,7 @@ export class CustomerForm implements OnInit {
             this.tipMsg = '当前页面尚有信息未保存，是否离开？';
             this.tipKey = 'back';
         }
-        
+
     }
     checkFormChange() {
         const current = Md5.hashStr(JSON.stringify(this.customer), false).toString();
@@ -270,6 +270,6 @@ export class CustomerForm implements OnInit {
         }, err => console.error(err));
     }
 
-    
+
 
 }

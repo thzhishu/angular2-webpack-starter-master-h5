@@ -58,7 +58,7 @@ export class CustomerDetail implements OnInit {
 
       this.getCustomerById(this.customerId);
       if (!this.customerId) {
-        this.router.navigate(['/dashbroad/customer-list']);
+        this.router.navigate(['/dashboard/customer/list']);
       }
     });
 
@@ -151,6 +151,7 @@ export class CustomerDetail implements OnInit {
 
   onToggleUnfold() {
     this.isUnfold = !this.isUnfold;
+    this.customer.swipeleft = 0;
   }
 
 

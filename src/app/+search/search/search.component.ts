@@ -111,7 +111,6 @@ export class SearchPage implements OnInit {
   }
 
   getSearchCustomers(str) {
-    console.log('customer search list....');
     this.capi.customerSearchPhoneOrVehicleLicenceGet(str).subscribe((data) => {
       if (data.meta && data.meta.code === 200 && data.data) {
         let dd = data.data;
@@ -131,7 +130,7 @@ export class SearchPage implements OnInit {
   }
 
   gotoBusinessAdd() {
-    this.router.navigate(['/dashbroad/business/add']);
+    this.router.navigate(['/dashboard/business/add']);
   }
 
   onViewCustomerDetail(customer, e) {

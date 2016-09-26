@@ -1,22 +1,5 @@
 .cr {
-  .db-title {
-    .bw {
-      width: 93px;
-    }
-  }
-
-  .cr-add {
-    padding-top: 28px;
-    height: 100%;
-    overflow: hidden;
-  }
-
   .cr-form {
-    height: 100%;
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 28px;
-
     form {
       background: #fff;
     }
@@ -25,14 +8,16 @@
 
 .customer-tip {
   position: absolute;
-  left: 60%;
+  left: 50%;
   top: 163px;
   z-index: 20;
+
   .old-customer {
     background: url("/assets/img/dashboard/old-customer.png") no-repeat;
     width: 161px;
     height: 194px;
   }
+
   .new-customer {
     background: url("/assets/img/dashboard/new-customer.png") no-repeat;
     width: 161px;

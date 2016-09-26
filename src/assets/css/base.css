@@ -672,6 +672,7 @@ td, th {
 .cr-form .fm-ipt {
   display: block;
   border: none;
+  width: 465px;
   height: 78px;
   font-size: 22px;
   color: #343434;
@@ -695,6 +696,7 @@ td, th {
 }
 
 .cr-form .fm-ta {
+  width: 465px;
   min-height: 160px;
   display: block;
   border: none;
