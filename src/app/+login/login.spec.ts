@@ -4,19 +4,17 @@ import {
 import { TestBed } from '@angular/core/testing/test_bed';
 
 // Load the implementations that should be tested
-import { App } from './app.component';
-import { AppState } from './app.service';
+import { Login } from './login.component';
 
-describe('App', () => {
+describe('Login', () => {
   // provide our implementations or mocks to the dependency injector
   beforeEach(() => TestBed.configureTestingModule({
     providers: [
-      AppState,
-      App
+      Login
     ]}));
 
-  it('should have a url', inject([ App ], (app) => {
-    // expect(app.url).toEqual('https://twitter.com/AngularClass');
+  it('user init', inject([ Login ], (login) => {
+    expect(login.user).toEqual({ phone: '', rnd: '', pwd: '' });
   }));
 
 });
