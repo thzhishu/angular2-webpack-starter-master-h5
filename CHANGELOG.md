@@ -5,6 +5,7 @@
 
 ### Features
 * **js:** hammer.min.js hammer-time.min.js 从CDN加载,变成本地库 ([f25e4cc](https://github.com/thzhishu/angular2-webpack-starter-master-h5/commit/f25e4cc))
+* **register:** 根据状态位区分 PC or H5 注册的用户 ([602e91c](https://github.com/thzhishu/angular2-webpack-starter-master-h5/commit/602e91c))
 
 
 ### Bug Fixes
