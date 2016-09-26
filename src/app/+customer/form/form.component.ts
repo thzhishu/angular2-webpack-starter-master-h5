@@ -203,6 +203,7 @@ export class CustomerForm implements OnInit {
                 vals.vehicleMiles || ''
             ).subscribe( data => {
                 if (data.meta&&data.meta.code === 200) {
+                    this.customer.id = data.data.id;
                     this.goToListPage();
                 }
                 this.submiting = false;
