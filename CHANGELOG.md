@@ -1,8 +1,9 @@
 <a name="1.0.1"></a>
-# [1.0.1](https://github.com/thzhishu/angular2-webpack-starter-master-h5) (2016-09-226)
+# [1.0.1](https://github.com/thzhishu/angular2-webpack-starter-master-h5) (2016-09-26)
+
+
 
 ### Features
-
 * **js:** hammer.min.js hammer-time.min.js 从CDN加载,变成本地库 ([f25e4cc](https://github.com/thzhishu/angular2-webpack-starter-master-h5/commit/f25e4cc))
 
 
@@ -13,3 +14,4 @@
 * **1147:** 查看门店页面 员工权限不能修改 服务类型 ([f93a58f](https://github.com/thzhishu/angular2-webpack-starter-master-h5/commit/f93a58f))
 * **1146:** 搜索结果为空时,添加服务 404 ([f93a58f](https://github.com/thzhishu/angular2-webpack-starter-master-h5/commit/f93a58f))
 * **1144:** 进入服务 新增/编辑 页面 样式错乱问题 ([f93a58f](https://github.com/thzhishu/angular2-webpack-starter-master-h5/commit/f93a58f))
+* **1148:** 新增/修改 子账号页面中; 从技师列表添加的 员工姓名/手机号码 样式应用下划线 ([cc2f8da](https://github.com/thzhishu/angular2-webpack-starter-master-h5/commit/f93a58f))
