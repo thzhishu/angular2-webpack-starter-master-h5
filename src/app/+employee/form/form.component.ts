@@ -68,7 +68,6 @@ export class EmployeeForm implements OnInit, OnDestroy {
             this.router.navigate(['/login']);
             return false;
           } else {
-
             this.code = this.route.snapshot.data['MeData'].data.roles[0].code;
           }
         }
@@ -84,7 +83,6 @@ export class EmployeeForm implements OnInit, OnDestroy {
     getEmployeeById(id) {
         this.eApi.employeeEmployeeIdGet('', id).subscribe(data => {
             if (data.meta && data.meta.code === 200 && data.data) {
-                console.log('edit', data);
                 this.employee = data.data;
                 let sp = [];
                 this.employee.shops.forEach(shop => {
@@ -97,7 +95,6 @@ export class EmployeeForm implements OnInit, OnDestroy {
                     });
                 });
                 this.employee.shops = sp;
-                console.log('shops: ', this.employee.shops);
                 this.employeeShopStr = sp.length === 0 ? '请选择' : (sp.length > 1) ? `${sp[0].name}等${sp.length}家门店` : `${sp[0].name}`;
                 this.oldEmployee = Md5.hashStr(JSON.stringify(this.employee), false).toString();
                 this.initLayerStores();
@@ -122,7 +119,6 @@ export class EmployeeForm implements OnInit, OnDestroy {
                 this.initLayerStores();
                 this.oldEmployee = Md5.hashStr(JSON.stringify(this.employee), false).toString();
                 this.sub = this.route.params.subscribe( params => {
-                    console.log('empolyee form params: ', params);
                     if (params['id']) {
                         this.getEmployeeById(String(params['id']));
                     }

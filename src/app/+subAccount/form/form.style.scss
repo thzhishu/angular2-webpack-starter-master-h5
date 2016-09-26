@@ -18,7 +18,7 @@
     }
 
     .db-title {
-        .bw {  
+        .bw {
             width:93px;
         }
     }
@@ -55,12 +55,16 @@
             }
         }
 
-        
+
 
         form {
             background:#fff;
         }
         .account-form {
+            .all-del{
+                text-decoration: underline;
+                color: #777;
+            }
             .r-store {
                 .flex-1 {
                     line-height: 78px;
@@ -78,7 +82,7 @@
                     }
                 }
             }
-                
+
         }
 
         .si-btn {
@@ -116,7 +120,7 @@
                 margin-bottom:0;
             }
         }
-            
+
     }
     .rs-all {
         height:54px;
@@ -179,7 +183,7 @@
         }
     }
 
-    
+
 
 }
 
@@ -188,7 +192,7 @@
         line-height: 78px;
         height: 79px;
         font-size:16px;
-        
+
         text-indent: 24px;
         a {
             color:#38b549;
@@ -256,7 +260,7 @@
     .mt-cont {
         line-height: 28px;
         padding: 33px 29px 29px 0;
-        
+
         .mt-c-txt1 {
             padding: 0 0 24px;
         }

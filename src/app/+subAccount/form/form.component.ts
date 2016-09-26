@@ -101,7 +101,6 @@ export class SubAccountForm implements OnInit, OnDestroy {
                 }
             } else {
                 if (data.error && data.error.message) {
-                    console.log(data.error.message);
                 }
             }
         }, err => console.error(err));
@@ -142,7 +141,6 @@ export class SubAccountForm implements OnInit, OnDestroy {
             return;
         }
 
-        console.log('save account', this.account)
 
         this.fieldErrMsg = '';
         this.account.shopIds = stores.map(store => store.id).join(',');
@@ -177,7 +175,6 @@ export class SubAccountForm implements OnInit, OnDestroy {
             this.router.navigate(['/dashboard/account/subAccount/list']);
         } else {
             if (data.error && data.error.message) {
-                console.log('account save error: ', data.error.message);
                 this.fieldErrMsg = data.error.message;
             }
         }
@@ -202,7 +199,6 @@ export class SubAccountForm implements OnInit, OnDestroy {
                 this.initLayerStores();
                 this.oldAccount = Md5.hashStr(JSON.stringify(this.account), false).toString();
                 this.sub = this.route.params.subscribe( params => {
-                    console.log('empolyee form params: ', params);
                     if (params['id']) {
                         this.accountId = +params['id'];
                         this.getAccountbyId(this.accountId);
@@ -224,7 +220,6 @@ export class SubAccountForm implements OnInit, OnDestroy {
                 this.formatAccountInfo();
                 this.initLayerStores();
                 this.oldAccount = Md5.hashStr(JSON.stringify(this.account), false).toString();
-                console.log('edit account', this.account);
             }
         }, err => console.error(err));
     }
@@ -321,7 +316,6 @@ export class SubAccountForm implements OnInit, OnDestroy {
      */
     checkStoreLayer(isTip = false) {
         let stores = this.layerStore.stores.filter(store => store.checked);
-        console.log('stores: ', stores);
         if ( stores.length === 0 ) {
             if (isTip) {
                 this.layerStore.storeTipMsg = '请选择关联门店';
@@ -352,7 +346,6 @@ export class SubAccountForm implements OnInit, OnDestroy {
             this.layerStore.storeTipMsg = '';
         }
         this.account.shopIds = this.layerStore.stores.filter(store => store.checked).map(store=>store.id).join(',');
-        console.log('change store account', this.account);
     }
 
     /**
@@ -419,7 +412,7 @@ export class SubAccountForm implements OnInit, OnDestroy {
                 this.router.navigate(['/dashboard/account/subAccount/list']);
             } else {
                 if (data.error && data.error.message) {
-                    console.log(data.error.message);
+                    console.error(data.error.message);
                 }
             }
         }, err => console.error(err));
@@ -487,7 +480,6 @@ export class SubAccountForm implements OnInit, OnDestroy {
      * 从技师列表中添加
      */
     onAddFromEmployee() {
-        console.log('form employee');
         this.fieldErrMsg = '';
         this.onShowEmployee.next(true);
     }
@@ -514,8 +506,6 @@ export class SubAccountForm implements OnInit, OnDestroy {
      * 账号姓名改变
      */
     onAccountNameChange(evt) {
-        console.log(evt);
-        console.log(this.account.name, this.account.employeeId);
         if (this.account.employeeId && this.account.name !== evt ) {
             this.clearAccountEmployeeInfo();
             this.onUpdateSelectEmployee.emit(undefined);
@@ -559,7 +549,6 @@ export class SubAccountForm implements OnInit, OnDestroy {
         });
         this.currentSelectEmployee = undefined;
         this.initLayerStores();
-        console.log('after clear account', this.account);
 
     }
 
