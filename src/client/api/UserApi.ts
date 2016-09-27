@@ -637,7 +637,7 @@ export class UserApi {
     formParams.append('password', password);
     formParams.append('code', code);
     formParams.append('captcha', captcha);
-    formParams.append('registerChannal', '2'); // by tobeplus 临时状态.区分 PC:1 or H5:2
+    formParams.append('registerChannel', '2'); // by tobeplus 临时状态.区分 PC:1 or H5:2
     let requestOptions: RequestOptionsArgs = {
       method: 'POST',
       headers: headerParams,

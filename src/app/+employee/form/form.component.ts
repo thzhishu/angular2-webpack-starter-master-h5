@@ -149,7 +149,7 @@ export class EmployeeForm implements OnInit, OnDestroy {
         let noCodesArr = stores.filter(store => store.code === '');
         let haveCodeArr = stores.filter(store => store.code !== '');
         if (this.employee.name === '' && noCodesArr.length !== 0) {
-            this.fieldErrMsg = '员工姓名与技师编号至少填一项';
+            this.fieldErrMsg = '员工姓名与员工编号至少填一项';
             return;
         }
         if (stores.length === 0) {
@@ -331,7 +331,7 @@ export class EmployeeForm implements OnInit, OnDestroy {
      * 显示删除员工弹出层
      */
     onShowDelEmplyeeLayer() {
-        this.tipMsg = '技师删除后，其历史服务记录不会被清除！';
+        this.tipMsg = '员工删除后，其历史服务记录不会被清除！';
         this.tipKey = 'del-employee';
         this.tipOkeyBtnTxt = '删除';
         this.showConfirmLayer();
