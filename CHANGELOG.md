@@ -1,6 +1,15 @@
+<a name="1.0.2"></a>
+# [1.0.2](https://github.com/thzhishu/angular2-webpack-starter-master-h5) (2016-09-27)
+
+### Features
+* **register:** 根据状态位区分 PC or H5 注册的用户 ([dd7eee9](https://github.com/thzhishu/angular2-webpack-starter-master-h5/commit/dd7eee9))
+
+
+### Bug Fixes
+* **1150:** 技师更名为员工 ([dd7eee9](https://github.com/thzhishu/angular2-webpack-starter-master-h5/commit/dd7eee9))
+
 <a name="1.0.1"></a>
 # [1.0.1](https://github.com/thzhishu/angular2-webpack-starter-master-h5) (2016-09-26)
-
 
 
 ### Features
