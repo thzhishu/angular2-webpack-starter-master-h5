@@ -53,7 +53,8 @@ export class StoreInitComponent implements OnInit {
         this.sApi.shopBatchSavePost(shops).subscribe(data => {
             this.submitting = false;
             if (data.meta.code === 200) {
-                Cookie.save('shopId', data.data && data.data[0].id, 10000);
+                // Cookie.save('shopId', data.data && data.data[0].id, 10000);
+                localStorage.setItem('shopId', data.data && data.data[0].id); //by tobeplus cookie => localStorage
                 this.bindStoreTip();
             } else {
                 alert(data.error.message);
@@ -78,5 +79,5 @@ export class StoreInitComponent implements OnInit {
         }, 2000);
     }
 
-    
+
 }
