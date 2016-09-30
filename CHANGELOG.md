@@ -5,6 +5,7 @@
 
 ### Bug Fixes
 * **938:** 注册样式修改 ([f78d03e](https://github.com/thzhishu/angular2-webpack-starter-master-h5/commit/f78d03e))
+* **1156:** 注册第一次登陆.保存不成功问题 ([504230b](https://github.com/thzhishu/angular2-webpack-starter-master-h5/commit/504230b))
 
 
 <a name="1.0.2"></a>
