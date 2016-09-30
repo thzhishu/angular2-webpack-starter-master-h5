@@ -1,3 +1,12 @@
+<a name="1.0.3"></a>
+# [1.0.3](https://github.com/thzhishu/angular2-webpack-starter-master-h5) (2016-09-30)
+
+### Features
+
+### Bug Fixes
+* **938:** 注册样式修改 ([f78d03e](https://github.com/thzhishu/angular2-webpack-starter-master-h5/commit/f78d03e))
+
+
 <a name="1.0.2"></a>
 # [1.0.2](https://github.com/thzhishu/angular2-webpack-starter-master-h5) (2016-09-27)
 
