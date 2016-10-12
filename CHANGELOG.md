@@ -1,3 +1,9 @@
+<a name="1.0.4"></a>
+# [1.0.4](https://github.com/thzhishu/angular2-webpack-starter-master-h5) (2016-10-12)
+
+### Features
+* **week:** 周报 尽快需要改进的 => 需要尽快改进的 ([3ffd5e0](https://github.com/thzhishu/angular2-webpack-starter-master-h5/commit/3ffd5e0))
+
 <a name="1.0.3"></a>
 # [1.0.3](https://github.com/thzhishu/angular2-webpack-starter-master-h5) (2016-09-30)
 
