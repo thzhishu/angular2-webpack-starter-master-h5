@@ -3,6 +3,7 @@
     height: 100vh;
     overflow:hidden;
     background:#1c1f26;
+    overflow: auto;
 }
 .db-main {
     width:100vw;
@@ -31,7 +32,7 @@
         right:0;
         height:63px;
         z-index:99;
-        
+
 
         .db-topbar {
             padding: 13px 24px 0;
@@ -93,7 +94,7 @@
             padding-top:10px;
             max-height:490px;
             overflow:auto;
-            -webkit-overflow-scrolling:touch;
+            /*-webkit-overflow-scrolling:touch;*/;
             display:none;
 
             .ellipsis {
@@ -106,7 +107,7 @@
             .current {
                 color:#3dac49;
 
-                
+
 
                 &:before, &:after {
                     display:inline-block;
@@ -163,17 +164,17 @@
         }
     }
 
-    
+
 
     .db-c {
         width:100%;
         height:100%;
         padding-top:63px;
-        
+
         overflow: hidden;
-        -webkit-overflow-scrolling:touch;
+        /*-webkit-overflow-scrolling:touch;*/;
     }
-    
+
 }
 
 .db-menu {
@@ -199,7 +200,7 @@
         padding-left:20px;
 
         span {
-            display:block; 
+            display:block;
         }
         .navico {
             margin-right:62px;
@@ -222,7 +223,7 @@
     nav {
         border-top:2px solid #373a3e;
         padding-left:23px;
-        
+
     }
 
     > .bw {
@@ -256,6 +257,6 @@
                 display:none;
             }
         }
-            
+
     }
 }

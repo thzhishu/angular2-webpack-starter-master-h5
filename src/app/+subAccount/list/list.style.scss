@@ -31,7 +31,7 @@
             height:100%;
             overflow-y:auto;
             overflow-x:hidden;
-            -webkit-overflow-scrolling:touch;
+            /*-webkit-overflow-scrolling:touch;*/;
             .swipeleft {
               margin-left: -105px;
               transition: all 0.25s ease-out;

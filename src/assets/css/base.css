@@ -13,8 +13,9 @@ body {
   max-width: 640px;
   height: 100vh;
   margin: 0 auto;
-  overflow: hidden;
   font-weight: normal;
+  overflow: auto;
+  /*-webkit-overflow-scrolling: touch;*/
 }
 
 article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
@@ -650,7 +651,7 @@ td, th {
   position: relative;
   height: 100%;
   padding-top: 98px;
-  overflow: hidden;
+  /*overflow: hidden;*/
 }
 
 .cr-form {

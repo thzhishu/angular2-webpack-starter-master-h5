@@ -16,7 +16,7 @@ const NamedModulesPlugin = require('webpack/lib/NamedModulesPlugin');
  * Webpack Constants
  */
 const ENV = process.env.ENV = process.env.NODE_ENV = 'development';
-const HOST = process.env.HOST || '192.168.1.54';
+const HOST = process.env.HOST || '192.168.1.96';
 const PORT = process.env.PORT || 4000;
 const HMR = helpers.hasProcessFlag('hot');
 const METADATA = webpackMerge(commonConfig.metadata, {
@@ -159,7 +159,7 @@ module.exports = webpackMerge(commonConfig, {
     outputPath: helpers.root('dist'),
     proxy: {
         '/api': {
-            target: 'http://192.168.1.82:8080/',
+            target: 'http://192.168.1.64:9999',
             secure: false
         }
     },

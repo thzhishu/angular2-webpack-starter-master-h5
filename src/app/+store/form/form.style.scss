@@ -44,7 +44,7 @@
         background:#fff;
     }
 
-    
+
     .fm-label {
         width:156px;
         padding:0;
@@ -79,8 +79,8 @@
                 input {
                     display:none;
                 }
-                span { 
-                    margin-right:13px; 
+                span {
+                    margin-right:13px;
                     display:none;
                 }
                 &.active {
@@ -92,10 +92,10 @@
                         position:absolute;
                         left: 16px;
                         display:inline-block;
-                        
+
                     }
                 }
-                
+
             }
         }
     }
@@ -106,14 +106,14 @@
         }
     }
 
-    
+
     .fm-sel {
         &:before, &:after {
             top:38px;
         }
     }
 
-    
+
 
 }
 

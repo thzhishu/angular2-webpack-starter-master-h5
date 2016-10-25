@@ -25,7 +25,8 @@ const NO_MENU_URLS = [
   '/dashboard/account/subAccount/list',
 ];
 const NO_TOPBAR_URLS = [
-  '/dashboard/search/page'
+  '/dashboard/search/page',
+  '/dashboard/store/init',
 ];
 
 @Component({

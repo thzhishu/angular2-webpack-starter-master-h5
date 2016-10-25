@@ -164,7 +164,7 @@
     z-index: 10;
     overflow-y:auto;
     overflow-x:hidden;
-    -webkit-overflow-scrolling:touch;
+    /*-webkit-overflow-scrolling:touch;*/;
     transition: all .3s ease-in-out;
     .list-tds{
         transition: all .1s ease-in-out;

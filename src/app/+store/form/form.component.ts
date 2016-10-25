@@ -49,7 +49,7 @@ export class StoreFormComponent implements OnInit {
             this.router.navigate(['/login']);
             return false;
           } else {
-            
+
             this.code = this.route.snapshot.data['MeData'].data.roles[0].code;
           }
         }
@@ -140,10 +140,9 @@ export class StoreFormComponent implements OnInit {
             this.errMsg = '服务类型不能为空';
             return false;
         }
-        console.log('area: ', s.area, typeof(s.area));
         if (s.area !== '') {
-            if ( !(/^\d+(\.\d+)?$/.test(s.area) && s.area >= 1 && s.area < 10000000000) ) {
-                this.errMsg = '请输入大于0的数字';
+            if ( !(/^\d+$/.test(s.area) && s.area >= 1 && s.area < 10000000000) ) {
+                this.errMsg = '请输入大于0的整数';
                 let el = document.getElementById('el-store-add');
                 if (el) {
                     el.scrollTop = 0;

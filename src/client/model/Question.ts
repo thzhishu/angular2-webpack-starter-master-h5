@@ -1,6 +1,6 @@
 /**
- * 车门店 API
- * 前后端交互协议, 遵循以下约定:   1. 所有api都属于无状态接口   2. 除了/user/login,/_*_/sms,/user/register,/user/updatePwd接口，其他接口都要登录之后才能操作   3. 登录成功之后，后端每次都把token和shopId(当前门店)置入header,回传服务端   4. 客户端请求参数分两种:       1. 以form方式提交，可以附带store、pageNumber、pageSize参数       2. 以json方式提交，务必附带store、pageNumber、pageSize属性，如果没有值，为null   5. 服务端返回统一的json， 格式如下:       {        meta:{         code: 状态码         link: 链接         limit: 每页多少条         total:  总共多少条         current: 当前页         method: 方法         parameters: {  客户端的请求参数          startDate:开始时间          endDate:结束时间          ........:xxxx(请求参数都会在meta里面)                    },         store: { 客户端专用，保存交互状态的对象                  }         }        data:{ // 保存的数据，可能是array, object          object          list<object>          jsonArray        }        error:{           code:xxxxx (子状态码)           message:xxxxx        }       }            6. 公共状态(meta->code)约定如下:              500:             服务端处理失败， 返回json中存在error, meta对象， 不一定存在data对象          200:             成功， 返回json中有meta， data对象， 不存在error对象          401:             认证失败，用户的token过期或者token错误， 客户端需要引导用户重新登录          403:             授权失败， 一般出现在用户访问没有权限的资源, 返回json中存在error, meta对象          400:             参数错误,  客户端提交的参数不正确, 返回json中存在error, meta对象                 7. error的子状态码， 开发人员可以自行约定              
+ * 问卷系统 API
+ * 前后端交互协议, 遵循以下约定:   1. 所有api都属于无状态接口   2. 除了/user/login,/_*_/sms,/user/register,/user/updatePwd接口，其他接口都要登录之后才能操作   3. 登录成功之后，后端每次都把token和shopId(当前门店)置入header,回传服务端   4. 客户端请求参数分两种:       1. 以form方式提交，可以附带store、pageNumber、pageSize参数       2. 以json方式提交，务必附带store、pageNumber、pageSize属性，如果没有值，为null   5. 服务端返回统一的json， 格式如下:       {        meta:{         code: 状态码         link: 链接         limit: 每页多少条         total:  总共多少条         current: 当前页         method: 方法         parameters: {  客户端的请求参数          startDate:开始时间          endDate:结束时间          ........:xxxx(请求参数都会在meta里面)                    },         store: { 客户端专用，保存交互状态的对象                  }         }        data:{ // 保存的数据，可能是array, object          object          list<object>          jsonArray        }        error:{           code:xxxxx (子状态码)            message:xxxxx        }       }            6. 公共状态(meta->code)约定如下:              500:             服务端处理失败， 返回json中存在error, meta对象， 不一定存在data对象          200:             成功， 返回json中有meta， data对象， 不存在error对象          401:             认证失败，用户的token过期或者token错误， 客户端需要引导用户重新登录          403:             授权失败， 一般出现在用户访问没有权限的资源, 返回json中存在error, meta对象          400:             参数错误,  客户端提交的参数不正确, 返回json中存在error, meta对象                 7. error的子状态码， 开发人员可以自行约定              
  *
  * OpenAPI spec version: 1.0.0
  * 
@@ -22,49 +22,119 @@
  * limitations under the License.
  */
 
-'use strict';
 import * as models from './models';
 
 export interface Question {
-    
-
     /**
      * 问题id
      */
-    id?: number;
+    id?: string;
 
     /**
-     * 问题
+     * 问题编号
      */
-    title?: string;
+    code?: string;
 
     /**
-     * 问题描述
+     * 是否必答题， 1必答， 0非必答
      */
-    description?: string;
+    required?: number;
 
     /**
-     * 问题类型, radio单选题，checkbox多选题,single多行单选题,multi多行多选题,stext单行文本题,mtext多行文本题           section分节符，page分页符,name姓名,phone手机号,email邮件地址,price价格,score评分题,score_multi多行评分题           color颜色, sex性别, age出生年月, date日期, time时间, district地区, sort排序, upload上传文件                       
+     * 问题类型， radio单选.checkbox多选,open 开放题, combination 组合题, classical快捷题 组合题，是多种题型的组合(\"radio\", \"checkbox\", \"open\", \"classical\") 
      */
-    type?: string;
+    type?: Question.TypeEnum;
+
+    subQuestions?: models.SubQuestionCollection;
 
     /**
-     * 是否必答
+     * 表现形式， 一种表现形式对应前端的一个模板   -单选题      \"radio\"普通单选, \"dropdown\", \"slider\", \"scatter\", \"single-lines\"   -多选题      \"checkbox\" 普通多选, \"m_left_right_select\" 左右移动题, \"m_up_down_select\" 上下移动题, \"m_scatter\" 散点多选,       \"m_drag\" 拖拽多选, \"m_select\" 行多选， \"m_sort\" 排序, \"m_checkbox_sort\" 复选排序题   -开放题       \"text\" 单行, \"textarea\" 多行, \"text_lines\" 行开放题, \"description\" 描述题, \"upload\" 上传题, \"link\" 链接题, \"matrix\" 符合矩阵题   -快捷题型:      \"name\" 姓名, \"gender\" 性别, \"age\" 年龄, \"area\" 地区, \"mail\"  电子邮件, \"phone\" 电话, \"time\" 时间, \"date\" 日期,       \"rating\" 评分题, \"rating_lines\" 每行评分题, \"price\" 价格, \"color\" 颜色 
      */
-    required?: boolean;
+    template?: Question.TemplateEnum;
 
     /**
-     * 显示分项设置
+     * 选项排列 即选项显示列数，分别对应原型   1 选项一列展示   1 选项一行展示 用户只能输入大于零的数字            
      */
-    showPoint?: string;
+    optionRows?: number;
 
     /**
-     * 问题选项
+     * 选项排列 即选项显示列数，分别对应原型   1 选项一列展示  2 选项两列展示   3 选项三列展示  4 选项三列展示 选项N列展示...， 其中N可以用户填写， 当选项数大于设置列数时，自动换行展示 用户只能输入大于零的数字 
      */
-    options?: Array<models.QuestionOption>;
+    optionColumns?: number;
 
     /**
-     * 子问题
+     * 用户自定义列 
      */
-    children?: Array<models.Question>;
+    customColumns?: number;
+
+    /**
+     * 题干
+     */
+    name?: string;
+
+    options?: models.OptionCollection;
+
+    /**
+     * 子问题 排序
+     */
+    orders?: number;
+
+    /**
+     * 子问题 模块选项, 0否 1显示 2隐藏 3隐藏子选项
+     */
+    moduleOption?: number;
+
+    /**
+     * 子问题 是否随机 0否 1是
+     */
+    randoms?: number;
+
+    /**
+     * 子问题选项码值
+     */
+    codeValue?: number;
+
+}
+export namespace Question {
+    export enum TypeEnum {
+        Radio = <any> 'radio',
+        Checkbox = <any> 'checkbox',
+        Open = <any> 'open',
+        Combination = <any> 'combination',
+        Classical = <any> 'classical'
+    }
+    export enum TemplateEnum {
+        Radio = <any> 'radio',
+        Dropdown = <any> 'dropdown',
+        Slider = <any> 'slider',
+        Scatter = <any> 'scatter',
+        SingleLines = <any> 'single_lines',
+        Checkbox = <any> 'checkbox',
+        MLeftRightSelect = <any> 'm_left_right_select',
+        MUpDownSelect = <any> 'm_up_down_select',
+        MScatter = <any> 'm_scatter',
+        MDrag = <any> 'm_drag',
+        MSelect = <any> 'm_select',
+        MSort = <any> 'm_sort',
+        MCheckboxSort = <any> 'm_checkbox_sort',
+        Text = <any> 'text',
+        Textarea = <any> 'textarea',
+        TextLines = <any> 'text_lines',
+        Description = <any> 'description',
+        Upload = <any> 'upload',
+        Link = <any> 'link',
+        Matrix = <any> 'matrix',
+        Name = <any> 'name',
+        Gender = <any> 'gender',
+        Age = <any> 'age',
+        Area = <any> 'area',
+        Mail = <any> 'mail',
+        Phone = <any> 'phone',
+        Time = <any> 'time',
+        Date = <any> 'date',
+        Rating = <any> 'rating',
+        RatingLines = <any> 'rating_lines',
+        Price = <any> 'price',
+        Color = <any> 'color'
+    }
 }
